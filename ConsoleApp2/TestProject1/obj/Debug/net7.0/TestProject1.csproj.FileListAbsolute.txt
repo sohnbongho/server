@@ -1,8 +1,11 @@
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\testhost.dll
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\testhost.exe
-D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
-D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
-D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll
+D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\NUnit3.TestAdapter.dll
+D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\NUnit3.TestAdapter.pdb
+D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\nunit.engine.dll
+D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\nunit.engine.api.dll
+D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\nunit.engine.core.dll
+D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\testcentric.engine.metadata.dll
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\TestProject1.deps.json
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\TestProject1.runtimeconfig.json
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\TestProject1.dll
@@ -17,10 +20,7 @@ D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\Microsoft.TestPlatfor
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\Microsoft.VisualStudio.TestPlatform.Common.dll
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\NuGet.Frameworks.dll
-D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\xunit.abstractions.dll
-D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\xunit.assert.dll
-D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\xunit.core.dll
-D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\xunit.execution.dotnet.dll
+D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\nunit.framework.dll
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\cs\Microsoft.TestPlatform.CoreUtilities.resources.dll
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\cs\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
 D:\01-git\server\ConsoleApp2\TestProject1\bin\Debug\net7.0\de\Microsoft.TestPlatform.CoreUtilities.resources.dll
