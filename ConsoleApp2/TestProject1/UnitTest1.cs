@@ -5,6 +5,7 @@ public class Tests
     [SetUp]
     public void Setup()
     {
+        int kk = 0;
     }
 
     [Test]
