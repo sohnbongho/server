@@ -8,6 +8,13 @@ ehthumbs.db
 Thumbs.db
 /cplus/ConsoleApplication1/x64/Debug/*.exe
 /cplus/ConsoleApplication1/ConsoleApplication1/x64/Debug/*.pdb
+/cplus/ConsoleApplication1/ConsoleApplication1/x64/Debug/*.obj
+/cplus/ConsoleApplication1/x64/Debug/*.pdb
+/cplus/ConsoleApplication1/ConsoleApplication1/x64/Debug/*.log
+/cplus/ConsoleApplication1/ConsoleApplication1/x64/Debug/*.ilk
+/cplus/ConsoleApplication1/ConsoleApplication1/x64/Debug/*.idb
+
+
 
 # Visual Studio / MonoDevelop generated
 # .vscode의 launch.json, tasks.json 은 repo에 넣는다.
