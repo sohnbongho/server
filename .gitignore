@@ -1,0 +1,155 @@
+# OS generated
+.suo
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+/cplus/ConsoleApplication1/x64/Debug/*.exe
+/cplus/ConsoleApplication1/ConsoleApplication1/x64/Debug/*.pdb
+
+# Visual Studio / MonoDevelop generated
+# .vscode의 launch.json, tasks.json 은 repo에 넣는다.
+# .vscode/settings.json은 추후 팀 논의 후 repo에 들어갈 수도 있다.
+.vscode/settings.json
+.vs/
+obj/
+bin/
+*.user
+# *.csproj.user
+*.cache
+
+# Unity generated
+Temp/
+
+/Tools/cygwin/home/
+
+#Tools/cygwin/bin 폴더는 인식 가능하게
+!*Tools/cygwin/bin/
+
+/Source/Unity/TricksterTest/Library
+/Source/Unity/TricksterTest/obj
+
+/Source/Web/AuthAPI/AuthAPI/bin/
+/Source/Web/ChatServer/bin/
+
+# GameServer
+/Binary/Debug/
+/Binary/Release/
+/Binary/Log/
+/Binary/log/
+/Binary/LogD/
+/Binary/AuthAPI/
+/Binary/bin/
+/Binary/ref/
+
+# CremaTests
+/Binary/CremaTests/Debug/
+/Binary/CremaTests/Release/
+
+# Supprot
+/Binary/Support/ServerPatchInfo.json
+
+# packages
+packages/
+
+# Tool
+/Tools/CremaGenerator/Binary
+
+# 예외: 위의 ignore 패턴과 겹치지만, 예외적으로 repo에 들어가야 하는 항목들
+# !/Bin
+
+#build시 필요 데이터 추출할 폴더 & 파일 제외
+/TricksterM-Client/
+/TricksterM-ShareData/
+gameserver-commitinfo.txt
+
+# Document에 불필요한 폴더
+/Document/out
+
+# 마지막 이 "~"로 끝나는 폴더 인식되게.
+!*~/
+
+.idea
+
+# Tools/nodejs/bin 인식되게.
+!/Tools/nodejs/bin/
+
+# 개인화 서버 빌드시 사용하는 폴더 제외
+/Binary/ChatServer/
+/Binary/LoginServer/
+/Binary/GameServer/
+/Binary/netcoreapp3.1
+Binary/*.dll
+Binary/*.json
+/Binary/*.json5
+/Binary/*.jsonc
+Binary/*.pdb
+Binary/*.config
+Binary/M3
+Binary/runtimes
+Binary/*.exe
+
+
+Binary/*.sh
+
+# snapshot
+/Binary/snapshots/
+
+# 개인 config 파일 제외
+*.personal.config
+
+# NC Guard 를 위한 라이브러리 파일은 포함한다.
+!/Binary/ncguardserver64.dll
+
+# 맥/리눅스 빌드
+/Binary/Stage.NET
+/Binary/trickster
+
+# BotClient
+/Binary/botclient_log/
+Binary/GameGuard
+/Binary/BotClient
+Binary/*.game*
+Binary/*.lobby*
+Binary/*.master*
+Binary/*.lobby
+
+# data 폴더 제외
+/Binary/Map/
+/Binary/CremaData/
+/Binary/SkeletonData/
+
+# 크레마 코드 제외
+/Contents/Crema/CremaExport/CremaTables.cs
+/Contents/Crema/CremaExport/CremaTypes.cs
+
+# Error Doc 폴더 제외
+/ErrorDoc/Binary/
+Binary/*.csv
+
+# TestClient Binary 폴더 제외 항목들
+TestClient/Binary/*.dll
+TestClient/Binary/*.json
+TestClient/Binary/*.pdb
+TestClient/Binary/*.config
+TestClient/Binary/runtimes
+TestClient/Binary/*.exe
+TestClient/Binary/*.sh
+TestClient/Binary/*.xml
+TestClient/Binary/CremaData/
+TestClient/Binary/ref/
+TestClient/Binary/simpleclient_log/
+TestClient/SimpleClient/Crema/CremaExport/Game/
+TestClient/SimpleClient/Crema/CremaExport/String/
+TestClient/SimpleClient/CodePage/Partial/
+
+# TestClient Binary 폴더 포함 항목들
+!TestClient/Binary/RulesGenerator*
+
+# ScenarioBot Binary 폴더 제외 항목들
+/Binary/scenariobot_log/
+
+# SimpleClient Binary 폴더 제외 항목들
+/Binary/simpleclient_log/
