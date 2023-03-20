@@ -15,8 +15,8 @@ private:
 	ShapeFactory()
     {        
         //// 도형 생성자 함수 등록
-        registerShape("Rectangle", []() { return new Rectangle(); });        
-        registerShape("Circle", []() { return new Circle(); });
+        registerShape(typeid(Rectangle), []() { return new Rectangle(); });
+        registerShape(typeid(Circle), []() { return new Circle(); });
 
 
     } // 생성자를 private로 선언하여 외부에서 객체 생성을 막음   
@@ -28,12 +28,12 @@ public:
         return instance;
     }
     // 생성자 함수 등록
-    void registerShape(const std::string& name, ShapeConstructor constructor) {
-        m_constructors[name] = constructor;
+    void registerShape(const type_info& typeId, ShapeConstructor constructor) {
+        m_constructors[typeId.name()] = constructor;
     }
-    Shape* createShape(const std::string& name)
+    Shape* createShape(const type_info& typeId)
 	{
-        auto it = m_constructors.find(name);
+        auto it = m_constructors.find(typeId.name());
         if(it != m_constructors.end())
         {
             return (*it).second();
