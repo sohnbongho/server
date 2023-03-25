@@ -2,9 +2,11 @@ d:\01-git\server\cpp_server\server\gameserver\x64\debug\gameserver.pch
 d:\01-git\server\cpp_server\server\gameserver\x64\debug\vc143.pdb
 d:\01-git\server\cpp_server\server\gameserver\x64\debug\vc143.idb
 d:\01-git\server\cpp_server\server\gameserver\x64\debug\pch.obj
+d:\01-git\server\cpp_server\server\gameserver\x64\debug\playermanager.obj
 d:\01-git\server\cpp_server\server\gameserver\x64\debug\gameserver.obj
-d:\01-git\server\cpp_server\server\gameserver\x64\debug\gameserver.ilk
+d:\01-git\server\cpp_server\server\gameserver\x64\debug\accountmanager.obj
 d:\01-git\server\cpp_server\server\binary\debug\gameserver.exe
+d:\01-git\server\cpp_server\server\gameserver\x64\debug\gameserver.ilk
 d:\01-git\server\cpp_server\server\binary\debug\gameserver.pdb
 d:\01-git\server\cpp_server\server\gameserver\x64\debug\gameserver.tlog\cl.command.1.tlog
 d:\01-git\server\cpp_server\server\gameserver\x64\debug\gameserver.tlog\cl.read.1.tlog

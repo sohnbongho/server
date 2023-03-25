@@ -7,71 +7,34 @@
 #include <Windows.h>
 #include "CoreMacro.h"
 #include "ThreadManager.h"
+#include "Lock.h"
 
-class TestLock
-{
-	USE_LOCK;
+#include "PlayerManager.h"
+#include "AccountManager.h"
 
-public:
-	int32 TestRead()
-	{
-		READ_LOCK;
-		if (_queue.empty())
-			return -1;
 
-		return _queue.front();		
-	}
 
-	void TestPush()
-	{
-		WRITE_LOCK;		
-
-		_queue.push(rand() % 100);
-		
-	}
-
-	void TestPop()
-	{
-		WRITE_LOCK;
-
-		if (_queue.empty() == false)
-			_queue.pop();
-	}
-private:
-	queue<int32> _queue;
-};
-
-TestLock testLock;
-
-void ThreadWrite()
-{
-	while(true)
-	{
-		testLock.TestPush();
-		this_thread::sleep_for(1s);
-	}
-}
-void ThreadRead()
-{
-	while (true)
-	{
-		int32 value = testLock.TestRead();
-		cout << value << endl;
-		this_thread::sleep_for(1ms);
-	}
-	
-}
 int main()
 {
-	for(int32 i= 0; i< 2; ++i)
+	GThreadManager->Launch([=]
 	{
-		GThreadManager->Launch(ThreadWrite);
-	}
+		while(true)
+		{
+			cout << "PlayerThenAccount" << endl;
+			GPlayerManager.PlayerThenAcoount();
+			this_thread::sleep_for(100ms);
+		}
+	});
 
-	for (int32 i = 0; i < 5; ++i)
+	GThreadManager->Launch([=]
 	{
-		GThreadManager->Launch(ThreadRead);
-	}
+		while (true)
+		{
+			cout << "AccountThenPlayer" << endl;
+			GAccountManager.AccountThenPlayer();
+			this_thread::sleep_for(100ms);
+		}
+	});
 
 	GThreadManager->Join();
 }
