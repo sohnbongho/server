@@ -1,2 +1,7 @@
-﻿  ThreadManager.cpp
+﻿  pch.cpp
+  CoreGlobal.cpp
+  CorePch.cpp
+  CoreTLS.cpp
+  ThreadManager.cpp
+  코드를 생성하고 있습니다...
   ServerCore.vcxproj -> D:\01-git\server\CPP_Server\Server\Libraries\Debug\ServerCore.lib
