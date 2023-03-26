@@ -3,6 +3,7 @@ d:\01-git\server\cpp_server\server\libraries\debug\servercore.pdb
 d:\01-git\server\cpp_server\server\libraries\debug\servercore.idb
 d:\01-git\server\cpp_server\server\servercore\x64\debug\pch.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\threadmanager.obj
+d:\01-git\server\cpp_server\server\servercore\x64\debug\refcounting.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\lock.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\deadlockprofiler.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\coretls.obj
