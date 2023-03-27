@@ -1,3 +1,2 @@
-﻿  pch.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xiosbase(379,46): warning C4003: 함수 같은 매크로 호출 'xalloc'에 대해 인수가 부족합니다.
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xiosbase(379,46): error C2653: 'BaseAllocator': 클래스 또는 네임스페이스 이름이 아닙니다.
+﻿  GameServer.cpp
+  GameServer.vcxproj -> D:\01-git\server\CPP_Server\Server\Binary\Debug\GameServer.exe

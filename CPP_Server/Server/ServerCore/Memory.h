@@ -1,10 +1,11 @@
 #pragma once
+#include "CoreMacro.h"
 #include "Allocator.h"
 
 template<typename Type, typename ... Args>
 Type* xnew(Args&&... args)
 {
-	Type* memory = static_cast<Type*>(xalloc(sizeof(Type)));
+	Type* memory = static_cast<Type*>(xxalloc(sizeof(Type)));
 
 	// placement new 문법 (생성자 호출)
 	new(memory)Type(std::forward<Args>(args)...);
@@ -15,5 +16,5 @@ template<typename Type>
 void xdelete(Type* obj)
 {
 	obj->~Type();
-	xrelease(obj);
+	xxrelease(obj);
 }

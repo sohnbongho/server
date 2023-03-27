@@ -1,47 +1,9 @@
 ﻿#include "pch.h"
 #include <iostream>
 #include "CorePch.h"
-#include <thread>
-#include <mutex>
-#include <future>
-#include <Windows.h>
 #include "CoreMacro.h"
 #include "ThreadManager.h"
-#include "memory.h"
-
-#include "RefCounting.h"
-
- 
-class Knight
-{
-public:
-	Knight()
-	{
-		cout << "Knight" << endl;
-	}
-	Knight(int hp) : _hp(hp)
-	{
-		cout << "Knight : " << _hp << endl;
-	}
-	~Knight()
-	{
-		cout << "~Knight" << endl;
-	}
-	/*static void* operator new(size_t size)
-	{
-		cout << "knight new! " << size << endl;
-		void* ptr = ::malloc(size);
-		return ptr;
-	}
-
-	static void operator delete(void* ptr)
-	{
-		cout << "knight delete! " << endl;
-		::free(ptr);
-	}*/
-private:
-	int32 _hp;
-};
+#include "Memory.h"
 
 // new operator overloading (Global)
 //void* operator new(size_t size)
@@ -70,11 +32,45 @@ private:
 //	::free(ptr);
 //}
 
+class Player
+{
+public:
+	Player(){}
+	virtual ~Player(){}
+};
+
+class Knight : public Player
+{
+public:
+	Knight()
+	{
+		cout << "Knight" << endl;
+	}
+	Knight(int hp) : _hp(hp)
+	{
+		cout << "Knight : " << _hp << endl;
+	}
+	virtual ~Knight()
+	{
+		cout << "~Knight" << endl;
+	}	
+public:
+	int32 _hp;
+	int32 _mp;
+};
+
 
 int main()
 {
-	Knight* knight = xnew< Knight>(100);
+	
+	// Knight 메모리 > Player메모리가 더 큰 상황에서
+	// 아래와 같이 메모리를 잡으면 문제이다!!!
+	// 아레 문제를 해결하기 위해 메모리를 잡을때,
+	// 뒤부분부터 메모리를 잡아준다면??
+	// [                    [   ]]
 
+	Knight* knight = (Knight *)xnew< Player>();
+	knight->_mp = 100;
 	xdelete(knight);
 }
 
