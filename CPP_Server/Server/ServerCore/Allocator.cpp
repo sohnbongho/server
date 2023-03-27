@@ -34,3 +34,7 @@ void StompAllocator::Release(void* ptr)
 	::VirtualFree(reinterpret_cast<void*>(baseAddress), 0, MEM_RELEASE);
 
 }
+
+/****************
+ * StlAllocator
+ ***************/

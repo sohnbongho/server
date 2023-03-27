@@ -4,6 +4,7 @@
 #include "CoreMacro.h"
 #include "ThreadManager.h"
 #include "Memory.h"
+#include "Allocator.h"
 
 // new operator overloading (Global)
 //void* operator new(size_t size)
@@ -61,16 +62,12 @@ public:
 
 
 int main()
-{
-	
-	// Knight 메모리 > Player메모리가 더 큰 상황에서
-	// 아래와 같이 메모리를 잡으면 문제이다!!!
-	// 아레 문제를 해결하기 위해 메모리를 잡을때,
-	// 뒤부분부터 메모리를 잡아준다면??
+{	
 	// [                    [   ]]
+	// STL vector에서도 allocator 들을 보내줄수 있다.
+	Vector<Knight> v(100); //  우리가 만든
 
-	Knight* knight = (Knight *)xnew< Player>();
-	knight->_mp = 100;
-	xdelete(knight);
+	Map<int32, Knight> m; //  우리가 만든
+	m[100] = Knight();
 }
 
