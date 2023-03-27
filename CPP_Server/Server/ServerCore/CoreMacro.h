@@ -18,11 +18,11 @@
   * Memory
   *****************/
 #ifdef _DEBUG
-#define xxalloc(size)		StompAllocator::Alloc(size)
-#define xxrelease(ptr)		StompAllocator::Release(ptr)
+#define xxalloc(size)		PoolAllocator::Alloc(size)
+#define xxrelease(ptr)		PoolAllocator::Release(ptr)
 #else
-#define xxalloc(size)		StompAllocator::Alloc(size)
-#define xxrelease(ptr)		StompAllocator::Release(ptr)
+#define xxalloc(size)		PoolAllocator::Alloc(size)
+#define xxrelease(ptr)		PoolAllocator::Release(ptr)
 #endif
 
 
@@ -39,7 +39,7 @@
 
 #define ASSERT_CRASH(expr)			\
 {									\
-	if(!(exr))						\
+	if(!(expr))						\
 	{								\
 		CRASH("ASSERT_CRASH");		\
 		__analysis_assume(expr);	\

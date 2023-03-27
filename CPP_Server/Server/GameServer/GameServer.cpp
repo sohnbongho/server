@@ -6,33 +6,6 @@
 #include "Memory.h"
 #include "Allocator.h"
 
-// new operator overloading (Global)
-//void* operator new(size_t size)
-//{
-//	cout << "new! " << size << endl;
-//	void* ptr = ::malloc(size);
-//	return ptr;
-//}
-//
-//void operator delete(void* ptr)
-//{
-//	cout << "delete! " << endl;
-//	::free(ptr);
-//}
-//
-//void* operator new[](size_t size)
-//{
-//	cout << "new! " << size << endl;
-//	void* ptr = ::malloc(size);
-//	return ptr;
-//}
-//
-//void operator delete[](void* ptr)
-//{
-//	cout << "delete! " << endl;
-//	::free(ptr);
-//}
-
 class Player
 {
 public:
@@ -62,12 +35,22 @@ public:
 
 
 int main()
-{	
-	// [                    [   ]]
-	// STL vector에서도 allocator 들을 보내줄수 있다.
-	Vector<Knight> v(100); //  우리가 만든
+{
+	for(int32 i=0;i < 5; i++)
+	{
+		GThreadManager->Launch([]()
+			{
+				while (true)
+				{
+					Vector<Knight> v(10);
 
-	Map<int32, Knight> m; //  우리가 만든
-	m[100] = Knight();
+					Map<int32, Knight> m;
+					m[100] = Knight();
+
+					this_thread::sleep_for(10ms);
+				}
+			});
+	}
+	GThreadManager->Join();
 }
 
