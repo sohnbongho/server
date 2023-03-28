@@ -58,7 +58,8 @@ public:
 private:
 	SLIST_HEADER _header;
 	int32 _allocSize = 0; // 메모리 사이즈
-	atomic<int32> _allocCount = 0; // 메모리풀에서 뱃어준 갯수
+	atomic<int32> _usedCount = 0; // 메모리풀에서 뱃어준 갯수
+	atomic<int32> _reserveCount = 0; // 메모리풀에서 뱃어준 갯수
 
 };
 
