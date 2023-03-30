@@ -41,14 +41,32 @@ int main()
 	{
 		char sendBuff[100] = "Hello Server!";
 
-		int32 resultCode = ::send(clientSocket, sendBuff, sizeof(sendBuff), 0);
-
-		if(resultCode == SOCKET_ERROR)
+		for(int32 i = 0; i< 10; i++)
 		{
-			int32 errCode = ::WSAGetLastError();
-			cout << "Send ErrorCode : " << errCode << endl;
-			return 0;			
+			int32 resultCode = ::send(clientSocket, sendBuff, sizeof(sendBuff), 0);
+
+			if (resultCode == SOCKET_ERROR)
+			{
+				int32 errCode = ::WSAGetLastError();
+				cout << "Send ErrorCode : " << errCode << endl;
+				return 0;
+			}
+			cout << "Send Buffer Len = " << sizeof(sendBuff) << endl;
 		}
+		
+
+		/*char recvBuffer[1000];
+
+		int32 recvLen = ::recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
+		if (recvLen <= 0)
+		{
+			int32 errorCode = ::WSAGetLastError();
+			cout << "recv ErrorCode : " << errorCode << endl;
+			return 0;
+		}
+
+		cout << "Recv Data! = " << recvBuffer << endl;
+		cout << "Recv Len! = " << recvLen << endl;*/
 		
 		this_thread::sleep_for(1s);
 	}

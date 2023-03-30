@@ -71,9 +71,40 @@ int main()
 			cout << "accept ErrorCode : " << errorCode << endl;
 			return 0;
 		}
+
+		// 손님 입장!
 		char ipAddress[16];
 		::inet_ntop(AF_INET, &clientAddr.sin_addr, ipAddress, sizeof(ipAddress));
 		cout << "Client Connected Ip = " << ipAddress << endl;
+
+		while(true)
+		{
+			char recvBuffer[1000];
+
+			this_thread::sleep_for(1s);
+
+			int32 recvLen = ::recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
+			if(recvLen <= 0)
+			{
+				int32 errorCode = ::WSAGetLastError();
+				cout << "recv ErrorCode : " << errorCode << endl;
+				return 0;
+			}
+			cout << "Recv Data! = " << recvBuffer << endl;
+			cout << "Recv Len! = " << recvLen << endl;
+
+			/*int32 resultCode = ::send(clientSocket, recvBuffer, recvLen, 0);
+
+			if (resultCode == SOCKET_ERROR)
+			{
+				int32 errCode = ::WSAGetLastError();
+				cout << "Send ErrorCode : " << errCode << endl;
+				return 0;
+			}*/
+
+
+
+		}
 	}
 
 	// ---------------------------
