@@ -53,44 +53,38 @@ int main()
 	cout << "Connected to Server!" << endl;
 
 	char sendBuffer[100] = "Hello World";
+	WSAEVENT wsaEvent = ::WSACreateEvent();
+	WSAOVERLAPPED overlapped = {};
+	overlapped.hEvent = wsaEvent;
+
 
 	// Send
 	while (true)
 	{
-		if (::send(clientSocket, sendBuffer, sizeof(sendBuffer), 0) == SOCKET_ERROR)
-		{
-			// 원래 블록했어야 했는데... 너가 논블로킹으로 하라며?
-			if (::WSAGetLastError() == WSAEWOULDBLOCK)
-				continue;
-			// Error
-			break;
-		}
+		WSABUF wsaBuf;
+		wsaBuf.buf = sendBuffer;
+		wsaBuf.len = 100;
 
-		cout << "Send Data ! Len = " << sizeof(sendBuffer) << endl;
+		DWORD sendLen = 0;
+		DWORD flags = 0;
 
-		// Recv
-		while (true)
+		if(::WSASend(clientSocket, &wsaBuf, 1, &sendLen, flags, &overlapped, nullptr) == SOCKET_ERROR)
 		{
-			char recvBuffer[1000];
-			int32 recvLen = ::recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
-			if (recvLen == SOCKET_ERROR)
+			if(::WSAGetLastError() == WSA_IO_PENDING)
 			{
-				// 원래 블록했어야 했는데... 너가 논블로킹으로 하라며?
-				if (::WSAGetLastError() == WSAEWOULDBLOCK)
-					continue;
-
-				// Error
+				// 데이터를 다 안받아가서 생긴 현상 이므로 문제는 아니다.
+				// Pending
+				::WSAWaitForMultipleEvents(1, &wsaEvent, TRUE, WSA_INFINITE, FALSE);
+				::WSAGetOverlappedResult(clientSocket, &overlapped, &sendLen, FALSE, &flags);
+			}
+			else
+			{
+				// 진짜 문제 있는 상황
 				break;
 			}
-			else if (recvLen == 0)
-			{
-				// 연결 끊김
-				break;
-			}
-
-			cout << "Recv Data Len = " << recvLen << endl;
-			break;
 		}
+
+		cout << "Send Data ! Len = " << sizeof(sendBuffer) << endl;		
 
 		this_thread::sleep_for(1s);
 	}
