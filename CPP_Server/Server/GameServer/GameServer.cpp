@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <future>
 #include "ThreadManager.h"
+#include "Memory.h"
 
 #include <winsock2.h>
 #include <mswsock.h>
@@ -50,8 +51,8 @@ void WorkerThreadMain(HANDLE iocpHandle)
 		Session* session = nullptr;
 		OverlappedEx* overlappedEx = nullptr;
 
-		BOOL ret = ::GetQueuedCompletionStatus(iocpHandle, &byteTransferred, (ULONG_PTR*)&session, 
-			(LPOVERLAPPED*)&overlappedEx, INFINITE);
+		// 데이터가 있는지 계속 대기
+		BOOL ret = ::GetQueuedCompletionStatus(iocpHandle, &byteTransferred, (ULONG_PTR*)&session, (LPOVERLAPPED*)&overlappedEx, INFINITE);
 
 		if(ret == FALSE || byteTransferred == 0)
 		{
@@ -139,7 +140,9 @@ int main()
 			return 0;
 		}
 
-		Session* session = new Session{ clientSocket };
+		// 
+		//Session* session = new Session{ clientSocket };
+		Session* session = xnew<Session>();
 		session->socket = clientSocket;
 		sessionManager.push_back(session);		
 		
@@ -155,9 +158,17 @@ int main()
 		OverlappedEx* overlappedEx = new OverlappedEx();
 		overlappedEx->type = IO_TYPE::READ;
 
+		// 레퍼런스를 1증가하는 방법으로 메모리 문제를 해결해야!!!
 		DWORD recvLen = 0;
 		DWORD flags = 0;
 		::WSARecv(clientSocket, &wsaBuf, 1, &recvLen, &flags, &overlappedEx->ovrelapped, NULL);
+
+		// 유저가 게임 접속 종료!
+		// 메모리 오류의 문제 발생!!!
+		/*Session* s = sessionManager.back();
+		sessionManager.pop_back();
+		xdelete(s);*/
+
 	}
 	GThreadManager->Join();
 
