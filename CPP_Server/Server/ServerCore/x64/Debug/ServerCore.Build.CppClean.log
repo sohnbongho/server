@@ -4,12 +4,16 @@ d:\01-git\server\cpp_server\server\libraries\debug\servercore.idb
 d:\01-git\server\cpp_server\server\servercore\x64\debug\pch.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\threadmanager.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\socketutils.obj
+d:\01-git\server\cpp_server\server\servercore\x64\debug\session.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\refcounting.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\objectpool.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\netaddress.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\memorypool.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\memory.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\lock.obj
+d:\01-git\server\cpp_server\server\servercore\x64\debug\listener.obj
+d:\01-git\server\cpp_server\server\servercore\x64\debug\iocpevent.obj
+d:\01-git\server\cpp_server\server\servercore\x64\debug\iocpcore.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\deadlockprofiler.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\coretls.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\corepch.obj
