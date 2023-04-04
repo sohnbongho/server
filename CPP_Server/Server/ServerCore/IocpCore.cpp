@@ -2,7 +2,6 @@
 #include "IocpCore.h"
 #include "IocpEvent.h"
 
-IocpCore GIocpCore;
 /*--------------
 	IocpCore
 ---------------*/
@@ -17,21 +16,21 @@ IocpCore::~IocpCore()
 	::CloseHandle(_iocpHandle);
 }
 
-bool IocpCore::Register(IocpObject* iocpObject)
+bool IocpCore::Register(IocpObjectRef iocpObject)
 {	
-	return ::CreateIoCompletionPort(iocpObject->GetHandle(), _iocpHandle, /* key*/reinterpret_cast<ULONG_PTR>(iocpObject), 0);
+	return ::CreateIoCompletionPort(iocpObject->GetHandle(), _iocpHandle, /* key*/0, 0);
 }
 
 bool IocpCore::Dispatch(uint32 timeoutMs)
 {
 	DWORD numOfBytes = 0;
-	IocpObject* iocpObject = nullptr;
+	ULONG_PTR key = 0;	
 	IocpEvent* iocpEvent = nullptr;
 
-	if(::GetQueuedCompletionStatus(_iocpHandle, OUT & numOfBytes,
-		OUT reinterpret_cast<PULONG_PTR>(&iocpObject),
+	if(::GetQueuedCompletionStatus(_iocpHandle, OUT &numOfBytes, OUT &key,
 		OUT reinterpret_cast<LPOVERLAPPED*>(&iocpEvent), timeoutMs))
 	{
+		IocpObjectRef iocpObject = iocpEvent->owner;
 		iocpObject->Dispath(iocpEvent, numOfBytes);
 	}
 	else
@@ -39,15 +38,13 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 		int32 errorCode = ::WSAGetLastError();
 		switch (errorCode)
 		{
-		case WAIT_TIMEOUT:
-			{
-			return false;
-			}
+		case WAIT_TIMEOUT:			
+			return false;			
 		default:
-			{
-				// TODOL:·Î±× Âï±â
-			break;
-			}			
+			// TODOL:·Î±× Âï±â
+			IocpObjectRef iocpObject = iocpEvent->owner;
+			iocpObject->Dispath(iocpEvent, numOfBytes);
+			break;						
 		}
 	}
 	return false;

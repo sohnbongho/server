@@ -13,6 +13,7 @@
   NetAddress.cpp
   ObjectPool.cpp
   RefCounting.cpp
+  Service.cpp
   Session.cpp
   SocketUtils.cpp
   ThreadManager.cpp

@@ -3,7 +3,7 @@
 /*------------
  *IocpObject
  ------------*/
-class IocpObject
+class IocpObject : public enable_shared_from_this<IocpObject>
 {
 public:
 	virtual HANDLE GetHandle() abstract;
@@ -21,12 +21,9 @@ public:
 
 	HANDLE	GetHandel() { return _iocpHandle; }
 
-	bool	Register(class IocpObject* iocpObject);
+	bool	Register(IocpObjectRef iocpObject);
 	bool	Dispatch(uint32 timeoutMs = INFINITE); // 일감이 있나 없나 대기
 
 private:
 	HANDLE _iocpHandle;
 };
-
-// TEMP
-extern IocpCore GIocpCore;

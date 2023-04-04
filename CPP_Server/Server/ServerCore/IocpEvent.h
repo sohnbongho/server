@@ -20,11 +20,11 @@ public:
 	IocpEvent(EventType type);
 	// 여기서 파괴자를 쓰면 안된다. 왜냐하면 가상함수테이블에 파괴자가 들어가면 형변화시, 오류가 발생한다.
 
-	void Init();
-	EventType GetType() { return _type; }
+	void				Init();	
 
-protected:
-	EventType _type;
+public:
+	EventType			eventType;
+	IocpObjectRef		owner;
 };
 
 /*-------------------
@@ -45,13 +45,8 @@ class AcceptEvent : public IocpEvent
 public:
 	AcceptEvent() : IocpEvent(EventType::Accept) {}
 
-	void SetSession(Session* session) { _session = session; }
-	Session* GetSession() {
-		return _session;
-	}
-
-private:
-	Session* _session = nullptr;
+public:
+	SessionRef session = nullptr;
 
 };
 
