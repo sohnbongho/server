@@ -21,7 +21,7 @@ bool IocpCore::Register(IocpObjectRef iocpObject)
 	return ::CreateIoCompletionPort(iocpObject->GetHandle(), _iocpHandle, /* key*/0, 0);
 }
 
-bool IocpCore::Dispatch(uint32 timeoutMs)
+bool IocpCore::DisPatch(uint32 timeoutMs)
 {
 	DWORD numOfBytes = 0;
 	ULONG_PTR key = 0;	
@@ -31,7 +31,7 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 		OUT reinterpret_cast<LPOVERLAPPED*>(&iocpEvent), timeoutMs))
 	{
 		IocpObjectRef iocpObject = iocpEvent->owner;
-		iocpObject->Dispath(iocpEvent, numOfBytes);
+		iocpObject->DisPatch(iocpEvent, numOfBytes);
 	}
 	else
 	{
@@ -43,7 +43,7 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 		default:
 			// TODOL:·Î±× Âï±â
 			IocpObjectRef iocpObject = iocpEvent->owner;
-			iocpObject->Dispath(iocpEvent, numOfBytes);
+			iocpObject->DisPatch(iocpEvent, numOfBytes);
 			break;						
 		}
 	}

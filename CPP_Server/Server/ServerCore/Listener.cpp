@@ -71,7 +71,7 @@ HANDLE Listener::GetHandle()
 	return reinterpret_cast<HANDLE>(_socket);
 }
 
-void Listener::Dispath(IocpEvent* iocpEvent, int32 numOfBytes)
+void Listener::DisPatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
 	ASSERT_CRASH(iocpEvent->eventType == EventType::Accept);
 	AcceptEvent* acceptEvent = static_cast<AcceptEvent*>(iocpEvent);

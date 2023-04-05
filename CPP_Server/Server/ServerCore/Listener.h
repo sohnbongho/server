@@ -22,7 +22,7 @@ public:
 
 	/*인터페이스 구현*/
 	virtual HANDLE GetHandle() override;
-	virtual void Dispath(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
+	virtual void DisPatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
 private:
 	void RegisterAccept(AcceptEvent* acceptEvent);
