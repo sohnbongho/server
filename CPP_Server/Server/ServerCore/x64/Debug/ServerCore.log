@@ -12,6 +12,7 @@
   MemoryPool.cpp
   NetAddress.cpp
   ObjectPool.cpp
+  RecvBuffer.cpp
   RefCounting.cpp
   Service.cpp
   Session.cpp

@@ -7,6 +7,7 @@ d:\01-git\server\cpp_server\server\servercore\x64\debug\socketutils.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\session.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\service.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\refcounting.obj
+d:\01-git\server\cpp_server\server\servercore\x64\debug\recvbuffer.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\objectpool.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\netaddress.obj
 d:\01-git\server\cpp_server\server\servercore\x64\debug\memorypool.obj

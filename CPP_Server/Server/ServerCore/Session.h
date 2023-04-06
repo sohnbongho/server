@@ -2,6 +2,7 @@
 #include "IocpCore.h"
 #include "IocpEvent.h"
 #include "NetAddress.h"
+#include "RecvBuffer.h"
 
 class Service;
 /*--------------------
@@ -12,6 +13,11 @@ class Session : public IocpObject
 	friend class Listener;
 	friend class IocpCore;
 	friend class Service;
+
+	enum
+	{
+		BUFFER_SIZE = 0x10000, // 64KB
+	};
 public:
 	Session();
 	virtual ~Session();
@@ -67,15 +73,6 @@ protected:
 		
 	}
 
-public:
-	// Temp
-	BYTE _recvBuffer[1000];
-
-	// [      ] [    ] 겹치지 않게끔 처리하는 것이 핵심 (순환버퍼)
-	// Circular Buffer : 복사 비용이 존재
-	/*char _sendBuffer[1000];
-	int32 _sendLen = 0;*/
-
 private:
 	weak_ptr<Service>	_service;
 	SOCKET			_socket = INVALID_SOCKET;
@@ -86,6 +83,7 @@ private:
 	USE_LOCK;
 
 	/*수신 관련*/
+	RecvBuffer		_recvBuffer;
 
 	/*송신 관련*/
 private:
