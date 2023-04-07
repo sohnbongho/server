@@ -92,6 +92,8 @@ SendBufferRef SendBufferManager::Open(uint32 size)
 
 SendBufferChunkRef SendBufferManager::Pop()
 {
+	cout << "Pop SENDBUFFERCHUNK" << endl;
+
 	{
 		WRITE_LOCK;
 		if(_sendBufferChunks.empty() == false)
@@ -114,6 +116,7 @@ void SendBufferManager::Push(SendBufferChunkRef buffer)
 
 void SendBufferManager::PushGlobal(SendBufferChunk* buffer)
 {
+	cout << "PushGlobal SENDBUFFERCHUNK" << endl;
 	// 삭제될때 호출
 	GSendBufferManager->Push(SendBufferChunkRef(buffer, PushGlobal));
 

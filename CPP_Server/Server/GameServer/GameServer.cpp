@@ -26,7 +26,7 @@ int main()
 			});
 	}
 
-	char sendData[] = "Hello World";
+	char sendData[1000] = "Hello World";
 
 	while(true)
 	{

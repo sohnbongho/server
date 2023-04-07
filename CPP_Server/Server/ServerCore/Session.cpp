@@ -46,10 +46,7 @@ void Session::Disconnect(const WCHAR* cause)
 		return;
 
 	// TEMP
-	wcout << "Disconnect : " << cause << endl;
-
-	OnDisconnected(); // 컨텐츠 코드에서 오보로딩	
-	GetService()->ReleaseSession(GetSessionRef());
+	wcout << "Disconnect : " << cause << endl;	
 
 	RegisterDisconnect();
 }
@@ -228,6 +225,9 @@ void Session::ProcessConnect()
 void Session::ProcessDisconnect()
 {
 	_disconnectEvent.owner = nullptr; // RELEASE_REF
+
+	OnDisconnected(); // 컨텐츠 코드에서 오보로딩	
+	GetService()->ReleaseSession(GetSessionRef());
 
 }
 
