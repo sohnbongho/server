@@ -3,8 +3,7 @@
 #include "ThreadManager.h"
 #include "Service.h"
 #include "Session.h"
-
-
+#include "BufferReader.h"
 
 
 class ServerSession : public PacketSession
@@ -21,11 +20,19 @@ public:
 
 	virtual int32 OnRecvPacket(BYTE* buffer, int32 len) override
 	{
+		BufferReader br(buffer, len);
 		PacketHeader header = *((PacketHeader*)buffer);
-		//cout << "Packet Id : " << header.id << "Size : " << header.size << endl;
+		br >> header;
+
+		uint64 id;
+		uint32 hp;
+		uint16 attack;
+		br >> id >> hp >> attack;
+
+		cout << "Id:" << id << " Hp:" << hp << " ATT:" << attack << endl;
 
 		char recvBuffer[4096];
-		::memcpy(recvBuffer, &buffer[4], header.size - sizeof(PacketHeader));
+		br.Read(recvBuffer, header.size - sizeof(PacketHeader) - 8 -  4 - 2);
 		cout << recvBuffer << endl;		
 
 		return len;
