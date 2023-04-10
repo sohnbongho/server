@@ -8,8 +8,26 @@
 #include "ServerPacketHandler.h"
 #include "tchar.h"
 
+#pragma pack(1)
+// 메모리는 4바이트로 잡아도 실제 내부에서는 8 바이트로 잡혀서 아래와 같이 8,8,8로 잡힌다.
+struct PKT_S_TEST
+{	
+	uint32 hp; // 4 -> 8
+	uint64 id; // 8
+	uint16 attack; // 2	-> 8
+};
+#pragma pack()
+
 int main()
 {
+	// [                               ]
+
+	PKT_S_TEST pkt;
+	pkt.hp = 1;
+	pkt.id = 2;
+	pkt.attack = 3;
+
+
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(L"127.0.0.1", 7777), 
 		MakeShared<IocpCore>(),
