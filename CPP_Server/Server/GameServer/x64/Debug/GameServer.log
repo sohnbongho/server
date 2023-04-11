@@ -1,1 +1,13 @@
-﻿  GameServer.vcxproj -> D:\01-git\server\CPP_Server\Server\Binary\Debug\GameServer.exe
+﻿  pch.cpp
+  GameServer.cpp
+D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(120,48): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(128,59): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  GameSession.cpp
+D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(120,48): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(128,59): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  GameSessionManager.cpp
+  ServerPacketHandler.cpp
+D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(120,48): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(128,59): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  GameServer.vcxproj -> D:\01-git\server\CPP_Server\Server\Binary\Debug\GameServer.exe

@@ -8,15 +8,6 @@
 #include "ServerPacketHandler.h"
 #include "tchar.h"
 
-#pragma pack(1)
-// 메모리는 4바이트로 잡아도 실제 내부에서는 8 바이트로 잡혀서 아래와 같이 8,8,8로 잡힌다.
-struct PKT_S_TEST
-{	
-	uint32 hp; // 4 -> 8
-	uint64 id; // 8
-	uint16 attack; // 2	-> 8
-};
-#pragma pack()
 
 int main()
 {
@@ -51,11 +42,37 @@ int main()
 
 	while(true)
 	{
-		vector<BuffData> buffs{
-			BuffData{100, 1.5f},
-			BuffData{200, 2.3f},
-			BuffData{300, 0.7f} };
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_TEST(1001, 100, 10, buffs, L"안녕하세요!");
+		PKT_S_TEST_WRITE pktWriter(1001, 100, 10);
+
+		// [PKT_S_TEST][BuffData BuffData BuffData][victim victim]
+		PKT_S_TEST_WRITE::BuffsList buffList = pktWriter.ReserveBuffList(3);
+		buffList[0] = { 100, 1.5f };
+		buffList[1] = { 200, 2.3f };
+		buffList[2] = { 300, 0.7f };
+
+		PKT_S_TEST_WRITE::BuffVictimsList vic0 = 
+		pktWriter.ReserveBuffVictimsList(&buffList[0], 3);
+		{
+			vic0[0] = 1000;
+			vic0[1] = 2000;
+			vic0[2] = 3000;
+		}
+
+		PKT_S_TEST_WRITE::BuffVictimsList vic1 =
+			pktWriter.ReserveBuffVictimsList(&buffList[1], 1);
+		{
+			vic1[0] = 4000;
+		}
+
+		PKT_S_TEST_WRITE::BuffVictimsList vic2 =
+			pktWriter.ReserveBuffVictimsList(&buffList[2], 2);
+		{
+			vic2[0] = 3000;
+			vic2[1] = 5000;
+		}
+		
+
+		SendBufferRef sendBuffer = pktWriter.CloseAndReturn();
 		GSessionManager.Broadcast(sendBuffer); // Braodcast
 
 		this_thread::sleep_for(250ms);

@@ -7,6 +7,8 @@
 		<List name="buff" desc="">
 			<Field name="buffid" type="uint64" desc=""/>
 			<Field name="remainTime" type="float" desc=""/>
-		</List>
+			<List name="buff" desc="">
+				<Field name="userId" type="uint64"/>
+			</List>
 	</Packet>
 </PDL>
