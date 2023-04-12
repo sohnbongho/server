@@ -12,12 +12,7 @@ void ServerPacketHandler::HandlerPacket(BYTE* buffer, int32 len)
 	br.Peek(&header);
 
 	switch(header.id)
-	{
-	case S_TEST:
-		PacketHeader header = *((PacketHeader*)buffer);
-		cout << "Packet Id : " << header.id << "Size : " << header.size << endl;
-		break;
-		
+	{	
 	default:
 		break;
 	}
