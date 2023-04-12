@@ -7,17 +7,12 @@
 #include "BufferWriter.h"
 #include "ServerPacketHandler.h"
 #include "tchar.h"
+#include "Protocol.pb.h"
 
 
 int main()
 {
 	// [                               ]
-
-	PKT_S_TEST pkt;
-	pkt.hp = 1;
-	pkt.id = 2;
-	pkt.attack = 3;
-
 
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(L"127.0.0.1", 7777), 
@@ -42,37 +37,28 @@ int main()
 
 	while(true)
 	{
-		PKT_S_TEST_WRITE pktWriter(1001, 100, 10);
+		Protocol::S_TEST pkt;
+		pkt.set_id(1000);
+		pkt.set_hp(100);
+		pkt.set_attack(10);
 
-		// [PKT_S_TEST][BuffData BuffData BuffData][victim victim]
-		PKT_S_TEST_WRITE::BuffsList buffList = pktWriter.ReserveBuffList(3);
-		buffList[0] = { 100, 1.5f };
-		buffList[1] = { 200, 2.3f };
-		buffList[2] = { 300, 0.7f };
-
-		PKT_S_TEST_WRITE::BuffVictimsList vic0 = 
-		pktWriter.ReserveBuffVictimsList(&buffList[0], 3);
 		{
-			vic0[0] = 1000;
-			vic0[1] = 2000;
-			vic0[2] = 3000;
+			Protocol::BuffData* data = pkt.add_buffs();
+			data->set_buffid(100);
+			data->set_remaintime(1.2f);
+			data->add_victims(4000);			
 		}
 
-		PKT_S_TEST_WRITE::BuffVictimsList vic1 =
-			pktWriter.ReserveBuffVictimsList(&buffList[1], 1);
 		{
-			vic1[0] = 4000;
+			Protocol::BuffData* data = pkt.add_buffs();
+			data->set_buffid(200);
+			data->set_remaintime(2.5f);
+			data->add_victims(1000);
+			data->add_victims(2000);
 		}
 
-		PKT_S_TEST_WRITE::BuffVictimsList vic2 =
-			pktWriter.ReserveBuffVictimsList(&buffList[2], 2);
-		{
-			vic2[0] = 3000;
-			vic2[1] = 5000;
-		}
+		SendBufferRef sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt);			
 		
-
-		SendBufferRef sendBuffer = pktWriter.CloseAndReturn();
 		GSessionManager.Broadcast(sendBuffer); // Braodcast
 
 		this_thread::sleep_for(250ms);
