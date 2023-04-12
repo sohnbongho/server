@@ -10,4 +10,5 @@ D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(128,59): war
 D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(120,48): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\01-git\server\CPP_Server\Server\GameServer\ServerPacketHandler.h(128,59): warning C4244: '=': 'uint64'에서 'uint16'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
+  Protocol.pb.cc
   GameServer.vcxproj -> D:\01-git\server\CPP_Server\Server\Binary\Debug\GameServer.exe
