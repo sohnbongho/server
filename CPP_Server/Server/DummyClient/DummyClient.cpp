@@ -1,34 +1,30 @@
 ﻿#include "pch.h"
+#include <iostream>
 #include "ThreadManager.h"
 #include "Service.h"
 #include "Session.h"
 #include "BufferReader.h"
-#include "ServerPacketHandler.h"
+#include "ClientPacketHandler.h"
 
-char sendData[] = "Hello World";
 
 class ServerSession : public PacketSession
 {
 public:
 	~ServerSession()
 	{
-		cout << "~ServerSession" << endl;
+		cout << "~ServerSession()" << endl;
 	}
-
 	virtual void OnConnected() override
 	{
-		//cout << "Connected To Server" << endl;
+		//cout << "OnConnected" << endl;		
 	}
 
 	virtual void OnRecvPacket(BYTE* buffer, int32 len) override
 	{
-		PacketSessionRef session = GetPacketSessionRef();
-		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+		ClientPacketHandler::HandlerPacket(buffer, len);			
 
-		// TODO : packetId 대역 체크
-		ServerPacketHandler::HandlePacket(session, buffer, len);
+		
 	}
-
 	virtual void OnSend(int32 len) override
 	{
 		//cout << "OnSend Len = " << len << endl;
@@ -36,20 +32,19 @@ public:
 
 	virtual void OnDisconnected() override
 	{
-		//cout << "Disconnected" << endl;
+		//cout << "OnDisconnected" << endl;		
 	}
+
 };
 
 int main()
 {
-	ServerPacketHandler::Init();
-
 	this_thread::sleep_for(1s);
 
 	ClientServiceRef service = MakeShared<ClientService>(
 		NetAddress(L"127.0.0.1", 7777),
 		MakeShared<IocpCore>(),
-		MakeShared<ServerSession>, // TODO : SessionManager 등
+		MakeShared<ServerSession>, // TODO: SessionManager 등
 		1);
 
 	ASSERT_CRASH(service->Start());
@@ -60,10 +55,11 @@ int main()
 			{
 				while (true)
 				{
-					service->GetIocpCore()->Dispatch();
+					service->GetIocpCore()->DisPatch();
 				}
 			});
 	}
+
 
 	GThreadManager->Join();
 }

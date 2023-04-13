@@ -14,11 +14,12 @@ public:
 		Type* memory = static_cast<Type*>(MemoryHeader::AttachHeader(ptr, s_allocSize));
 #else
 		Type* memory = static_cast<Type*>(MemoryHeader::AttachHeader(s_pool.Pop(), s_allocSize));
-#endif		
-		new(memory)Type(forward<Args>(args)...); // placement new
+#endif
+
+		
+		new(memory)Type(std::forward<Args>(args)...); // placement new
 		return memory;
 	}
-
 	static void Push(Type* obj)
 	{
 		obj->~Type();
@@ -28,17 +29,18 @@ public:
 		s_pool.Push(MemoryHeader::DetachHeader(obj));
 #endif
 	}
-
-	template<typename... Args>
+	template<typename ... Args>
 	static shared_ptr<Type> MakeShared(Args&&... args)
 	{
 		shared_ptr<Type> ptr = { Pop(forward<Args>(args)...), Push };
 		return ptr;
 	}
 
+
 private:
-	static int32		s_allocSize;
-	static MemoryPool	s_pool;
+	static int32 s_allocSize;
+	static MemoryPool s_pool;
+
 };
 
 template<typename Type>

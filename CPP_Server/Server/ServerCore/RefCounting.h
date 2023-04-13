@@ -1,22 +1,26 @@
 #pragma once
 
-/*---------------
-   RefCountable
-----------------*/
+/********************
+ * RefCountable
+ ********************/
 
 class RefCountable
 {
 public:
-	RefCountable() : _refCount(1) { }
-	virtual ~RefCountable() { }
-
+	RefCountable() : _refCount(1)
+	{
+		
+	}
+	virtual ~RefCountable()
+	{
+		
+	}
 	int32 GetRefCount() { return _refCount; }
-
 	int32 AddRef() { return ++_refCount; }
 	int32 ReleaseRef()
 	{
 		int32 refCount = --_refCount;
-		if (refCount == 0)
+		if(_refCount == 0)
 		{
 			delete this;
 		}
@@ -25,28 +29,41 @@ public:
 
 protected:
 	atomic<int32> _refCount;
-};
 
-/*---------------
-   SharedPtr
-----------------*/
+
+};
 
 template<typename T>
 class TSharedPtr
 {
 public:
 	TSharedPtr() { }
-	TSharedPtr(T* ptr) { Set(ptr); }
+	TSharedPtr(T* ptr)
+	{
+		Set(ptr);
+	}
 
 	// 복사
-	TSharedPtr(const TSharedPtr& rhs) { Set(rhs._ptr); }
+	TSharedPtr(const TSharedPtr& rhs)
+	{
+		Set(rhs._ptr);
+	}
 	// 이동
-	TSharedPtr(TSharedPtr&& rhs) { _ptr = rhs._ptr; rhs._ptr = nullptr; }
+	TSharedPtr(TSharedPtr&& rhs)
+	{
+		_ptr = rhs._ptr; rhs._ptr = nullptr;
+	}
 	// 상속 관계 복사
 	template<typename U>
-	TSharedPtr(const TSharedPtr<U>& rhs) { Set(static_cast<T*>(rhs._ptr)); }
+	TSharedPtr(const TSharedPtr<U>& rhs)
+	{
+		Set(static_cast<T*>(rhs._ptr));
+	}
 
-	~TSharedPtr() { Release(); }
+	~TSharedPtr()
+	{
+		Release();
+	}
 
 public:
 	// 복사 연산자
@@ -74,11 +91,11 @@ public:
 	bool		operator!=(const TSharedPtr& rhs) const { return _ptr != rhs._ptr; }
 	bool		operator!=(T* ptr) const { return _ptr != ptr; }
 	bool		operator<(const TSharedPtr& rhs) const { return _ptr < rhs._ptr; }
-	T*			operator*() { return _ptr; }
-	const T*	operator*() const { return _ptr; }
-				operator T* () const { return _ptr; }
-	T*			operator->() { return _ptr; }
-	const T*	operator->() const { return _ptr; }
+	T* operator*() { return _ptr; }
+	const T* operator*() const { return _ptr; }
+	operator T* () const { return _ptr; }
+	T* operator->() { return _ptr; }
+	const T* operator->() const { return _ptr; }
 
 	bool IsNull() { return _ptr == nullptr; }
 

@@ -3,10 +3,9 @@
 #include "Session.h"
 #include "Listener.h"
 
-/*-------------
-	Service
---------------*/
-
+/*---------------
+ * Service
+ ---------------*/
 Service::Service(ServiceType type, NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount)
 	: _type(type), _netAddress(address), _iocpCore(core), _sessionFactory(factory), _maxSessionCount(maxSessionCount)
 {
@@ -19,7 +18,7 @@ Service::~Service()
 
 void Service::CloseService()
 {
-	// TODO
+	// TODO	
 }
 
 SessionRef Service::CreateSession()
@@ -47,12 +46,11 @@ void Service::ReleaseSession(SessionRef session)
 	_sessionCount--;
 }
 
-/*-----------------
-	ClientService
-------------------*/
-
-ClientService::ClientService(NetAddress targetAddress, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount)
-	: Service(ServiceType::Client, targetAddress, core, factory, maxSessionCount)
+/*---------------
+ * Client Service
+ ---------------*/
+ClientService::ClientService(NetAddress targetAddress, IocpCoreRef core, SessionFactory factory, int32 maxSessionCoumt)
+	:Service(ServiceType::Client, targetAddress, core, factory, maxSessionCoumt)
 {
 }
 
@@ -60,21 +58,25 @@ bool ClientService::Start()
 {
 	if (CanStart() == false)
 		return false;
-
 	const int32 sessionCount = GetMaxSessionCount();
-	for (int32 i = 0; i < sessionCount; i++)
+	for(int32 i = 0; i< sessionCount; i++)
 	{
 		SessionRef session = CreateSession();
 		if (session->Connect() == false)
 			return false;
+
 	}
 
 	return true;
 }
 
-ServerService::ServerService(NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount)
-	: Service(ServiceType::Server, address, core, factory, maxSessionCount)
+/*---------------
+* Server Service
+---------------*/
+ServerService::ServerService(NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCoumt)
+	:Service(ServiceType::Server, address, core, factory, maxSessionCoumt)
 {
+
 }
 
 bool ServerService::Start()
@@ -85,17 +87,21 @@ bool ServerService::Start()
 	_listener = MakeShared<Listener>();
 	if (_listener == nullptr)
 		return false;
-
+		
 	ServerServiceRef service = static_pointer_cast<ServerService>(shared_from_this());
+
 	if (_listener->StartAccept(service) == false)
 		return false;
 
+	// TODO
 	return true;
 }
 
+
 void ServerService::CloseService()
 {
-	// TODO
-
+	// TODO:
 	Service::CloseService();
 }
+
+

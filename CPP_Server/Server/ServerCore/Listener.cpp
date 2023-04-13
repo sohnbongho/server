@@ -5,18 +5,15 @@
 #include "Session.h"
 #include "Service.h"
 
-/*--------------
-	Listener
----------------*/
-
+/*--------------------
+ * Listener
+ --------------------*/
 Listener::~Listener()
 {
 	SocketUtils::Close(_socket);
-
-	for (AcceptEvent* acceptEvent : _acceptEvents)
+	for(AcceptEvent* acceptEvent : _acceptEvents)
 	{
 		// TODO
-
 		xdelete(acceptEvent);
 	}
 }
@@ -34,7 +31,7 @@ bool Listener::StartAccept(ServerServiceRef service)
 	if (_service->GetIocpCore()->Register(shared_from_this()) == false)
 		return false;
 
-	if (SocketUtils::SetReuseAddress(_socket, true) == false)
+	if(SocketUtils::SetReuseAddress(_socket, true) == false)
 		return false;
 
 	if (SocketUtils::SetLinger(_socket, 0, 0) == false)
@@ -46,13 +43,19 @@ bool Listener::StartAccept(ServerServiceRef service)
 	if (SocketUtils::Listen(_socket) == false)
 		return false;
 
-	const int32 acceptCount = _service->GetMaxSessionCount();
-	for (int32 i = 0; i < acceptCount; i++)
+	const int32 accceptCount = _service->GetMaxSessionCount(); // 갑자기 유저가 몰릴것을 대비
+	for(int32 i = 0; i< accceptCount; i++)
 	{
+		// 클라이언트가 바로 접속하면 완료
 		AcceptEvent* acceptEvent = xnew<AcceptEvent>();
-		acceptEvent->owner = shared_from_this();
+
+		//ERROR 아래와 같이하면 오류
+		// 이유: 아래와 같이하면 ref 1인 shared_ptr을 새로 생성한 것이다.
+		// 절대 삭제하면 안되는데우리가 원하지 않은 시점에 삭제가 될수 있다.!!!
+		///acceptEvent->owner = shared_ptr<IocpObject>(this);
+		acceptEvent->owner = shared_from_this(); 
 		_acceptEvents.push_back(acceptEvent);
-		RegisterAccept(acceptEvent);
+		RegisterAccept(acceptEvent); 
 	}
 
 	return true;
@@ -68,7 +71,7 @@ HANDLE Listener::GetHandle()
 	return reinterpret_cast<HANDLE>(_socket);
 }
 
-void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
+void Listener::DisPatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
 	ASSERT_CRASH(iocpEvent->eventType == EventType::Accept);
 	AcceptEvent* acceptEvent = static_cast<AcceptEvent*>(iocpEvent);
@@ -83,13 +86,16 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 	acceptEvent->session = session;
 
 	DWORD bytesReceived = 0;
-	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), session->_recvBuffer.WritePos(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, OUT & bytesReceived, static_cast<LPOVERLAPPED>(acceptEvent)))
+	if(false == SocketUtils::AcceptEx(_socket, session->GetSocket(), 
+		session->_recvBuffer.WritePos(),
+		0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16,
+		OUT & bytesReceived, static_cast<LPOVERLAPPED>(acceptEvent)))
 	{
 		const int32 errorCode = ::WSAGetLastError();
-		if (errorCode != WSA_IO_PENDING)
+		if(errorCode != WSA_IO_PENDING)
 		{
-			// 일단 다시 Accept 걸어준다
-			RegisterAccept(acceptEvent);
+			// 일단 다시 Accept 걸어준다.
+			RegisterAccept(acceptEvent);			
 		}
 	}
 }
@@ -98,20 +104,18 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 {
 	SessionRef session = acceptEvent->session;
 
-	if (false == SocketUtils::SetUpdateAcceptSocket(session->GetSocket(), _socket))
+	if(false == SocketUtils::SetUpdateAcceptSocket(session->GetSocket(), _socket))
 	{
 		RegisterAccept(acceptEvent);
 		return;
 	}
-
 	SOCKADDR_IN sockAddress;
 	int32 sizeOfSockAddr = sizeof(sockAddress);
-	if (SOCKET_ERROR == ::getpeername(session->GetSocket(), OUT reinterpret_cast<SOCKADDR*>(&sockAddress), &sizeOfSockAddr))
+	if(SOCKET_ERROR == ::getpeername(session->GetSocket(),  OUT reinterpret_cast<SOCKADDR*>(&sockAddress), &sizeOfSockAddr))
 	{
 		RegisterAccept(acceptEvent);
 		return;
 	}
-
 	session->SetNetAddress(NetAddress(sockAddress));
 	session->ProcessConnect();
 	RegisterAccept(acceptEvent);
