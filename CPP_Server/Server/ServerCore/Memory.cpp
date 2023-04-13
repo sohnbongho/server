@@ -2,26 +2,27 @@
 #include "Memory.h"
 #include "MemoryPool.h"
 
-/**************
- * Memory
- * ¸Þ¸ð¸® Ç®À» ÃÑ°ý
- **************/
+/*-------------
+	Memory
+---------------*/
+
 Memory::Memory()
 {
 	int32 size = 0;
 	int32 tableIndex = 0;
 
-	for(size = 32; size <= 1024; size += 32)
+	for (size = 32; size <= 1024; size += 32)
 	{
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
 
-		while(tableIndex <= size)
+		while (tableIndex <= size)
 		{
 			_poolTable[tableIndex] = pool;
 			tableIndex++;
 		}
 	}
+
 	for (; size <= 2048; size += 128)
 	{
 		MemoryPool* pool = new MemoryPool(size);
@@ -33,6 +34,7 @@ Memory::Memory()
 			tableIndex++;
 		}
 	}
+
 	for (; size <= 4096; size += 256)
 	{
 		MemoryPool* pool = new MemoryPool(size);
@@ -58,6 +60,7 @@ void* Memory::Allocate(int32 size)
 {
 	MemoryHeader* header = nullptr;
 	const int32 allocSize = size + sizeof(MemoryHeader);
+
 #ifdef _STOMP
 	header = reinterpret_cast<MemoryHeader*>(StompAllocator::Alloc(allocSize));
 #else
@@ -72,12 +75,14 @@ void* Memory::Allocate(int32 size)
 		header = _poolTable[allocSize]->Pop();
 	}
 #endif	
+
 	return MemoryHeader::AttachHeader(header, allocSize);
 }
 
 void Memory::Release(void* ptr)
 {
 	MemoryHeader* header = MemoryHeader::DetachHeader(ptr);
+
 	const int32 allocSize = header->allocSize;
 	ASSERT_CRASH(allocSize > 0);
 
@@ -95,5 +100,4 @@ void Memory::Release(void* ptr)
 		_poolTable[allocSize]->Push(header);
 	}
 #endif	
-
 }

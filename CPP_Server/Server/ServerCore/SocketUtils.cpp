@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "SocketUtils.h"
 
-/*
- * SocketUtils
- */
+/*----------------
+	SocketUtils
+-----------------*/
 
 LPFN_CONNECTEX		SocketUtils::ConnectEx = nullptr;
 LPFN_DISCONNECTEX	SocketUtils::DisconnectEx = nullptr;
@@ -14,13 +14,14 @@ void SocketUtils::Init()
 	WSADATA wsaData;
 	ASSERT_CRASH(::WSAStartup(MAKEWORD(2, 2), OUT &wsaData) == 0);
 	
-	/*런타임에 주소 얻어오는 API*/
+	/* 런타임에 주소 얻어오는 API */
 	SOCKET dummySocket = CreateSocket();
 	ASSERT_CRASH(BindWindowsFunction(dummySocket, WSAID_CONNECTEX, reinterpret_cast<LPVOID*>(&ConnectEx)));
 	ASSERT_CRASH(BindWindowsFunction(dummySocket, WSAID_DISCONNECTEX, reinterpret_cast<LPVOID*>(&DisconnectEx)));
 	ASSERT_CRASH(BindWindowsFunction(dummySocket, WSAID_ACCEPTEX, reinterpret_cast<LPVOID*>(&AcceptEx)));
 	Close(dummySocket);
 }
+
 void SocketUtils::Clear()
 {
 	::WSACleanup();
@@ -29,11 +30,12 @@ void SocketUtils::Clear()
 bool SocketUtils::BindWindowsFunction(SOCKET socket, GUID guid, LPVOID* fn)
 {
 	DWORD bytes = 0;
-	return SOCKET_ERROR != ::WSAIoctl(socket, SIO_GET_EXTENSION_FUNCTION_POINTER, &guid, sizeof(guid), fn, sizeof(*fn), OUT & bytes, NULL, NULL);	
+	return SOCKET_ERROR != ::WSAIoctl(socket, SIO_GET_EXTENSION_FUNCTION_POINTER, &guid, sizeof(guid), fn, sizeof(*fn), OUT & bytes, NULL, NULL);
 }
+
 SOCKET SocketUtils::CreateSocket()
 {
-	return ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);	
+	return ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
 }
 
 bool SocketUtils::SetLinger(SOCKET socket, uint16 onoff, uint16 linger)
@@ -59,14 +61,11 @@ bool SocketUtils::SetSendBufferSize(SOCKET socket, int32 size)
 	return SetSockOpt(socket, SOL_SOCKET, SO_SNDBUF, size);
 }
 
-// 네이글 알고리즘 사용 유무:
-//데이터가 충분히 크면 보내고, 그렇지 않으면 데이터가 충분히 쌓였을때까지 대기하고 보낸다.
-// 장점 : 작은 패킷이 불필요하게 많이 생성되는 일을 방지
-// 단점 : 반응 시간 손해
 bool SocketUtils::SetTcpNoDelay(SOCKET socket, bool flag)
 {
 	return SetSockOpt(socket, SOL_SOCKET, TCP_NODELAY, flag);
 }
+
 // ListenSocket의 특성을 ClientSocket에 그대로 적용
 bool SocketUtils::SetUpdateAcceptSocket(SOCKET socket, SOCKET listenSocket)
 {
@@ -95,9 +94,7 @@ bool SocketUtils::Listen(SOCKET socket, int32 backlog)
 
 void SocketUtils::Close(SOCKET& socket)
 {
-	if(socket != INVALID_SOCKET)
-	{
-		::closesocket(socket);		
-	}
-	socket = INVALID_SOCKET;		
+	if (socket != INVALID_SOCKET)
+		::closesocket(socket);
+	socket = INVALID_SOCKET;
 }

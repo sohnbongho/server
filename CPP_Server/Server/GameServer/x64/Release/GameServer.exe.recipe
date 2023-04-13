@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\01-git\server\CPP_Server\Server\Binary\Release\GameServer.exe</FullPath>
+      <FullPath>C:\Rookiss\CPP_Server\Server\Binary\Release\GameServer.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

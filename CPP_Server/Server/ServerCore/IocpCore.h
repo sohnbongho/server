@@ -1,29 +1,31 @@
 #pragma once
 
-/*------------
- *IocpObject
- ------------*/
+/*----------------
+	IocpObject
+-----------------*/
+
 class IocpObject : public enable_shared_from_this<IocpObject>
 {
 public:
 	virtual HANDLE GetHandle() abstract;
-	virtual void DisPatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) abstract;
+	virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) abstract;
 };
 
-/*------------
- *IocpCore
- ------------*/
+/*--------------
+	IocpCore
+---------------*/
+
 class IocpCore
 {
 public:
 	IocpCore();
 	~IocpCore();
 
-	HANDLE	GetHandel() { return _iocpHandle; }
+	HANDLE		GetHandle() { return _iocpHandle; }
 
-	bool	Register(IocpObjectRef iocpObject);
-	bool	DisPatch(uint32 timeoutMs = INFINITE); // 일감이 있나 없나 대기
+	bool		Register(IocpObjectRef iocpObject);
+	bool		Dispatch(uint32 timeoutMs = INFINITE);
 
 private:
-	HANDLE _iocpHandle;
+	HANDLE		_iocpHandle;
 };

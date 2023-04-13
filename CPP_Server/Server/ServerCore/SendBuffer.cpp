@@ -1,17 +1,17 @@
 #include "pch.h"
 #include "SendBuffer.h"
 
-/*------------------
- * SendBuffer
- ------------------*/
+/*----------------
+	SendBuffer
+-----------------*/
+
 SendBuffer::SendBuffer(SendBufferChunkRef owner, BYTE* buffer, uint32 allocSize)
 	: _owner(owner), _buffer(buffer), _allocSize(allocSize)
 {
-	
 }
 
 SendBuffer::~SendBuffer()
-{	
+{
 }
 
 void SendBuffer::Close(uint32 writeSize)
@@ -21,11 +21,10 @@ void SendBuffer::Close(uint32 writeSize)
 	_owner->Close(writeSize);
 }
 
-/*------------------
- * SendBufferChunk
- * : 큰 send buffer를 만들고 짤라서 쓰는 방식
- * TLS영역에서 실행되므로 멀티 쓰레드를 고려하지 않아도 된다.
- ------------------*/
+/*--------------------
+	SendBufferChunk
+--------------------*/
+
 SendBufferChunk::SendBufferChunk()
 {
 }
@@ -59,35 +58,30 @@ void SendBufferChunk::Close(uint32 writeSize)
 	_usedSize += writeSize;
 }
 
-/*------------------
- * SendBufferManager
- ------------------*/
+/*---------------------
+	SendBufferManager
+----------------------*/
+
 SendBufferRef SendBufferManager::Open(uint32 size)
 {
-	// [[  ]            ]
-	// 우리가 사용할 만큼만 가져가는 함수
-
-	// 쓰레드마다 고유한 TLS영역
 	if (LSendBufferChunk == nullptr)
 	{
-		LSendBufferChunk = Pop(); // WRTE_LOCL;
+		LSendBufferChunk = Pop(); // WRITE_LOCK
 		LSendBufferChunk->Reset();
-	}
+	}		
 
 	ASSERT_CRASH(LSendBufferChunk->IsOpen() == false);
 
-	// 다 썻으면 버리고 새거로 교체
-	if(LSendBufferChunk->FreeSize() < size)
+	// 다 썼으면 버리고 새거로 교체
+	if (LSendBufferChunk->FreeSize() < size)
 	{
-		// 데이터 여유분이 없으면 새로 만듬
-		LSendBufferChunk = Pop(); //
+		LSendBufferChunk = Pop(); // WRITE_LOCK
 		LSendBufferChunk->Reset();
 	}
 
-	cout << "Free : " << LSendBufferChunk->FreeSize() << endl;
+	cout << "FREE : " << LSendBufferChunk->FreeSize() << endl;
 
 	return LSendBufferChunk->Open(size);
-	
 }
 
 SendBufferChunkRef SendBufferManager::Pop()
@@ -96,16 +90,15 @@ SendBufferChunkRef SendBufferManager::Pop()
 
 	{
 		WRITE_LOCK;
-		if(_sendBufferChunks.empty() == false)
+		if (_sendBufferChunks.empty() == false)
 		{
 			SendBufferChunkRef sendBufferChunk = _sendBufferChunks.back();
 			_sendBufferChunks.pop_back();
-			return sendBufferChunk;			
-		}		
+			return sendBufferChunk;
+		}
 	}
-	// 여유분이 없다면 메모리 생성
-	return SendBufferChunkRef(xnew<SendBufferChunk>(), PushGlobal);
 
+	return SendBufferChunkRef(xnew<SendBufferChunk>(), PushGlobal);
 }
 
 void SendBufferManager::Push(SendBufferChunkRef buffer)
@@ -117,7 +110,6 @@ void SendBufferManager::Push(SendBufferChunkRef buffer)
 void SendBufferManager::PushGlobal(SendBufferChunk* buffer)
 {
 	cout << "PushGlobal SENDBUFFERCHUNK" << endl;
-	// 삭제될때 호출
-	GSendBufferManager->Push(SendBufferChunkRef(buffer, PushGlobal));
 
+	GSendBufferManager->Push(SendBufferChunkRef(buffer, PushGlobal));
 }

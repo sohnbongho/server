@@ -1,7 +1,10 @@
-﻿  PlayerManager.cpp
+﻿  pch.cpp
+  GameServer.cpp
+  GameSession.cpp
+  GameSessionManager.cpp
   코드를 생성하고 있습니다.
-  36 of 512 functions ( 7.0%) were compiled, the rest were copied from previous compilation.
-    8 functions were new in current compilation
-    8 functions had inline decision re-evaluated but remain unchanged
+  1241 of 1433 functions (86.6%) were compiled, the rest were copied from previous compilation.
+    1045 functions were new in current compilation
+    38 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
-  GameServer.vcxproj -> D:\01-git\server\CPP_Server\Server\Binary\Release\GameServer.exe
+  GameServer.vcxproj -> C:\Rookiss\CPP_Server\Server\Binary\Release\GameServer.exe
