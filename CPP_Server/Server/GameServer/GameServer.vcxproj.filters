@@ -24,9 +24,6 @@
     <ClCompile Include="GameSession.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="ServerPacketHandler.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="Protocol.pb.cc">
       <Filter>Protocol</Filter>
     </ClCompile>
@@ -35,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="Enum.pb.cc">
       <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPacketHandler.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,9 +47,6 @@
     <ClInclude Include="GameSession.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="ServerPacketHandler.h">
-      <Filter>Main</Filter>
-    </ClInclude>
     <ClInclude Include="Protocol.pb.h">
       <Filter>Protocol</Filter>
     </ClInclude>
@@ -58,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="Struct.pb.h">
       <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPacketHandler.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
