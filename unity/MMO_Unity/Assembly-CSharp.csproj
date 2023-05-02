@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Mangers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Mangers\Managers.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <None Include="Assets\unity-chan!\Unity-chan! Model\Art\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />

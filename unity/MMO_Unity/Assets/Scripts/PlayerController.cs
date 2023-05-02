@@ -2,7 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+class Tank
+{
+    // 온갖 정보
+    public float speed = 10.0f;
+    Player player;  // 포함 관계 Netsted Prefab(Pre-Fabrication) 
+                    // Prefab들을 조합 한것들을 Netsted Prefab이라고 한다.
+}
 
+class FastTank : Tank
+{
+
+}
+
+class Player
+{
+
+}
 
 
 public class PlayerController : MonoBehaviour
@@ -12,23 +28,25 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // 실수로 KeyBoard가 구독이 되었으면 끈은 다음에 
+        Managers.Input.KeyAction -= OnKeyboard; 
+        Managers.Input.KeyAction += OnKeyboard; // 구독 신청
+
+        Tank tank1 = new Tank();// Instance를 만든다.
+        tank1.speed = 11.0f;
+        Tank tank2 = new Tank();
+        tank2.speed = 21.0f;
+        Tank tank3 = new Tank();
+        Tank tank4 = new Tank();
+        Tank tank5 = new Tank();
+    }
+    
+    void Update()
+    { 
         
     }
-
-    float _yAngle = 0.0f;    
-    void Update()
+    void OnKeyboard()
     {
-        _yAngle += Time.deltaTime * 100.0f;
-
-        //절대 회전값 지정
-        //transform.eulerAngles = new Vector3(0, _yAngle, 0);
-
-        // 특정 축을 기준으로 +/- delta (1)
-        //transform.Rotate(new Vector3(0.0f, Time.deltaTime * 100.0f, 0.0f));
-
-        // 특정 축을 기준으로 +/- delta (2)
-        //transform.rotation = Quaternion.Euler(new Vector3(0, _yAngle, 0));
-
         if (Input.GetKey(KeyCode.W))
         {
             // 방향으로 바라보게            
@@ -44,13 +62,13 @@ public class PlayerController : MonoBehaviour
         }
         //transform
         if (Input.GetKey(KeyCode.A))
-        {            
+        {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.2f);
             //transform.Translate(Vector3.forward * Time.deltaTime * _speed);
             transform.position += Vector3.left * Time.deltaTime * _speed;
         }
         if (Input.GetKey(KeyCode.D))
-        {            
+        {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.2f);
             //transform.Translate(Vector3.forward * Time.deltaTime * _speed);
             transform.position += Vector3.right * Time.deltaTime * _speed;
