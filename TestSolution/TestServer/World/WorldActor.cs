@@ -22,7 +22,7 @@ namespace TestServer.World
     {
         public class AddUser
         {            
-            public IActorRef Session { get; set; }
+            public IActorRef SessionRef { get; set; }
             public string RemoteAddress { get; set; }
         }
 
@@ -51,7 +51,7 @@ namespace TestServer.World
         /// </summary>
         public WorldActor()
         {   
-            Receive<AddUser> (
+            Receive<WorldActor.AddUser> (
                 addUser => {
                     OnRecvAddUser(addUser);
                 }
@@ -155,13 +155,13 @@ namespace TestServer.World
         /// world에 유저 추가
         /// </summary>
         /// <param name="addUser"></param>
-        private void OnRecvAddUser(AddUser addUser)
+        private void OnRecvAddUser(WorldActor.AddUser addUser)
         {
-            var user = User.Of(Context, Self, addUser.Session);
+            _logger.Debug($"OnRecvAddUser RemoteAddress:{addUser.RemoteAddress}, SessionRef:{addUser.SessionRef}");
+            var user = User.Of(Context, Self, addUser.SessionRef);
 
             // 유저 추가
             _userList.TryAdd(addUser.RemoteAddress, user);
-
         }
     }
 }

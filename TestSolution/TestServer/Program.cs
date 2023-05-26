@@ -55,10 +55,12 @@ namespace TestServer
             using (ActorSystem actorSystem = ActorSystem.Create("TestServer", config))
             {
                 //Akka.Remote로 초기화
-                //var listenerProps = WorldActor.ActorOf(actorSystem);
+                var worldActor = WorldActor.ActorOf(actorSystem);
 
                 // Akka.IO로 초기화                
-                var client = ListenerActor.ActorOf(actorSystem, 8081);
+                var client = ListenerActor.ActorOf(actorSystem, worldActor, 8081);
+
+                
 
                 // text console창에 적는 actor                
                 //var consoleWriterActor = ConsoleWriterActor.ActorOf(actorSystem);

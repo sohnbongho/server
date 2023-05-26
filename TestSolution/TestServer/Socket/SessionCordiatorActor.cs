@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TestServer.Helper;
+using TestServer.World;
 
 namespace TestServer.Socket
 {
@@ -16,7 +17,7 @@ namespace TestServer.Socket
     {
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
 
-        public class Create
+        public class AddRequest
         {
             public string RemoteAdress { get; set; }
             public IActorRef Sender { get; set; }
@@ -29,24 +30,26 @@ namespace TestServer.Socket
         }
 
         private readonly ConcurrentDictionary<string, IActorRef> _sessions = new ConcurrentDictionary<string, IActorRef>();
-        private readonly IActorRef _listenerActor;
+        private readonly IActorRef _listenerRef;
+        private readonly IActorRef _worldRef;
 
-        public static IActorRef ActorOf(IUntypedActorContext context, IActorRef listenerRef)
+        public static IActorRef ActorOf(IUntypedActorContext context, IActorRef listenerRef, IActorRef worldRef)
         {
-            var prop = Props.Create(() => new SessionCordiatorActor(listenerRef));
+            var prop = Props.Create(() => new SessionCordiatorActor(listenerRef, worldRef));
             return context.ActorOf(prop, ActorPaths.SessionCordiator.Name);
         }
 
-        public SessionCordiatorActor(IActorRef listenerActor)
+        public SessionCordiatorActor(IActorRef listenerActor, IActorRef worldRef)
         {
-            _listenerActor = listenerActor;
+            _listenerRef = listenerActor;
+            _worldRef = worldRef;
 
-            Receive<Create>(message =>
+            Receive<SessionCordiatorActor.AddRequest>(message =>
             {
                 OnReceiveCreate(message);                
             });
 
-            Receive<Delete>(message =>
+            Receive<SessionCordiatorActor.Delete>(message =>
             {
                 if(_sessions.TryGetValue(message.RemoteAdress, out var session))
                 {
@@ -72,18 +75,23 @@ namespace TestServer.Socket
         /// 원격 세션 추가
         /// </summary>
         /// <param name="message"></param>
-        private void OnReceiveCreate(Create message)
+        private void OnReceiveCreate(SessionCordiatorActor.AddRequest message)
         {
             // create a new session actor
             var remoteSender = message.Sender;
 
-            var session = Context.ActorOf(Props.Create(() => new SessionActor(Self, message.RemoteAdress, remoteSender)));
-            remoteSender.Tell(new Tcp.Register(session));
+            var sessionRef = Context.ActorOf(Props.Create(() => new SessionActor(Self, message.RemoteAdress, remoteSender)));
+            remoteSender.Tell(new Tcp.Register(sessionRef));
 
             // session관리에 넣어주자
-            _sessions.TryAdd(message.RemoteAdress, session);
+            _sessions.TryAdd(message.RemoteAdress, sessionRef);
 
             // 월드에 추가해 주자
+            _worldRef.Tell(new WorldActor.AddUser
+            {
+                SessionRef = sessionRef,
+                RemoteAddress = message.RemoteAdress
+            });
         }
 
         // here we are overriding the default SupervisorStrategy

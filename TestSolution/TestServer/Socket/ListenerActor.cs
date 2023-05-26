@@ -4,6 +4,7 @@ using log4net;
 using System.Net;
 using System.Reflection;
 using TestServer.Helper;
+using TestServer.World;
 
 namespace TestServer.Socket
 {    
@@ -12,23 +13,26 @@ namespace TestServer.Socket
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly int _port;
 
-        private IActorRef _sessionCordiatorRef;
+        private IActorRef _worldActorRef;
+        private IActorRef _sessionCordiatorRef = null;
 
-        public static IActorRef ActorOf(ActorSystem actorSystem, int port)
-        {
-            var clientProps = Props.Create(() => new ListenerActor(port));
+        public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef worldActor, int port)
+        {            
+
+            var clientProps = Props.Create(() => new ListenerActor(worldActor, port));
             return actorSystem.ActorOf(clientProps, ActorPaths.Listener.Name);
         }
 
-        public ListenerActor(int port)
+        public ListenerActor(IActorRef worldActor, int port)
         {
+            _worldActorRef = worldActor;
             _port = port;
             Context.System.Tcp().Tell(new Tcp.Bind(Self, new IPEndPoint(IPAddress.Any, port)));
         }
         protected override void PreStart()
         {   
             // 세션을 관리해 주는 Actor 생성            
-            _sessionCordiatorRef = SessionCordiatorActor.ActorOf(Context, Self);
+            _sessionCordiatorRef = SessionCordiatorActor.ActorOf(Context, Self, _worldActorRef);
         }
 
         protected override void PostStop()
@@ -46,7 +50,7 @@ namespace TestServer.Socket
                     }
                 case Tcp.Connected connected:
                     {
-                        _sessionCordiatorRef.Tell(new SessionCordiatorActor.Create{
+                        _sessionCordiatorRef?.Tell(new SessionCordiatorActor.AddRequest{
                             Sender = Sender,
                             RemoteAdress = connected.RemoteAddress.ToString(),
                         });

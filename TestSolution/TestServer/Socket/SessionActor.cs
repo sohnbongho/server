@@ -8,11 +8,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TestLibrary;
+using TestServer.World.UserInfo;
 
 namespace TestServer.Socket
 {       
     public class SessionActor : UntypedActor
     {
+        public class UserToSessionLinkRequest
+        {
+            public IActorRef UserRef { get; set; } // 객체 연결
+        }
+
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IActorRef _sessionCordiatorRef;
@@ -27,6 +33,7 @@ namespace TestServer.Socket
             _sessionCordiatorRef = sessionCordiator;
             _remoteAddress = remoteAdress;
             _connectedSessionRef = connection;
+            _userRef = null;
         }
         protected override void PreStart()
         {
@@ -46,9 +53,14 @@ namespace TestServer.Socket
         {
             switch(message)
             {
-                case Tcp.Received received:
+                case UserToSessionLinkRequest request:
+                    {
+                        _userRef = request.UserRef; // 네트워크 세션과 User Actor 연결
+                        break;
+                    }
+                case Tcp.Received received: // 메시지
                     {   
-                        HandleMyMessage(received);
+                        HandleReceived(received);
                         break;
                     }
                 case Tcp.ErrorClosed _:
@@ -81,27 +93,19 @@ namespace TestServer.Socket
         /// </summary>
         /// <param name="received"></param>
         /// <returns></returns>
-        private bool HandleMyMessage(Tcp.Received received)
+        private bool HandleReceived(Tcp.Received received)
         {
+            _logger.Debug($"HandleMyMessage");
+
+            // 받은 패킷을 유저 actor에 보낸다.
             var messageObject = GenericMessage.FromByteArray(received.Data.ToArray());
-
-            switch (messageObject)
+            var recvMessage = new UserActor.RecvPacket
             {
-                case SayRequest sayRequest:
-                    {
-                        _logger.Debug($"SayRequest - {sayRequest.UserName} : {sayRequest.Message}");
+                ConnectedSessionRef = _connectedSessionRef,
+                MessageObject = messageObject
+            };
 
-                        var res = new SayResponse
-                        {
-                            UserName = sayRequest.UserName,
-                            Message = sayRequest.Message
-                        };
-                        var binary = res.ToByteArray();
-                        _connectedSessionRef.Tell(Tcp.Write.Create(ByteString.FromBytes(binary)));
-
-                        break;
-                    }
-            }
+            _userRef?.Tell(recvMessage, Self);            
             return true;
         }
     }
