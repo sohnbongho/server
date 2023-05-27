@@ -43,11 +43,11 @@ namespace TestServer.World.UserInfo
     {
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public class RecvPacket
-        {
-            public IActorRef ConnectedSessionRef { get; set; }
-            public GenericMessage MessageObject { get; set; }
-        }
+        //public class RecvPacket
+        //{
+        //    public IActorRef ConnectedSessionRef { get; set; }
+        //    public GenericMessage MessageObject { get; set; }
+        //}
         public IActorRef WorldActor;
         public IActorRef SessionRef; // 원격지 Actor
 
@@ -60,17 +60,19 @@ namespace TestServer.World.UserInfo
                 UserRef = Self
             });
 
-            Receive<UserActor.RecvPacket>(
-             message =>
+            Receive< Tcp.Received > (
+             received =>
              {
-                 OnRecvPacket(message);
+                 OnRecvPacket(received, Sender);
              });
 
         }
-        private void OnRecvPacket(UserActor.RecvPacket packet)
+        private void OnRecvPacket(Tcp.Received received, IActorRef sender)
         {
-            var messageObject = packet.MessageObject;
-            var clientSession = packet.ConnectedSessionRef;
+            // 받은 패킷을 유저 actor에 보낸다.
+            var messageObject = GenericMessage.FromByteArray(received.Data.ToArray());
+            var clientSession = sender;
+
             switch (messageObject)
             {
                 case SayRequest sayRequest:

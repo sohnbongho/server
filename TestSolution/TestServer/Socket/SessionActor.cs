@@ -59,8 +59,10 @@ namespace TestServer.Socket
                         break;
                     }
                 case Tcp.Received received: // 메시지
-                    {   
-                        HandleReceived(received);
+                    {
+                        _logger.Debug($"HandleMyMessage");
+                        _userRef?.Tell(received, Sender);
+
                         break;
                     }
                 case Tcp.ErrorClosed _:
@@ -85,29 +87,7 @@ namespace TestServer.Socket
                         break;
                     }
             }            
-        }
-
-        /// <summary>
-        /// 메시지를 받는 부분
-        /// TODO: switch-case 문이 아닌 좀더 심플한 방법이 필요
-        /// </summary>
-        /// <param name="received"></param>
-        /// <returns></returns>
-        private bool HandleReceived(Tcp.Received received)
-        {
-            _logger.Debug($"HandleMyMessage");
-
-            // 받은 패킷을 유저 actor에 보낸다.
-            var messageObject = GenericMessage.FromByteArray(received.Data.ToArray());
-            var recvMessage = new UserActor.RecvPacket
-            {
-                ConnectedSessionRef = _connectedSessionRef,
-                MessageObject = messageObject
-            };
-
-            _userRef?.Tell(recvMessage, Self);            
-            return true;
-        }
+        }        
     }
 
 }
