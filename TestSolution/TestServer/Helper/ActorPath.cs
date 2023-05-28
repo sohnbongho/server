@@ -19,7 +19,10 @@ namespace TestServer.Helper
         public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessionCordiator");        
 
         // Remote에서 온 메시지 처리하는 actor
-        public static readonly ActorMetaData World = new ActorMetaData("world");        
+        public static readonly ActorMetaData World = new ActorMetaData("world");
+
+        // DB Actor
+        public static readonly ActorMetaData Db = new ActorMetaData("db");
     }
 
     public class ActorMetaData

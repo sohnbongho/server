@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ConsoleActor\ConsoleReaderActor.cs" />
     <Compile Include="ConsoleActor\ConsoleWriterActor.cs" />
+    <Compile Include="DataBase\DbServiceActor.cs" />
     <Compile Include="Helper\ActorPath.cs" />
     <Compile Include="Helper\ActorStatus.cs" />
     <Compile Include="Socket\ListenerActor.cs" />
@@ -74,8 +75,14 @@
     <PackageReference Include="Akka.Remote">
       <Version>1.5.7</Version>
     </PackageReference>
+    <PackageReference Include="Dapper">
+      <Version>2.0.123</Version>
+    </PackageReference>
     <PackageReference Include="log4net">
       <Version>2.0.15</Version>
+    </PackageReference>
+    <PackageReference Include="MySqlConnector">
+      <Version>2.2.6</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

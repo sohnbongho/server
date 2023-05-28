@@ -8,6 +8,8 @@ using log4net;
 using TestServer.World;
 using TestServer.ConsoleActor;
 using TestServer.Socket;
+using TestServer.DataBase;
+using static TestServer.DataBase.DbServiceActor;
 
 namespace TestServer
 {
@@ -66,6 +68,10 @@ namespace TestServer
                 /// text를 읽는 actor                
                 var consoleReaderActor = ConsoleReaderActor.ActorOf(actorSystem, consoleWriterActor);
                 consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); // begin processing
+
+                // Db actor
+                var dbActor = DbServiceActor.ActorOf(actorSystem);
+                dbActor.Tell(new SelectRequest());
 
                 _logger.Info(@"Server Doing. ""exit"" is exit");
 
