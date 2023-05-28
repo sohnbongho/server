@@ -19,6 +19,11 @@ namespace TestServer.Socket
             public IActorRef UserRef { get; set; } // 객체 연결
         }
 
+        public class SendMessage
+        {
+            public GenericMessage Message { get; set; } 
+        }        
+
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IActorRef _sessionCordiatorRef;
@@ -61,18 +66,30 @@ namespace TestServer.Socket
                 case Tcp.Received received: // 메시지
                     {
                         _logger.Debug($"HandleMyMessage");
-                        _userRef?.Tell(received, Sender);
+                        _userRef?.Tell(received, Self);
+
+                        break;
+                    }
+                case SessionActor.SendMessage sendMessage:
+                    {
+                        _logger.Debug($"SendMessage ");
+                        var binary = sendMessage.Message.ToByteArray();
+                        _connectedSessionRef.Tell(Tcp.Write.Create(ByteString.FromBytes(binary)));                        
+
+                        break;
+                    }
+                case SessionCordiatorActor.BroadcastMessage sendMessage:
+                    {
+                        _logger.Debug($"BroadcastMessage");                        
+                        _sessionCordiatorRef.Tell(sendMessage);
 
                         break;
                     }
                 case Tcp.ErrorClosed _:
                     {
-                        // 연결 끈김
                         _logger.Debug($"{Sender} closed");
-                        _sessionCordiatorRef.Tell(new SessionCordiatorActor.Delete
-                        {
-                            RemoteAdress = _remoteAddress
-                        });
+                        // 연결 끈김
+                        ClosedSocket();                        
 
                         break;
                     }
@@ -87,7 +104,18 @@ namespace TestServer.Socket
                         break;
                     }
             }            
-        }        
+        }
+
+        /// <summary>
+        /// socket이 끈김을 알림
+        /// </summary>
+        private void ClosedSocket()
+        {
+            _sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
+            {
+                RemoteAdress = _remoteAddress
+            });
+        }
     }
 
 }

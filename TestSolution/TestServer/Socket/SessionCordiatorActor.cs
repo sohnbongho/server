@@ -8,25 +8,31 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TestLibrary;
 using TestServer.Helper;
 using TestServer.World;
+using static TestServer.Socket.SessionActor;
 
 namespace TestServer.Socket
 {
     public class SessionCordiatorActor : ReceiveActor
     {
-        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public class AddRequest
+        public class RegisteredRequest
         {
             public string RemoteAdress { get; set; }
             public IActorRef Sender { get; set; }
         }
 
-        public class Delete
+        public class ClosedRequest
         {
             public string RemoteAdress { get; set; }
-            
+
+        }
+        public class BroadcastMessage
+        {
+            public GenericMessage Message { get; set; }
         }
 
         private readonly ConcurrentDictionary<string, IActorRef> _sessions = new ConcurrentDictionary<string, IActorRef>();
@@ -44,56 +50,41 @@ namespace TestServer.Socket
             _listenerRef = listenerActor;
             _worldRef = worldRef;
 
-            Receive<SessionCordiatorActor.AddRequest>(message =>
+            Receive<SessionCordiatorActor.RegisteredRequest>(message =>
             {
-                OnReceiveCreate(message);                
+                OnReceiveCreate(message);
             });
 
-            Receive<SessionCordiatorActor.Delete>(message =>
+            Receive<SessionCordiatorActor.ClosedRequest>(message =>
             {
-                if(_sessions.TryGetValue(message.RemoteAdress, out var session))
+                OnReceiveClosedSocket(message);
+            });
+            
+            Receive<SessionCordiatorActor.BroadcastMessage>(message =>
+            {                
+                var binary = message.Message.ToByteArray();
+                var bytes = Tcp.Write.Create(ByteString.FromBytes(binary));
+                var sendMessage = new SessionActor.SendMessage
                 {
-                    Context.Stop(session);
-                    // remove the actor reference from the dictionary
-                    _sessions.TryRemove(message.RemoteAdress, out _);
+                    Message = message.Message
+
+                };
+                foreach (var sessionRef in _sessions.Values)
+                {
+                    sessionRef.Tell(sendMessage);
                 }
-                
             });
         }
         protected override void PreStart()
         {
-            
+
 
         }
 
         protected override void PostStop()
         {
-            
+
         }
-
-        /// <summary>
-        /// 원격 세션 추가
-        /// </summary>
-        /// <param name="message"></param>
-        private void OnReceiveCreate(SessionCordiatorActor.AddRequest message)
-        {
-            // create a new session actor
-            var remoteSender = message.Sender;
-
-            var sessionRef = Context.ActorOf(Props.Create(() => new SessionActor(Self, message.RemoteAdress, remoteSender)));
-            remoteSender.Tell(new Tcp.Register(sessionRef));
-
-            // session관리에 넣어주자
-            _sessions.TryAdd(message.RemoteAdress, sessionRef);
-
-            // 월드에 추가해 주자
-            _worldRef.Tell(new WorldActor.AddUser
-            {
-                SessionRef = sessionRef,
-                RemoteAddress = message.RemoteAdress
-            });
-        }
-
         // here we are overriding the default SupervisorStrategy
         // which is a One-For-One strategy w/ a Restart directive
         protected override SupervisorStrategy SupervisorStrategy()
@@ -116,5 +107,46 @@ namespace TestServer.Socket
                     //else return Directive.Restart;
                 });
         }
+
+        /// <summary>
+        /// 원격 세션 추가
+        /// </summary>
+        /// <param name="message"></param>
+        private void OnReceiveCreate(SessionCordiatorActor.RegisteredRequest message)
+        {
+            // create a new session actor
+            var remoteSender = message.Sender;
+
+            var sessionRef = Context.ActorOf(Props.Create(() => new SessionActor(Self, message.RemoteAdress, remoteSender)));
+            remoteSender.Tell(new Tcp.Register(sessionRef));
+
+            // session관리에 넣어주자
+            _sessions.TryAdd(message.RemoteAdress, sessionRef);
+
+            // 월드에 추가해 주자
+            _worldRef.Tell(new WorldActor.AddUser
+            {
+                SessionRef = sessionRef,
+                RemoteAddress = message.RemoteAdress
+            });
+        }
+
+        private void OnReceiveClosedSocket(SessionCordiatorActor.ClosedRequest message)
+        {
+            var remoteAdress = message.RemoteAdress;
+            if (_sessions.TryGetValue(remoteAdress, out var session))
+            {
+                Context.Stop(session);
+
+                // remove the actor reference from the dictionary
+                _sessions.TryRemove(remoteAdress, out _);
+            }
+
+            _worldRef.Tell(new WorldActor.DeleteUser
+            {
+                RemoteAddress = remoteAdress
+            });
+        }
+        
     }
 }

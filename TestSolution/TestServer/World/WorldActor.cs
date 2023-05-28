@@ -12,6 +12,7 @@ using Akka.Remote;
 using Akka.Event;
 using TestServer.Helper;
 using TestServer.World.UserInfo;
+using static TestServer.World.WorldActor;
 
 namespace TestServer.World
 {
@@ -23,6 +24,10 @@ namespace TestServer.World
         public class AddUser
         {            
             public IActorRef SessionRef { get; set; }
+            public string RemoteAddress { get; set; }
+        }
+        public class DeleteUser
+        {            
             public string RemoteAddress { get; set; }
         }
 
@@ -54,6 +59,11 @@ namespace TestServer.World
             Receive<WorldActor.AddUser> (
                 addUser => {
                     OnRecvAddUser(addUser);
+                }
+            );
+            Receive<WorldActor.DeleteUser>(
+                deletedUser => {
+                    OnRecvDeleteUser(deletedUser);
                 }
             );
 
@@ -120,7 +130,7 @@ namespace TestServer.World
             Context.System.EventStream.Unsubscribe(Self, typeof(AssociationErrorEvent));
             Context.System.EventStream.Unsubscribe(Self, typeof(DisassociatedEvent));
                         
-            _userList?.Clear();
+            _userList.Clear();
 
 
         // 생존성 모니터링 종료
@@ -162,6 +172,23 @@ namespace TestServer.World
 
             // 유저 추가
             _userList.TryAdd(addUser.RemoteAddress, user);
+        }
+                
+
+        /// <summary>
+        ///  world에서 유저 삭제
+        /// </summary>
+        /// <param name="user"></param>
+        private void OnRecvDeleteUser(WorldActor.DeleteUser user)
+        {
+            var remoteAdress = user.RemoteAddress;
+            if (_userList.TryGetValue(remoteAdress, out var finedUser))
+            {
+                Context.Stop(finedUser.UserRef);
+
+                // remove the actor reference from the dictionary
+                _userList.TryRemove(user.RemoteAddress, out var deleteUser);
+            }
         }
     }
 }

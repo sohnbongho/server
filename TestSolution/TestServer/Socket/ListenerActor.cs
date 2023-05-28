@@ -50,7 +50,7 @@ namespace TestServer.Socket
                     }
                 case Tcp.Connected connected:
                     {
-                        _sessionCordiatorRef?.Tell(new SessionCordiatorActor.AddRequest{
+                        _sessionCordiatorRef?.Tell(new SessionCordiatorActor.RegisteredRequest{
                             Sender = Sender,
                             RemoteAdress = connected.RemoteAddress.ToString(),
                         });

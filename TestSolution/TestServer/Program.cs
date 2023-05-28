@@ -60,14 +60,12 @@ namespace TestServer
                 // Akka.IO로 초기화                
                 var client = ListenerActor.ActorOf(actorSystem, worldActor, 8081);
 
-                
-
                 // text console창에 적는 actor                
-                //var consoleWriterActor = ConsoleWriterActor.ActorOf(actorSystem);
+                var consoleWriterActor = ConsoleWriterActor.ActorOf(actorSystem);
 
-                //// text를 읽는 actor                
-                //var consoleReaderActor = ConsoleReaderActor.ActorOf(actorSystem, consoleWriterActor);
-                //consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); // begin processing
+                /// text를 읽는 actor                
+                var consoleReaderActor = ConsoleReaderActor.ActorOf(actorSystem, consoleWriterActor);
+                consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); // begin processing
 
                 _logger.Info(@"Server Doing. ""exit"" is exit");
 
@@ -86,8 +84,7 @@ namespace TestServer
             var directoryPath = Path.GetDirectoryName(fullPath);
 
             string path = $@"{directoryPath}\AkkaHCON.conf"; // 수정해야 할 부분
-                                                        // ConfigurationFactory.ParseString(hocon);
-
+            
             // 파일이 존재하는지 확인
             if (File.Exists(path) == false)
             {

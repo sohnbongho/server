@@ -48,17 +48,13 @@ namespace TestServer.World.UserInfo
         //    public IActorRef ConnectedSessionRef { get; set; }
         //    public GenericMessage MessageObject { get; set; }
         //}
-        public IActorRef WorldActor;
-        public IActorRef SessionRef; // 원격지 Actor
+        private IActorRef _worldActor; // worldActor
+        private IActorRef _sessionRef; // sessionActor
 
         public UserActor(IActorRef worldActor, IActorRef sessionRef)
         {
-            WorldActor = worldActor;
-            SessionRef = sessionRef;
-            sessionRef.Tell(new SessionActor.UserToSessionLinkRequest
-            {
-                UserRef = Self
-            });
+            _worldActor = worldActor;
+            _sessionRef = sessionRef;
 
             Receive< Tcp.Received > (
              received =>
@@ -67,29 +63,81 @@ namespace TestServer.World.UserInfo
              });
 
         }
-        private void OnRecvPacket(Tcp.Received received, IActorRef sender)
+        
+        protected override void PreStart()
+        {
+            // SessionActor와 UserActor의 연결
+            _sessionRef.Tell(new SessionActor.UserToSessionLinkRequest
+            {
+                UserRef = Self
+            });
+
+        }
+
+        protected override void PostStop()
+        {
+            _logger.Debug("UserActor PostStop");
+        }
+
+        // here we are overriding the default SupervisorStrategy
+        // which is a One-For-One strategy w/ a Restart directive
+        protected override SupervisorStrategy SupervisorStrategy()
+        {
+            return new OneForOneStrategy(
+                10, // maxNumberOfRetries
+                TimeSpan.FromSeconds(5), // duration
+                x =>
+                {
+                    return Directive.Restart;
+
+                    ////Maybe we consider ArithmeticException to not be application critical
+                    ////so we just ignore the error and keep going.
+                    //if (x is ArithmeticException) return Directive.Resume;
+
+                    ////Error that we cannot recover from, stop the failing actor
+                    //else if (x is NotSupportedException) return Directive.Stop;
+
+                    ////In all other cases, just restart the failing actor
+                    //else return Directive.Restart;
+                });
+        }
+        private void OnRecvPacket(Tcp.Received received, IActorRef sessionRef)
         {
             // 받은 패킷을 유저 actor에 보낸다.
-            var messageObject = GenericMessage.FromByteArray(received.Data.ToArray());
-            var clientSession = sender;
+            var messageObject = GenericMessage.FromByteArray(received.Data.ToArray());            
 
             switch (messageObject)
             {
                 case SayRequest sayRequest:
                     {
-                        _logger.Debug($"SayRequest - {sayRequest.UserName} : {sayRequest.Message}");
-
-                        var res = new SayResponse
+                        _logger.Debug($"SayRequest - {sayRequest.UserName} : {sayRequest.Message}");                        
+                        var message = new SayResponse
                         {
                             UserName = sayRequest.UserName,
                             Message = sayRequest.Message
                         };
-                        var binary = res.ToByteArray();
-                        clientSession.Tell(Tcp.Write.Create(ByteString.FromBytes(binary)));
-
+                        BroardcastTell(message);
+                        
                         break;
                     }
             }
+        }
+        private void Tell(GenericMessage message)
+        {
+            var res = new SessionActor.SendMessage
+            {
+                Message = message
+            };
+            _sessionRef.Tell(res);
+        }
+
+        private void BroardcastTell(GenericMessage message)
+        {
+            var res = new SessionCordiatorActor.BroadcastMessage
+            {
+                Message = message
+            };
+            _sessionRef.Tell(res);
         }
 
     }
