@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Akka.Actor.Dsl;
 using Akka.IO;
 using log4net;
 using System;
@@ -77,13 +78,12 @@ namespace TestServer.Socket
         }
         protected override void PreStart()
         {
-
-
+            base.PreStart();
         }
 
         protected override void PostStop()
         {
-
+            base.PostStop();
         }
         // here we are overriding the default SupervisorStrategy
         // which is a One-For-One strategy w/ a Restart directive
@@ -117,7 +117,8 @@ namespace TestServer.Socket
             // create a new session actor
             var remoteSender = message.Sender;
 
-            var sessionRef = Context.ActorOf(Props.Create(() => new SessionActor(Self, message.RemoteAdress, remoteSender)));
+            var sessionProp = Props.Create(() => new SessionActor(Self, message.RemoteAdress, remoteSender));
+            var sessionRef = Context.ActorOf(sessionProp);
             remoteSender.Tell(new Tcp.Register(sessionRef));
 
             // session관리에 넣어주자

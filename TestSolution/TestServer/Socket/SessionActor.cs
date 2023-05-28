@@ -42,7 +42,7 @@ namespace TestServer.Socket
         }
         protected override void PreStart()
         {
-
+            base.PreStart();
         }
 
         /// <summary>
@@ -51,6 +51,7 @@ namespace TestServer.Socket
         protected override void PostStop()
         {
             _logger.Debug($"SessionActor.PostStop() :{_remoteAddress}");
+            base.PostStop();
 
         }
 

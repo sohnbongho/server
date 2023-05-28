@@ -23,7 +23,7 @@ namespace TestServer.World.UserInfo
         public static User Of(IUntypedActorContext context, IActorRef worldActor, IActorRef sessionRef)
         {
             var props = Props.Create(() => new UserActor(worldActor, sessionRef));
-            var userActor = context.ActorOf(props, ActorPaths.User.Name);
+            var userActor = context.ActorOf(props);
 
             return new User(worldActor, sessionRef, userActor);
         }
@@ -72,11 +72,14 @@ namespace TestServer.World.UserInfo
                 UserRef = Self
             });
 
+            base.PreStart();
+
         }
 
         protected override void PostStop()
         {
             _logger.Debug("UserActor PostStop");
+            base.PostStop();
         }
 
         // here we are overriding the default SupervisorStrategy

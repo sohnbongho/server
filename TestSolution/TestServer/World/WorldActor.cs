@@ -121,8 +121,8 @@ namespace TestServer.World
         protected override void PreStart()
         {
             Context.System.EventStream.Subscribe(Self, typeof(AssociationErrorEvent));
-            Context.System.EventStream.Subscribe(Self, typeof(DisassociatedEvent));            
-
+            Context.System.EventStream.Subscribe(Self, typeof(DisassociatedEvent));
+            base.PreStart();
         }
 
         protected override void PostStop()
@@ -132,9 +132,10 @@ namespace TestServer.World
                         
             _userList.Clear();
 
+            // 생존성 모니터링 종료
+            //_heartbeatTask?.Cancel();
 
-        // 생존성 모니터링 종료
-        //_heartbeatTask?.Cancel();
+            base.PostStop();
         }        
 
         

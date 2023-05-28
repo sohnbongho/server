@@ -106,7 +106,9 @@ namespace TestClient
         protected override void PostStop()
         {
             // 생존성 모니터링 종료
-            Console.WriteLine("PostStop()"); 
+            Console.WriteLine("PostStop()");
+            
+            base.PostStop();
         }
         
     }

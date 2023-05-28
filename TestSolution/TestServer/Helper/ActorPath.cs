@@ -16,11 +16,10 @@ namespace TestServer.Helper
         public static readonly ActorMetaData WriterConsole = new ActorMetaData("writerConsole");
 
         public static readonly ActorMetaData Listener = new ActorMetaData("listener");
-        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessionCordiator");
+        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessionCordiator");        
 
         // Remote에서 온 메시지 처리하는 actor
-        public static readonly ActorMetaData World = new ActorMetaData("world");
-        public static readonly ActorMetaData User = new ActorMetaData("user", World);
+        public static readonly ActorMetaData World = new ActorMetaData("world");        
     }
 
     public class ActorMetaData
