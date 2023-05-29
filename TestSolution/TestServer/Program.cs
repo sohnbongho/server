@@ -9,7 +9,7 @@ using TestServer.World;
 using TestServer.ConsoleActor;
 using TestServer.Socket;
 using TestServer.DataBase;
-using static TestServer.DataBase.DbServiceActor;
+using static TestServer.DataBase.DbServiceCordiatorActor;
 
 namespace TestServer
 {
@@ -70,7 +70,7 @@ namespace TestServer
                 consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); // begin processing
 
                 // Db actor
-                var dbActor = DbServiceActor.ActorOf(actorSystem);
+                var dbActor = DbServiceCordiatorActor.ActorOf(actorSystem);
                 dbActor.Tell(new SelectRequest());
 
                 _logger.Info(@"Server Doing. ""exit"" is exit");
