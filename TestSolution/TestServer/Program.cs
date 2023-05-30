@@ -9,7 +9,7 @@ using TestServer.World;
 using TestServer.ConsoleActor;
 using TestServer.Socket;
 using TestServer.DataBase;
-using static TestServer.DataBase.DbServiceCordiatorActor;
+using TestServer.Helper;
 
 namespace TestServer
 {
@@ -54,14 +54,10 @@ namespace TestServer
             // Akka HOCON 정보 읽어오기
             var config = LoadAkkaHCONConfig();
 
+            ConfigInstanceHelper.Instance.Load(); // config파일 읽어오기
+
             using (ActorSystem actorSystem = ActorSystem.Create("TestServer", config))
             {
-                //Akka.Remote로 초기화
-                var worldActor = WorldActor.ActorOf(actorSystem);
-
-                // Akka.IO로 초기화                
-                var client = ListenerActor.ActorOf(actorSystem, worldActor, 8081);
-
                 // text console창에 적는 actor                
                 var consoleWriterActor = ConsoleWriterActor.ActorOf(actorSystem);
 
@@ -69,9 +65,16 @@ namespace TestServer
                 var consoleReaderActor = ConsoleReaderActor.ActorOf(actorSystem, consoleWriterActor);
                 consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); // begin processing
 
-                // Db actor
+                // Db actor                
                 var dbActor = DbServiceCordiatorActor.ActorOf(actorSystem);
-                dbActor.Tell(new SelectRequest());
+                ActorSupervisorHelper.Instance.SetDbCordiatorRef(dbActor);
+
+                // World Actor 생성                
+                var worldActor = WorldActor.ActorOf(actorSystem, dbActor);
+                ActorSupervisorHelper.Instance.SetWorldCordiatorRef(worldActor);
+
+                // Akka.IO로 초기화                
+                var client = ListenerActor.ActorOf(actorSystem, worldActor, 8081);                
 
                 _logger.Info(@"Server Doing. ""exit"" is exit");
 

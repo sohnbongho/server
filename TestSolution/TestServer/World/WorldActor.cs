@@ -43,10 +43,11 @@ namespace TestServer.World
         private readonly ConcurrentDictionary<string, User> _userList = new ConcurrentDictionary<string, User>();
 
         //private ICancelable _heartbeatTask;
+        private IActorRef _dbCordiatorRef;
 
-        public static IActorRef ActorOf(ActorSystem actorSystem)
+        public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef dbCordiatorRef)
         {   
-            var listenerProps = Props.Create(() => new WorldActor());
+            var listenerProps = Props.Create(() => new WorldActor(dbCordiatorRef));
             return actorSystem.ActorOf(listenerProps, ActorPaths.World.Name);
         }
 
@@ -54,8 +55,10 @@ namespace TestServer.World
         /// <summary>
         /// 생성자
         /// </summary>
-        public WorldActor()
-        {   
+        public WorldActor(IActorRef dbCordiatorRef)
+        {
+            _dbCordiatorRef = dbCordiatorRef;
+
             Receive<WorldActor.AddUser> (
                 addUser => {
                     OnRecvAddUser(addUser);
@@ -66,7 +69,6 @@ namespace TestServer.World
                     OnRecvDeleteUser(deletedUser);
                 }
             );
-
 
             Receive<AssociationErrorEvent>(e => HandleAssociationError(e));
             Receive<DisassociatedEvent>(e => HandleDisassociation(e));

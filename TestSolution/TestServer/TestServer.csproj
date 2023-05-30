@@ -45,11 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataBase\DbQueryString.cs" />
+    <Compile Include="DataBase\Entities\TblUser.cs" />
+    <Compile Include="Helper\ActorSupervisorHelper.cs" />
+    <Compile Include="Helper\ConfigInstanceHelper.cs" />
     <Compile Include="ConsoleActor\ConsoleReaderActor.cs" />
     <Compile Include="ConsoleActor\ConsoleWriterActor.cs" />
+    <Compile Include="DataBase\GameDbServiceActor.cs" />
     <Compile Include="DataBase\DbServiceCordiatorActor.cs" />
-    <Compile Include="Helper\ActorPath.cs" />
-    <Compile Include="Helper\ActorStatus.cs" />
+    <Compile Include="Helper\ActorPathHelper.cs" />
     <Compile Include="Socket\ListenerActor.cs" />
     <Compile Include="Socket\SessionActor.cs" />
     <Compile Include="Socket\SessionCordiatorActor.cs" />
@@ -67,6 +71,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Config.json5">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Akka">
@@ -83,6 +90,9 @@
     </PackageReference>
     <PackageReference Include="MySqlConnector">
       <Version>2.2.6</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

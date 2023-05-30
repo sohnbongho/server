@@ -9,6 +9,10 @@ using TestServer.Helper;
 using Dapper;
 using MySqlConnector;
 using TestServer.World.UserInfo;
+using TestServer.Socket;
+using System.Collections.Concurrent;
+using log4net;
+using System.Reflection;
 
 // https://gist.github.com/jacking75/635ece4395b6f9073d8ae575c346fa83
 
@@ -16,61 +20,74 @@ namespace TestServer.DataBase
 {
     public class DbServiceCordiatorActor : ReceiveActor
     {
-        public class SelectRequest
+        // User Actor에서 db 액터에 대한 정보 요청
+        public class UserToDbLinkRequest
         {
-            public string Query { get; set; }
+            public IActorRef UserActorRef;
         }
-
-        public class SelectResponse
+        public class UserToDbLinkResponse
         {
-            public List<object> Results { get; set; }
-        }
-
+            public IActorRef DbActorRef;
+        }        
+        
         public static IActorRef ActorOf(ActorSystem actorSystem)
         {
             var consoleReaderProps = Props.Create(() => new DbServiceCordiatorActor());
-            return actorSystem.ActorOf(consoleReaderProps, ActorPaths.Db.Name);
+            return actorSystem.ActorOf(consoleReaderProps, ActorPaths.DbCordiator.Name);
         }
 
-        public class Game
-        {            
-            public long seq { get; set; }
-            public long user_uid { get; set; }
-            public string user_id { get; set; }
-            public int level { get; set; }
-        }
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        private readonly int _actorCount = 1;
+        private int _actorPos = 0;
+        private object _actorPosLock = new object(); 
+
+        private readonly ConcurrentDictionary<string, IActorRef> _dbs = new ConcurrentDictionary<string, IActorRef>();
 
         public DbServiceCordiatorActor()
         {
-            Receive<SelectRequest>(
-             selectRequest =>
-             {
-                 using (var connection = ConnectionFactory())
-                 {
-                     var result = connection.Query<Game>(
-                             "select * from user where user_uid=@useruid;",
-                             new { useruid = 1001});
+            _actorCount = ConfigInstanceHelper.Instance.GetDbPoolCount();
+            _logger.Info($"DbServiceCordiatorActor poolCount:({_actorCount })");
 
-                     Console.WriteLine("-- simple mapping:" + result.Count());
+            Receive<DbServiceCordiatorActor.UserToDbLinkRequest>(message =>
+            {
+                OnReceiveUserToDbLinkRequest(message);
+            });
+        }        
 
-                     foreach (var p in result)
-                     {
-                         Console.WriteLine($"{p.seq} {p.user_uid} {p.user_id} {p.level}");
-                     }
-                 }
-             }
-         );
+        protected override void PreStart()
+        {   
+            base.PreStart();
 
+            _actorPos = 0;
+            for (var i = 0; i < _actorCount; i++)
+            {
+                var dbName = $"{ActorPaths.GameDb.Name}{i}";
+
+                var dbRef = GameDbServiceActor.ActorOf(Context, Self, dbName);
+                _dbs.TryAdd(dbName, dbRef);
+            }
         }
-        MySqlConnection ConnectionFactory()
+
+        private void OnReceiveUserToDbLinkRequest(DbServiceCordiatorActor.UserToDbLinkRequest message)
         {
-            string connectionString = "host=127.0.0.1;port=3306;userid=root;password=1111;database=game;";
-            var connection = new MySqlConnection(connectionString);
-            connection.Open();
-            return connection;
-        }
-    }
+            var userActorRef = message.UserActorRef;
+            var dbName = string.Empty;
+            // 하나씩 증가 시키자
+            lock (_actorPosLock)
+            {   
+                dbName = $"{ActorPaths.GameDb.Name}{_actorPos}";
+                ++_actorPos;
+                _actorPos = _actorPos >= _actorCount ? 0 : _actorPos;
+            }
 
-    
+            if (_dbs.TryGetValue(dbName, out var dbActorRef))
+            {
+                userActorRef.Tell(new DbServiceCordiatorActor.UserToDbLinkResponse
+                {
+                    DbActorRef = dbActorRef
+                });
+            }
+        }        
+    }    
 }

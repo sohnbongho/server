@@ -33,6 +33,7 @@ namespace TestServer.Socket
         {   
             // 세션을 관리해 주는 Actor 생성            
             _sessionCordiatorRef = SessionCordiatorActor.ActorOf(Context, Self, _worldActorRef);
+            ActorSupervisorHelper.Instance.SetSessionCordiatorRef(_sessionCordiatorRef);
 
             base.PreStart();
         }

@@ -22,7 +22,8 @@ namespace TestServer.Helper
         public static readonly ActorMetaData World = new ActorMetaData("world");
 
         // DB Actor
-        public static readonly ActorMetaData Db = new ActorMetaData("db");
+        public static readonly ActorMetaData DbCordiator = new ActorMetaData("dbCordiator");
+        public static readonly ActorMetaData GameDb = new ActorMetaData("gameDb", DbCordiator);
     }
 
     public class ActorMetaData
