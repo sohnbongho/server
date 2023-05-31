@@ -46,6 +46,11 @@ namespace TestServer.World.UserInfo
     /// </summary>
     public class UserActor : ReceiveActor, ILogReceive
     {
+        public class SessionReceiveData
+        {
+            public byte[] RecvBuffer { get; set; }
+        }
+
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
                
         private IActorRef _worldActor; // worldActor
@@ -62,7 +67,7 @@ namespace TestServer.World.UserInfo
             _dbActorRef = null;
             _redisActorRef = null;
 
-            Receive< Tcp.Received > (
+            Receive<UserActor.SessionReceiveData> (
              received =>
              {
                  OnRecvPacket(received, Sender);
@@ -144,8 +149,7 @@ namespace TestServer.World.UserInfo
                 });
         }
         private void Tell(MessageWrapper message)
-        {
-           
+        {           
             var res = new SessionActor.SendMessage
             {
                 Message = message
@@ -163,9 +167,9 @@ namespace TestServer.World.UserInfo
         }
 
 
-        private void OnRecvPacket(Tcp.Received received, IActorRef sessionRef)
-        {               
-            var receivedMessage = received.Data.ToArray();
+        private void OnRecvPacket(UserActor.SessionReceiveData received, IActorRef sessionRef)
+        {
+            var receivedMessage = received.RecvBuffer;
 
             // 전체를 관리하는 wapper로 변환 역직렬화
             var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);

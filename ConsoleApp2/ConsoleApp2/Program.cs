@@ -60,6 +60,14 @@ namespace ConsoleApp2 // Note: actual namespace depends on the project name.
 
         static void Main(string[] args)
         {
+            int value = 42;
+            byte[] byteArray = BitConverter.GetBytes(value);
+            Console.WriteLine(byteArray);
+
+            
+            //byte[] byteArray = { 0x01, 0x00, 0x00, 0x00 };  // { 01, 00, 00, 00 }는 32비트 정수 1을 나타냄
+            
+
             var builder = new ContainerBuilder();
             builder.RegisterType<ConsoleOutput>().As<IOutput>();
             builder.RegisterType<TodayWriter>().As<IDateWriter>();

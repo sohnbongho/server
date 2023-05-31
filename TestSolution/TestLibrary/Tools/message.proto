@@ -6,10 +6,10 @@ package Messages;
 전체 메시지 : 클라이언트와 서버간 모든 메시지는 이곳에 추가하여야 한다.
 구글 프로토 버퍼는 상속 개념이 없기에 패킷을 받는 부분에서 분리를 해야 하기 때문이다.
 *****************************************************************/
-message MessageWrapper {
+message MessageWrapper {  
   oneof payload {
-    SayRequest say_request = 1;    
-	SayResponse say_response= 2;    
+    SayRequest say_request = 2;    
+	SayResponse say_response= 3;
   }
 }
 
