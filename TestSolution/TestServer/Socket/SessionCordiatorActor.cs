@@ -1,7 +1,9 @@
 ﻿using Akka.Actor;
 using Akka.Actor.Dsl;
 using Akka.IO;
+using Google.Protobuf;
 using log4net;
+using Messages;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using TestLibrary;
 using TestServer.Helper;
 using TestServer.World;
 using static TestServer.Socket.SessionActor;
@@ -33,7 +34,7 @@ namespace TestServer.Socket
         }
         public class BroadcastMessage
         {
-            public GenericMessage Message { get; set; }
+            public MessageWrapper Message { get; set; }
         }
 
         private readonly ConcurrentDictionary<string, IActorRef> _sessions = new ConcurrentDictionary<string, IActorRef>();
@@ -64,12 +65,12 @@ namespace TestServer.Socket
             Receive<SessionCordiatorActor.BroadcastMessage>(message =>
             {                
                 var binary = message.Message.ToByteArray();
-                var bytes = Tcp.Write.Create(ByteString.FromBytes(binary));
-                var sendMessage = new SessionActor.SendMessage
-                {
-                    Message = message.Message
+                var bytes = Tcp.Write.Create(Akka.IO.ByteString.FromBytes(binary));
 
+                var sendMessage = new SessionActor.SendMessage {
+                    Message = message.Message
                 };
+
                 foreach (var sessionRef in _sessions.Values)
                 {
                     sessionRef.Tell(sendMessage);

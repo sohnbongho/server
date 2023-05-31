@@ -2,7 +2,6 @@
 using Akka.Actor;
 using Akka.Dispatch.SysMsg;
 using TestServer.Helper;
-using TestLibrary;
 
 namespace TestServer.ConsoleActor
 {

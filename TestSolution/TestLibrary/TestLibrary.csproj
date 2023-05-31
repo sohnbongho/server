@@ -42,22 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Messages.cs" />
-    <Compile Include="SayResponse.cs" />
-    <Compile Include="ConnectRequest.cs" />
-    <Compile Include="ConnectResponse.cs" />
-    <Compile Include="NickNameRequest.cs" />
-    <Compile Include="NickNameResponse.cs" />
+    <Compile Include="Messages\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SayRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Akka">
       <Version>1.5.7</Version>
     </PackageReference>
+    <PackageReference Include="Google.Protobuf">
+      <Version>3.23.2</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NewFolder1\" />
+    <Folder Include="Helper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tools\message.proto" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

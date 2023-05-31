@@ -1,6 +1,9 @@
 ﻿using Akka.Actor;
 using Akka.IO;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using log4net;
+using Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +11,9 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using TestLibrary;
-using TestServer.DataBase;
-using TestServer.DataBase.Entities;
+using TestServer.DataBase.MySql;
+using TestServer.DataBase.MySql.MySql.Entities;
+using TestServer.DataBase.Redis;
 using TestServer.Helper;
 using TestServer.Socket;
 
@@ -47,13 +50,17 @@ namespace TestServer.World.UserInfo
                
         private IActorRef _worldActor; // worldActor
         private IActorRef _sessionRef; // sessionActor
-        private IActorRef _dbActorRef; // dbActor        
+        private IActorRef _dbActorRef; // dbActor
+        private IActorRef _redisActorRef; // redisActor
+
+        private ulong _userUid = 1001; // TODO: 추후에 UserUid를 갱신하는 로직을 넣자.
 
         public UserActor(IActorRef worldActor, IActorRef sessionRef)
         {
             _worldActor = worldActor;
             _sessionRef = sessionRef;
             _dbActorRef = null;
+            _redisActorRef = null;
 
             Receive< Tcp.Received > (
              received =>
@@ -65,6 +72,12 @@ namespace TestServer.World.UserInfo
              received =>
              {
                  OnRecvDbLink(received);
+             });
+
+            Receive<RedisServiceCordiatorActor.UserToDbLinkResponse>(
+             received =>
+             {
+                 OnRecvRedisLink(received);
              });
 
             Receive<GameDbServiceActor.SelectResponse>(
@@ -87,6 +100,13 @@ namespace TestServer.World.UserInfo
             // dbCordiatorActor에 나에게 맞는 dbActor요청
             var dbCordiatorRef = ActorSupervisorHelper.Instance.DbCordiatorRef;
             dbCordiatorRef?.Tell(new DbServiceCordiatorActor.UserToDbLinkRequest
+            {
+                UserActorRef = Self
+            });
+
+            // redisCordiatorActor에 나에게 맞는 dbActor요청
+            var redisCordiatorRef = ActorSupervisorHelper.Instance.RedisCordiatorRef;
+            redisCordiatorRef?.Tell(new RedisServiceCordiatorActor.UserToDbLinkRequest
             {
                 UserActorRef = Self
             });
@@ -123,8 +143,9 @@ namespace TestServer.World.UserInfo
                     //else return Directive.Restart;
                 });
         }
-        private void Tell(GenericMessage message)
+        private void Tell(MessageWrapper message)
         {
+           
             var res = new SessionActor.SendMessage
             {
                 Message = message
@@ -132,7 +153,7 @@ namespace TestServer.World.UserInfo
             _sessionRef.Tell(res);
         }
 
-        private void BroardcastTell(GenericMessage message)
+        private void BroardcastTell(MessageWrapper message)
         {
             var res = new SessionCordiatorActor.BroadcastMessage
             {
@@ -143,22 +164,28 @@ namespace TestServer.World.UserInfo
 
 
         private void OnRecvPacket(Tcp.Received received, IActorRef sessionRef)
-        {
-            // 받은 패킷을 유저 actor에 보낸다.
-            var messageObject = GenericMessage.FromByteArray(received.Data.ToArray());            
+        {               
+            var receivedMessage = received.Data.ToArray();
 
-            switch (messageObject)
+            // 전체를 관리하는 wapper로 변환 역직렬화
+            var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
+            _logger.Debug($"OnRecvPacket {wrapper.PayloadCase.ToString()}");
+
+            switch (wrapper.PayloadCase)
             {
-                case SayRequest sayRequest:
+                case MessageWrapper.PayloadOneofCase.SayRequest:
                     {
-                        _logger.Debug($"SayRequest - {sayRequest.UserName} : {sayRequest.Message}");                        
-                        var message = new SayResponse
-                        {
-                            UserName = sayRequest.UserName,
-                            Message = sayRequest.Message
-                        };
-                        BroardcastTell(message);
-                        
+                        var request = wrapper.SayRequest;
+                        var response = new MessageWrapper {
+                               SayResponse = new SayResponse
+                               {
+                                   Id = request.Id,
+                                   User = request.User,
+                                   Message = request.Message
+                               }
+                           };
+                        BroardcastTell(response);
+
                         break;
                     }
             }
@@ -170,11 +197,12 @@ namespace TestServer.World.UserInfo
         /// <param name="received"></param>
         private void OnRecvDbLink(DbServiceCordiatorActor.UserToDbLinkResponse received)
         {
+            _logger.Debug($"OnRecvDbLink - {received.DbActorRef}");
+
             _dbActorRef = received.DbActorRef;
 
-            // User정보 요청
-            var userUid = 1001;
-            var query = $"select * from tbl_user where user_uid={userUid};";
+            // User정보 요청            
+            var query = $"select * from tbl_user where user_uid={_userUid};";
             _dbActorRef.Tell(new GameDbServiceActor.SelectRequest {
                 Query = query,
                 TblType = typeof(TblUser)
@@ -187,11 +215,33 @@ namespace TestServer.World.UserInfo
         /// <param name="received"></param>
         private void OnRecvSelectReponse(GameDbServiceActor.SelectResponse received)
         {
-            var users = received.Results.Select(x => TblUser.Of(x)).ToList();
-            foreach(var user in users)
-            {                
-                _logger.Info($"select user - {user.seq}, {user.user_uid}, {user.user_id}, {user.level}");
-            }
+            TblUser user = received.Results.Select(x => TblUser.Of(x)).FirstOrDefault();
+            if (user is null)
+                return;
+            _logger.Debug($"OnRecvSelectReponse {user.seq}, {user.user_uid}");
+
+            // DB에서 온 값을 그대로 redis에 갱신한다.
+            var dict = ConvertHelper.ConvertToDictionary(user);
+            var key = $"{ActorPaths.User.Name}{user.user_uid}";
+
+            _redisActorRef?.Tell(new RedisServiceActor.StringSet
+            {
+                DataBaseId = RedisConnectorHelper.DataBaseId.User,
+                Key = key,
+                Values = dict
+            });
+        }
+
+        /// <summary>
+        /// Redis 연결 액터
+        /// </summary>
+        /// <param name="received"></param>
+        private void OnRecvRedisLink(RedisServiceCordiatorActor.UserToDbLinkResponse received)
+        {
+            _logger.Debug($"OnRecvRedisLink - {received.RedisActorRef}");
+
+            _redisActorRef = received.RedisActorRef;
+
         }
     }
 }

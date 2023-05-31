@@ -35,15 +35,33 @@ namespace TestServer.Helper
             _jsonObj = JObject.Parse(jsonString);
             return true;
         }
+
+        /// <summary>
+        /// MySQL 관련 정보
+        /// </summary>
+        /// <returns></returns>
         public string GetGameDbConnectionString()
         {
-            return _jsonObj["Db"]["ConnectString"]["GameDb"].ToString();
+            return _jsonObj["Db"]["MySql"]["ConnectString"]["GameDb"].ToString();
         }
 
 
         public int GetDbPoolCount()
         {
-            return _jsonObj["Db"]["PoolCount"].Value<int>();
+            return _jsonObj["Db"]["MySql"]["PoolCount"].Value<int>();
+        }
+
+        /// <summary>
+        /// Redis 관련 정보
+        /// </summary>
+        /// <returns></returns>
+        public string GetRedisConnectionString()
+        {
+            return _jsonObj["Db"]["Redis"]["ConnectString"].ToString();
+        }
+        public int GetRedisPoolCount()
+        {
+            return _jsonObj["Db"]["Redis"]["PoolCount"].Value<int>();
         }
     }
 }

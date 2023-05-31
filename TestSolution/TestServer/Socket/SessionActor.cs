@@ -1,13 +1,14 @@
 ﻿using Akka.Actor;
 using Akka.IO;
+using Google.Protobuf;
 using log4net;
+using Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using TestLibrary;
 using TestServer.World.UserInfo;
 
 namespace TestServer.Socket
@@ -21,7 +22,7 @@ namespace TestServer.Socket
 
         public class SendMessage
         {
-            public GenericMessage Message { get; set; } 
+            public MessageWrapper Message { get; set; } 
         }        
 
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -42,6 +43,7 @@ namespace TestServer.Socket
         }
         protected override void PreStart()
         {
+            _logger.Debug($"SessionActor.PreStart() :{_remoteAddress}");
             base.PreStart();
         }
 
@@ -52,7 +54,6 @@ namespace TestServer.Socket
         {
             _logger.Debug($"SessionActor.PostStop() :{_remoteAddress}");
             base.PostStop();
-
         }
 
         protected override void OnReceive(object message)
@@ -73,9 +74,10 @@ namespace TestServer.Socket
                     }
                 case SessionActor.SendMessage sendMessage:
                     {
-                        _logger.Debug($"SendMessage ");
+                        _logger.Debug($"SendMessage ");                        
+                        
                         var binary = sendMessage.Message.ToByteArray();
-                        _connectedSessionRef.Tell(Tcp.Write.Create(ByteString.FromBytes(binary)));                        
+                        _connectedSessionRef.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromBytes(binary)));                        
 
                         break;
                     }
@@ -101,6 +103,7 @@ namespace TestServer.Socket
                     }
                 default:
                     {
+                        _logger.Debug($"{Sender} Unhandled");
                         Unhandled(message);
                         break;
                     }

@@ -4,8 +4,6 @@ using System.Threading;
 using Akka.Actor;
 using Akka.Configuration;
 
-using TestLibrary;
-
 namespace TestClient
 {
     /// <summary>

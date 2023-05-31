@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TestServer.Helper
 {
+    /// <summary>
+    /// Cordiator들 Ref만 모아둔 싱글턴 객체이다.
+    /// </summary>
     class ActorSupervisorHelper
     {
         private static readonly Lazy<ActorSupervisorHelper> lazy = new Lazy<ActorSupervisorHelper>(() => new ActorSupervisorHelper());
@@ -16,10 +19,12 @@ namespace TestServer.Helper
         public IActorRef WorldCordiatorRef => _worldCordiatorRef;
         public IActorRef SessionCordiatorRef => _sessionCordiatorRef;
         public IActorRef DbCordiatorRef => _dbCordiatorRef;
+        public IActorRef RedisCordiatorRef => _redisCordiatorRef;
 
         private IActorRef _worldCordiatorRef;
         private IActorRef _sessionCordiatorRef;
         private IActorRef _dbCordiatorRef;
+        private IActorRef _redisCordiatorRef;
 
         private ActorSupervisorHelper()
         {
@@ -39,6 +44,11 @@ namespace TestServer.Helper
         public void SetDbCordiatorRef(IActorRef dbCordiatorRef)
         {
             _dbCordiatorRef = dbCordiatorRef;
+        }
+
+        public void SetRedisCordiatorRef(IActorRef redisCordiatorRef)
+        {
+            _redisCordiatorRef = redisCordiatorRef;
         }
     }
 }

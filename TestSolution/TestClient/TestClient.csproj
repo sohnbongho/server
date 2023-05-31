@@ -57,6 +57,9 @@
     <PackageReference Include="Akka.Remote">
       <Version>1.5.7</Version>
     </PackageReference>
+    <PackageReference Include="Google.Protobuf">
+      <Version>3.23.2</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestLibrary\TestLibrary.csproj">

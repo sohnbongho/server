@@ -45,15 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataBase\DbQueryString.cs" />
-    <Compile Include="DataBase\Entities\TblUser.cs" />
+    <Compile Include="DataBase\MySql\Entities\ITblEntity.cs" />
+    <Compile Include="DataBase\MySql\Entities\TblUser.cs" />
+    <Compile Include="DataBase\Redis\RedisConnectorHelper.cs" />
+    <Compile Include="DataBase\Redis\RedisServiceActor.cs" />
+    <Compile Include="DataBase\Redis\RedisServiceCordiatorActor.cs" />
     <Compile Include="Helper\ActorSupervisorHelper.cs" />
     <Compile Include="Helper\ConfigInstanceHelper.cs" />
     <Compile Include="ConsoleActor\ConsoleReaderActor.cs" />
     <Compile Include="ConsoleActor\ConsoleWriterActor.cs" />
-    <Compile Include="DataBase\GameDbServiceActor.cs" />
-    <Compile Include="DataBase\DbServiceCordiatorActor.cs" />
+    <Compile Include="DataBase\MySql\GameDbServiceActor.cs" />
+    <Compile Include="DataBase\MySql\DbServiceCordiatorActor.cs" />
     <Compile Include="Helper\ActorPathHelper.cs" />
+    <Compile Include="Helper\ConvertHelper.cs" />
     <Compile Include="Socket\ListenerActor.cs" />
     <Compile Include="Socket\SessionActor.cs" />
     <Compile Include="Socket\SessionCordiatorActor.cs" />
@@ -63,7 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AkkaHCON.conf">
+    <None Include="AkkaHcon.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
@@ -85,6 +89,9 @@
     <PackageReference Include="Dapper">
       <Version>2.0.123</Version>
     </PackageReference>
+    <PackageReference Include="Google.Protobuf">
+      <Version>3.23.2</Version>
+    </PackageReference>
     <PackageReference Include="log4net">
       <Version>2.0.15</Version>
     </PackageReference>
@@ -93,6 +100,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="StackExchange.Redis">
+      <Version>2.6.111</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

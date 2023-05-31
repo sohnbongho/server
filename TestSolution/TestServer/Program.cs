@@ -3,13 +3,13 @@ using System.IO;
 using System.Reflection;
 using Akka.Actor;
 using Akka.Configuration;
-using Akka.Routing;
 using log4net;
 using TestServer.World;
 using TestServer.ConsoleActor;
 using TestServer.Socket;
-using TestServer.DataBase;
 using TestServer.Helper;
+using TestServer.DataBase.MySql;
+using TestServer.DataBase.Redis;
 
 namespace TestServer
 {
@@ -52,9 +52,34 @@ namespace TestServer
         private static void Main()
         {
             // Akka HOCON 정보 읽어오기
-            var config = LoadAkkaHCONConfig();
+            Config config = LoadAkkaHconConfig();
 
             ConfigInstanceHelper.Instance.Load(); // config파일 읽어오기
+
+            {
+                var existingConfig = ConfigurationFactory.ParseString(@"
+akka {
+  actor {
+    serializers {
+      protobuf = ""YourNamespace.ProtobufSerializer, YourAssembly""
+    }
+    serialization-bindings {
+      ""YourNamespace.Example+MyMessage, YourAssembly"" = protobuf
+    }
+  }
+}");
+
+                var additionalConfig = ConfigurationFactory.ParseString(@"
+akka {
+  actor {
+    serialization-bindings {
+      ""YourNamespace.AnotherMessage, YourAssembly"" = protobuf
+    }
+  }
+}");
+
+                var finalConfig = existingConfig.WithFallback(additionalConfig);
+            }
 
             using (ActorSystem actorSystem = ActorSystem.Create("TestServer", config))
             {
@@ -68,6 +93,10 @@ namespace TestServer
                 // Db actor                
                 var dbActor = DbServiceCordiatorActor.ActorOf(actorSystem);
                 ActorSupervisorHelper.Instance.SetDbCordiatorRef(dbActor);
+
+                // Redis actor                
+                var redisActor = RedisServiceCordiatorActor.ActorOf(actorSystem);
+                ActorSupervisorHelper.Instance.SetRedisCordiatorRef(redisActor);
 
                 // World Actor 생성                
                 var worldActor = WorldActor.ActorOf(actorSystem, dbActor);
@@ -87,12 +116,12 @@ namespace TestServer
         /// HCON 파일을 읽어온다.
         /// </summary>
         /// <returns></returns>
-        private static Config LoadAkkaHCONConfig()
+        private static Config LoadAkkaHconConfig()
         {
             var fullPath = Assembly.GetExecutingAssembly().Location;
             var directoryPath = Path.GetDirectoryName(fullPath);
 
-            string path = $@"{directoryPath}\AkkaHCON.conf"; // 수정해야 할 부분
+            string path = $@"{directoryPath}\AkkaHcon.conf"; // 수정해야 할 부분
             
             // 파일이 존재하는지 확인
             if (File.Exists(path) == false)

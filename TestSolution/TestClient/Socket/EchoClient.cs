@@ -1,10 +1,11 @@
 ﻿using Akka.Actor;
 using Akka.IO;
+using Google.Protobuf;
+using Messages;
 using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TestLibrary;
 
 public class TelnetClient : UntypedActor
 {
@@ -32,7 +33,7 @@ public class TelnetClient : UntypedActor
         }
         else if(message is string msg)
         {
-            _connection.Tell(Tcp.Write.Create(ByteString.FromString(msg + "\n")));
+            _connection.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromString(msg + "\n")));
         }
         else Unhandled(message);
     }
@@ -49,13 +50,23 @@ public class TelnetClient : UntypedActor
             }
             else if (message is string s)   // data received from console
             {
-                var request = new SayRequest
-                {
-                    UserName = "test",
-                    Message = s
+                //var request = new SayRequest
+                //{
+                //    UserName = "test",
+                //    Message = s
+                //};
+                var request = new MessageWrapper {
+                    SayRequest = new SayRequest
+                    {
+                        Id = 1,
+                        User = "test",
+                        Message = s
+                    }
                 };
+
                 var binary = request.ToByteArray();
-                connection.Tell(Tcp.Write.Create(ByteString.FromBytes(binary)));
+                connection.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromBytes(binary)));
+
                 ReadConsoleAsync();
             }
             else if (message is Tcp.PeerClosed)
@@ -72,13 +83,17 @@ public class TelnetClient : UntypedActor
     }
     private bool HandleMyMessage(Tcp.Received received)
     {
-        var messageObject = GenericMessage.FromByteArray(received.Data.ToArray());
+        var receivedMessage = received.Data.ToArray();
 
-        switch (messageObject)
+        // 전체를 관리하는 wapper로 변환 역직렬화
+        var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
+        Console.WriteLine($"OnRecvPacket {wrapper.PayloadCase.ToString()}");
+        switch (wrapper.PayloadCase)
         {
-            case SayResponse sayResponse:
+            case MessageWrapper.PayloadOneofCase.SayResponse:
                 {
-                    Console.WriteLine($"{sayResponse.UserName} : {sayResponse.Message}");
+                    var response = wrapper.SayResponse;
+                    Console.WriteLine($"{response.User} : {response.Message}");
 
                     break;
                 }

@@ -2,8 +2,6 @@
 
 using Akka.Actor;
 
-using TestLibrary;
-
 namespace TestClient
 {
     /// <summary>
@@ -37,65 +35,6 @@ namespace TestClient
         {
             _nickName = userName;
 
-            Receive<ConnectRequest>
-            (
-                connectRequest =>
-                {
-                    Console.WriteLine("Connecting....");
-
-                    this.actorSelection.Tell(connectRequest);
-                }
-            );
-
-            Receive<ConnectResponse>
-            (
-                connectResponse =>
-                {                    
-                    Console.WriteLine("Connected!");
-
-                    Console.WriteLine(connectResponse.Message);
-                }
-            );
-
-            Receive<NickNameRequest>
-            (
-                nickNameRequest =>
-                {
-                    nickNameRequest.UserName = this._nickName;
-
-                    Console.WriteLine($"Changing nick to {nickNameRequest.NewUserName}");
-
-                    this._nickName = nickNameRequest.NewUserName;
-
-                    this.actorSelection.Tell(nickNameRequest);
-                }
-            );
-
-            Receive<NickNameResponse>
-            (
-                nickNameRequest =>
-                {
-                    Console.WriteLine($"{nickNameRequest.UserName} is now known as {nickNameRequest.NewUserName}");
-                }
-            );
-
-            Receive<SayRequest>
-            (
-                sayRequest =>
-                {
-                    sayRequest.UserName = this._nickName;
-
-                    this.actorSelection.Tell(sayRequest);
-                }
-            );
-
-            Receive<SayResponse>
-            (
-                sayResponse =>
-                {
-                    Console.WriteLine($"{sayResponse.UserName} : {sayResponse.Message}");
-                }
-            );
             Receive<Terminated>(terminated =>
             {
                 // 연결 끊김 이벤트 처리 로직을 여기에 작성합니다.
