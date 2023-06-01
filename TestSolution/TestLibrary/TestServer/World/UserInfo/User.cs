@@ -4,6 +4,7 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using log4net;
 using Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -149,7 +150,10 @@ namespace TestServer.World.UserInfo
                 });
         }
         private void Tell(MessageWrapper message)
-        {           
+        {
+            var json = JsonConvert.SerializeObject(message);
+            _logger.Info($"Tell - message({message.PayloadCase.ToString()}) data({json})");
+
             var res = new SessionActor.SendMessage
             {
                 Message = message
@@ -159,6 +163,9 @@ namespace TestServer.World.UserInfo
 
         private void BroardcastTell(MessageWrapper message)
         {
+            var json = JsonConvert.SerializeObject(message);
+            _logger.Info($"BroardcastTell- message({message.PayloadCase.ToString()}) data({json})");
+
             var res = new SessionCordiatorActor.BroadcastMessage
             {
                 Message = message
@@ -173,7 +180,9 @@ namespace TestServer.World.UserInfo
 
             // 전체를 관리하는 wapper로 변환 역직렬화
             var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
-            _logger.Debug($"OnRecvPacket {wrapper.PayloadCase.ToString()}");
+            var json = JsonConvert.SerializeObject(wrapper);
+
+            _logger.Info($"OnRecvPacket - message({wrapper.PayloadCase.ToString()}) data({json})");
 
             switch (wrapper.PayloadCase)
             {

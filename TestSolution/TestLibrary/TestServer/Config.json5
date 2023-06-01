@@ -4,8 +4,7 @@
     "MySql": {
       "ConnectString": {
         // 게임 db를 읽어온다.
-        //"GameDb": "host=127.0.0.1;port=62222;userid=root;password=crazy;database=gamedb;"
-        "GameDb": "host=127.0.0.1;port=3306;userid=root;password=1111;database=gamedb;"
+        "GameDb": "host=127.0.0.1;port=62222;userid=root;password=crazy;database=gamedb;"
       },
       "PoolCount": 5
     },

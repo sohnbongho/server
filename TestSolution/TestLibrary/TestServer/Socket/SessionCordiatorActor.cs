@@ -17,7 +17,7 @@ using static TestServer.Socket.SessionActor;
 
 namespace TestServer.Socket
 {
-    public class SessionCordiatorActor : ReceiveActor
+    public class SessionCordiatorActor : UntypedActor
     {
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -51,41 +51,9 @@ namespace TestServer.Socket
         {
             _listenerRef = listenerActor;
             _worldRef = worldRef;
-
-            Receive<SessionCordiatorActor.RegisteredRequest>(message =>
-            {
-                OnReceiveCreate(message);
-            });
-
-            Receive<SessionCordiatorActor.ClosedRequest>(message =>
-            {
-                OnReceiveClosedSocket(message);
-            });
             
-            Receive<SessionCordiatorActor.BroadcastMessage>(message =>
-            {                
-                var binary = message.Message.ToByteArray();
-                var bytes = Tcp.Write.Create(Akka.IO.ByteString.FromBytes(binary));
-
-                var sendMessage = new SessionActor.SendMessage {
-                    Message = message.Message
-                };
-
-                foreach (var sessionRef in _sessions.Values)
-                {
-                    sessionRef.Tell(sendMessage);
-                }
-            });
         }
-        protected override void PreStart()
-        {
-            base.PreStart();
-        }
-
-        protected override void PostStop()
-        {
-            base.PostStop();
-        }
+        
         // here we are overriding the default SupervisorStrategy
         // which is a One-For-One strategy w/ a Restart directive
         protected override SupervisorStrategy SupervisorStrategy()
@@ -108,12 +76,53 @@ namespace TestServer.Socket
                     //else return Directive.Restart;
                 });
         }
+        protected override void OnReceive(object message)
+        {
+            switch(message)
+            {
+                case SessionCordiatorActor.RegisteredRequest registeredRequest:
+                    {
+                        OnReceiveRegister(registeredRequest);
+                        break;
+                    }
+                case SessionCordiatorActor.ClosedRequest closedRequest:
+                    {
+                        OnReceiveClosedSocket(closedRequest);
+                        break;
+                    }
+                case SessionCordiatorActor.BroadcastMessage broadcastMessage:
+                    {
+                        var binary = broadcastMessage.Message.ToByteArray();
+                        var bytes = Tcp.Write.Create(Akka.IO.ByteString.FromBytes(binary));
+
+                        var sendMessage = new SessionActor.SendMessage
+                        {
+                            Message = broadcastMessage.Message
+                        };
+
+                        foreach (var sessionRef in _sessions.Values)
+                        {
+                            sessionRef.Tell(sendMessage);
+                        }
+                        break;
+                    }
+                case Tcp.WritingResumed writingResumed:
+                    {
+                        break;
+                    }
+                default:
+                    {
+                        Unhandled(message);
+                        break;
+                    }
+            }
+        }
 
         /// <summary>
         /// 원격 세션 추가
         /// </summary>
         /// <param name="message"></param>
-        private void OnReceiveCreate(SessionCordiatorActor.RegisteredRequest message)
+        private void OnReceiveRegister(SessionCordiatorActor.RegisteredRequest message)
         {
             // create a new session actor
             var remoteSender = message.Sender;
