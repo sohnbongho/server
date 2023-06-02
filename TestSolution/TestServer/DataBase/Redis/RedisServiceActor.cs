@@ -9,7 +9,9 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TestServer.Helper;
+using static RedisConnectorHelper;
 
 // 참조 사이트:
 // http://egloos.zum.com/sweeper/v/3157497
@@ -76,6 +78,17 @@ namespace TestServer.DataBase.Redis
         protected override void PreStart()
         {
             base.PreStart();
+            Self.Tell(new RedisServiceActor.StringSet
+            {
+                DataBaseId = DataBaseId.Default,
+                Key = $"{_name} actor start",
+                Values = new Dictionary<string, object>
+                {
+                    {"status", "ok"},
+                    {"update_time", DateTime.Now},
+                }
+
+            });
             
         }
         

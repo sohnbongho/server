@@ -25,7 +25,7 @@ namespace TestServer.World
             public IActorRef SessionRef { get; set; }
             public string RemoteAddress { get; set; }
         }
-        public class DeleteUser
+        public class ClosedUserSession
         {            
             public string RemoteAddress { get; set; }
         }
@@ -63,9 +63,9 @@ namespace TestServer.World
                     OnRecvAddUser(addUser);
                 }
             );
-            Receive<WorldActor.DeleteUser>(
+            Receive<WorldActor.ClosedUserSession>(
                 deletedUser => {
-                    OnRecvDeleteUser(deletedUser);
+                    OnRecvClosedUserSession(deletedUser);
                 }
             );
 
@@ -170,7 +170,7 @@ namespace TestServer.World
         private void OnRecvAddUser(WorldActor.AddUser addUser)
         {
             _logger.Debug($"OnRecvAddUser RemoteAddress:{addUser.RemoteAddress}, SessionRef:{addUser.SessionRef}");
-            var user = User.Of(Context, Self, addUser.SessionRef);
+            var user = User.Of(Context, Self, addUser.SessionRef, addUser.RemoteAddress);
 
             // 유저 추가
             _userList.TryAdd(addUser.RemoteAddress, user);
@@ -179,9 +179,11 @@ namespace TestServer.World
 
         /// <summary>
         ///  world에서 유저 삭제
+        ///  반드시 SessionCordiator Actor에서 넘어와야 한다.
+        ///  Session을 먼저 닫고 종료시키자.
         /// </summary>
         /// <param name="user"></param>
-        private void OnRecvDeleteUser(WorldActor.DeleteUser user)
+        private void OnRecvClosedUserSession(WorldActor.ClosedUserSession user)
         {
             var remoteAdress = user.RemoteAddress;
             if (_userList.TryGetValue(remoteAdress, out var finedUser))

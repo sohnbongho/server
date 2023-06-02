@@ -57,6 +57,8 @@ namespace TestServer.DataBase.MySql
         {
             base.PreStart();
 
+            CheckDatabaseStatus();
+
         }
 
         /// <summary>
@@ -87,6 +89,25 @@ namespace TestServer.DataBase.MySql
                 return null;
             }
             return mySqlConnection;
+        }
+
+        /// <summary>
+        /// Data Base의 상태를 얻어온다.
+        /// </summary>
+        private void CheckDatabaseStatus()
+        {
+            using (var db = ConnectionFactory())
+            {
+                if (db == null)
+                    _logger.Error("fail database connect");
+
+                // Reflection사용 안하고 받는 쪽에서 형변환
+                var query = "SELECT NOW()";
+                var  now = db.Query(query).ToList();
+
+                // Reflection 사용 하여 형변환 강제화
+                //response.Results = ExecuteQuery(db, request.TblType, request.Query).ToList();
+            }
         }
 
         /// <summary>

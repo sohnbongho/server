@@ -153,7 +153,7 @@ namespace TestServer.Socket
                 _sessions.TryRemove(remoteAdress, out _);
             }
 
-            _worldRef.Tell(new WorldActor.DeleteUser
+            _worldRef.Tell(new WorldActor.ClosedUserSession
             {
                 RemoteAddress = remoteAdress
             });

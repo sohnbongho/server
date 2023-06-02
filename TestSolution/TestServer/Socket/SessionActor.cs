@@ -59,8 +59,7 @@ namespace TestServer.Socket
             
         }
         protected override void PreStart()
-        {
-            _logger.Debug($"SessionActor.PreStart() :{_remoteAddress}");
+        {            
             base.PreStart();
         }
 
@@ -68,8 +67,7 @@ namespace TestServer.Socket
         /// actor 종료
         /// </summary>
         protected override void PostStop()
-        {
-            _logger.Debug($"SessionActor.PostStop() :{_remoteAddress}");
+        {            
             base.PostStop();
         }
 

@@ -26,9 +26,9 @@ namespace TestServer.World.UserInfo
         public IActorRef SessionRef { get; private set; } // 원격지 Actor
         public IActorRef UserRef { get; private set; } // 내가 속해 있는 유저
 
-        public static User Of(IUntypedActorContext context, IActorRef worldActor, IActorRef sessionRef)
+        public static User Of(IUntypedActorContext context, IActorRef worldActor, IActorRef sessionRef, string remoteAddress)
         {
-            var props = Props.Create(() => new UserActor(worldActor, sessionRef));
+            var props = Props.Create(() => new UserActor(worldActor, sessionRef, remoteAddress));
             var userActor = context.ActorOf(props);
 
             return new User(worldActor, sessionRef, userActor);
@@ -45,7 +45,7 @@ namespace TestServer.World.UserInfo
     /// <summary>
     /// User Actor
     /// </summary>
-    public class UserActor : ReceiveActor, ILogReceive
+    public class UserActor : UntypedActor, ILogReceive
     {
         public class SessionReceiveData
         {
@@ -59,40 +59,29 @@ namespace TestServer.World.UserInfo
         private IActorRef _dbActorRef; // dbActor
         private IActorRef _redisActorRef; // redisActor
 
+        private string _remoteAddress;
+
+        // 필수 함수 핸들러들 (FSM이 변경되도 반드시 있어야 하는 핸들러들)
+        private Dictionary<System.Type, Action<object, IActorRef>> _requiredHandlers; 
+
         private ulong _userUid = 1001; // TODO: 추후에 UserUid를 갱신하는 로직을 넣자.
 
-        public UserActor(IActorRef worldActor, IActorRef sessionRef)
+        public UserActor(IActorRef worldActor, IActorRef sessionRef, string remoteAdress)
         {
             _worldActor = worldActor;
             _sessionRef = sessionRef;
+            _remoteAddress = remoteAdress;
+
             _dbActorRef = null;
-            _redisActorRef = null;
+            _redisActorRef = null;            
 
-            Receive<UserActor.SessionReceiveData> (
-             received =>
-             {
-                 OnRecvPacket(received, Sender);
-             });
-
-            Receive<DbServiceCordiatorActor.UserToDbLinkResponse>(
-             received =>
-             {
-                 OnRecvDbLink(received);
-             });
-
-            Receive<RedisServiceCordiatorActor.UserToDbLinkResponse>(
-             received =>
-             {
-                 OnRecvRedisLink(received);
-             });
-
-            Receive<GameDbServiceActor.SelectResponse>(
-            received =>
-            {
-                OnRecvSelectReponse(received);
-            });
-
-
+            // 생성과 동시에 메서드를 등록하는 dictionary
+            _requiredHandlers = new Dictionary<System.Type, Action<object, IActorRef>> {
+                {typeof(UserActor.SessionReceiveData), (data, sender) => OnRecvPacket((UserActor.SessionReceiveData)data, sender)},
+                {typeof(DbServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvDbLink((DbServiceCordiatorActor.UserToDbLinkResponse)data)},
+                {typeof(RedisServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvRedisLink((RedisServiceCordiatorActor.UserToDbLinkResponse)data)},
+                {typeof(GameDbServiceActor.SelectResponse), (data, sender) => OnRecvSelectReponse((GameDbServiceActor.SelectResponse)data)},
+            };
         }
         
         protected override void PreStart()
@@ -118,12 +107,11 @@ namespace TestServer.World.UserInfo
             });
 
             base.PreStart();
-
         }
 
         protected override void PostStop()
         {
-            _logger.Debug("UserActor PostStop");
+            Close();
             base.PostStop();
         }
 
@@ -136,7 +124,9 @@ namespace TestServer.World.UserInfo
                 TimeSpan.FromSeconds(5), // duration
                 x =>
                 {
-                    return Directive.Restart;
+                    Close();
+
+                    return Directive.Stop;
 
                     ////Maybe we consider ArithmeticException to not be application critical
                     ////so we just ignore the error and keep going.
@@ -148,6 +138,35 @@ namespace TestServer.World.UserInfo
                     ////In all other cases, just restart the failing actor
                     //else return Directive.Restart;
                 });
+        }
+
+        /// <summary>
+        /// 유저가 비정상 일때 종료 요청
+        /// </summary>
+        private void Close()
+        {
+            // Session Actor에 요청하여 종료 처리
+            var sessionCordiatorRef = ActorSupervisorHelper.Instance.SessionCordiatorRef;
+            sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
+            {
+                RemoteAdress = _remoteAddress
+            });
+        }
+
+        protected override void OnReceive(object message)
+        {
+            var dataType = message.GetType();
+            if (_requiredHandlers.TryGetValue(dataType, out var handler))
+            {
+                handler(message, Sender);
+                return;
+            }
+            else
+            {
+                // 핸들러를 찾지 못했을 때의 처리
+                // ...
+                Unhandled(message);
+            }
         }
         private void Tell(MessageWrapper message)
         {
@@ -187,7 +206,7 @@ namespace TestServer.World.UserInfo
             switch (wrapper.PayloadCase)
             {
                 case MessageWrapper.PayloadOneofCase.SayRequest:
-                    {
+                    {                        
                         var request = wrapper.SayRequest;
                         var response = new MessageWrapper {
                                SayResponse = new SayResponse
