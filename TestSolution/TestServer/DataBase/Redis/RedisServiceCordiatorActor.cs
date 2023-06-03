@@ -38,7 +38,7 @@ namespace TestServer.DataBase.Redis
 
         public RedisServiceCordiatorActor()
         {
-            _actorCount = ConfigInstanceHelper.Instance.GetRedisPoolCount();
+            _actorCount = ConfigInstanceHelper.Instance.RedisPoolCount;
             _logger.Info($"RedisServiceCordiatorActor poolCount:({_actorCount })");
 
             Receive<RedisServiceCordiatorActor.UserToDbLinkRequest>(message =>

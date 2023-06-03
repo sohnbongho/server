@@ -33,7 +33,7 @@ namespace TestServer.Socket
 
         private readonly IActorRef _sessionCordiatorRef;
         private readonly string _remoteAddress;
-        private readonly IActorRef _connectedSessionRef; // 연결 된 session 액터
+        private readonly IActorRef _connectedSessionRef; // 연결 된 원격지 클라이언트 session 
         
         private IActorRef _userRef;                     // 
 

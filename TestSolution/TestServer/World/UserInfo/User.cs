@@ -7,19 +7,13 @@ using Messages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TestServer.DataBase.MySql;
 using TestServer.DataBase.MySql.MySql.Entities;
 using TestServer.DataBase.Redis;
 using TestServer.Helper;
 using TestServer.Socket;
-using static RedisConnectorHelper;
-using static TestServer.DataBase.Redis.RedisServiceActor;
 
 namespace TestServer.World.UserInfo
 {
@@ -69,9 +63,9 @@ namespace TestServer.World.UserInfo
         
 
         // 필수 함수 핸들러들 (FSM이 변경되도 반드시 있어야 하는 핸들러들)
-        private Dictionary<System.Type, Action<object, IActorRef>> _requiredHandlers; 
+        private Dictionary<System.Type, Action<object, IActorRef>> _requiredHandlers;
 
-        
+        private Dictionary<System.Type, Action<object, IActorRef>> _userHandlers;
 
         public UserActor(IActorRef worldActor, IActorRef sessionRef, string remoteAdress)
         {
@@ -84,12 +78,16 @@ namespace TestServer.World.UserInfo
 
             // 
             // 생성과 동시에 메서드를 등록하는 dictionary
-            _requiredHandlers = new Dictionary<System.Type, Action<object, IActorRef>> {
-                {typeof(UserActor.SessionReceiveData), (data, sender) => OnRecvPacket((UserActor.SessionReceiveData)data, sender)},
+            _requiredHandlers = new Dictionary<System.Type, Action<object, IActorRef>> {                
                 {typeof(DbServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvDbLink((DbServiceCordiatorActor.UserToDbLinkResponse)data)},
                 {typeof(RedisServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvRedisLink((RedisServiceCordiatorActor.UserToDbLinkResponse)data)},
                 {typeof(GameDbServiceActor.SelectResponse), (data, sender) => OnRecvSelectReponse((GameDbServiceActor.SelectResponse)data)},
                 {typeof(RedisServiceActor.StringGetResponse), (data, sender) => OnRecvRedisReponse((RedisServiceActor.StringGetResponse)data)},
+            };
+
+            // 유저들과 패킷
+            _userHandlers = new Dictionary<System.Type, Action<object, IActorRef>>{
+                {typeof(UserActor.SessionReceiveData), (data, sender) => OnRecvPacket((UserActor.SessionReceiveData)data, sender)},
             };
         }
         
@@ -176,6 +174,18 @@ namespace TestServer.World.UserInfo
                 // ...
                 Unhandled(message);
             }
+
+            if (_userHandlers.TryGetValue(dataType, out var userHandler))
+            {
+                userHandler(message, Sender);
+                return;
+            }
+            else
+            {
+                // 핸들러를 찾지 못했을 때의 처리
+                // ...
+                Unhandled(message);
+            }
         }
         private void Tell(MessageWrapper message)
         {
@@ -201,49 +211,6 @@ namespace TestServer.World.UserInfo
             _sessionRef.Tell(res);
         }
 
-
-        private void OnRecvPacket(UserActor.SessionReceiveData received, IActorRef sessionRef)
-        {
-            var receivedMessage = received.RecvBuffer;
-
-            // 전체를 관리하는 wapper로 변환 역직렬화
-            var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
-            var json = JsonConvert.SerializeObject(wrapper);
-
-            _logger.Info($"OnRecvPacket - message({wrapper.PayloadCase.ToString()}) data({json})");
-
-            switch (wrapper.PayloadCase)
-            {
-                case MessageWrapper.PayloadOneofCase.ServerEnterRequest:
-                    {
-                        var request = wrapper.ServerEnterRequest;
-
-                        _redisActorRef?.Tell(new RedisServiceActor.StringGetRequest
-                        {
-                            DataBaseId = RedisConnectorHelper.DataBaseId.Session,
-                            RedisCallId = RedisServiceActor.RedisCallId.ServerSessionId,
-                            Key = request.SessionKey
-                        });
-
-                        break;
-                    }
-
-                case MessageWrapper.PayloadOneofCase.SayRequest:
-                    {                        
-                        var request = wrapper.SayRequest;
-                        var response = new MessageWrapper {
-                               SayResponse = new SayResponse
-                               {                                   
-                                   UserId = request.UserId,
-                                   Message = request.Message
-                               }
-                           };
-                        BroardcastTell(response);
-
-                        break;
-                    }
-            }
-        }
 
         /// <summary>
         /// DB Actor와 연결
@@ -335,6 +302,56 @@ namespace TestServer.World.UserInfo
 
             _redisActorRef = received.RedisActorRef;
 
+        }
+
+        /// <summary>
+        /// 유저들에게 패킷
+        /// </summary>
+        /// <param name="received"></param>
+        /// <param name="sessionRef"></param>
+        private void OnRecvPacket(UserActor.SessionReceiveData received, IActorRef sessionRef)
+        {
+            var receivedMessage = received.RecvBuffer;
+
+            // 전체를 관리하는 wapper로 변환 역직렬화
+            var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
+            var json = JsonConvert.SerializeObject(wrapper);
+
+            _logger.Info($"OnRecvPacket - message({wrapper.PayloadCase.ToString()}) data({json})");
+
+            switch (wrapper.PayloadCase)
+            {
+                // 서버에 입장
+                case MessageWrapper.PayloadOneofCase.ServerEnterRequest:
+                    {
+                        var request = wrapper.ServerEnterRequest;
+
+                        _redisActorRef?.Tell(new RedisServiceActor.StringGetRequest
+                        {
+                            DataBaseId = RedisConnectorHelper.DataBaseId.Session,
+                            RedisCallId = RedisServiceActor.RedisCallId.ServerSessionId,
+                            Key = request.SessionKey
+                        });
+
+                        break;
+                    }
+
+                case MessageWrapper.PayloadOneofCase.SayRequest:
+                    {
+                        var request = wrapper.SayRequest;
+                        var response = new MessageWrapper
+                        {
+                            SayResponse = new SayResponse
+                            {
+                                UserId = request.UserId,
+                                Message = request.Message
+                            }
+                        };
+                        BroardcastTell(response);
+
+                        break;
+                    }
+            }
         }
     }
 }

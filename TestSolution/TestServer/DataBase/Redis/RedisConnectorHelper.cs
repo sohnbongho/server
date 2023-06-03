@@ -13,9 +13,9 @@ public static class RedisConnectorHelper
     /// </summary>
     public enum DataBaseId
     {
-        Status = 0,
-        Session = 0,
-        User = 1,
+        ServerStatus = 0,
+        Session = 1,
+        User = 2,
     }
 
     //ConnectionMultiplexer는 thread-safe하며, 
@@ -32,7 +32,7 @@ public static class RedisConnectorHelper
                 {
                     if (_connection == null || !_connection.IsConnected)
                     {
-                        var connectionString = ConfigInstanceHelper.Instance.GetRedisConnectionString();
+                        var connectionString = ConfigInstanceHelper.Instance.RedisConnectString;
                         _connection = ConnectionMultiplexer.Connect(connectionString);
                     }
                 }

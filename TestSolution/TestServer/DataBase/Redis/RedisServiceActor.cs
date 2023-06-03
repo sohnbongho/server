@@ -36,7 +36,7 @@ namespace TestServer.DataBase.Redis
         /// </summary>
         public class StringSet
         {
-            public RedisConnectorHelper.DataBaseId DataBaseId { get; set; } = RedisConnectorHelper.DataBaseId.Status;
+            public RedisConnectorHelper.DataBaseId DataBaseId { get; set; } = RedisConnectorHelper.DataBaseId.ServerStatus;
             public string Key { get; set; } = string.Empty;
             public Dictionary<string, object> Values { get; set; } = new Dictionary<string, object>();
         }
@@ -97,7 +97,7 @@ namespace TestServer.DataBase.Redis
         {
             Self.Tell(new RedisServiceActor.StringSet
             {
-                DataBaseId = DataBaseId.Status,
+                DataBaseId = DataBaseId.ServerStatus,
                 Key = $"{_name} actor start",
                 Values = new Dictionary<string, object>
                 {

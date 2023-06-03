@@ -20,6 +20,20 @@ namespace TestServer.Helper
 
         private JObject _jsonObj = null;
 
+        private string _gameDbConnectionString;
+        private int _dbPoolCount;
+        
+        private string _redisConnectString;
+        private int _redisPoolCount;
+
+
+        public string GameDbConnectionString => _gameDbConnectionString;
+        public int DbPoolCount => _dbPoolCount;
+
+        public string RedisConnectString =>_redisConnectString;
+        public int RedisPoolCount => _redisPoolCount;
+
+
         private ConfigInstanceHelper()
         {
         }
@@ -33,35 +47,14 @@ namespace TestServer.Helper
 
             // Parse JSON string to JObject using Newtonsoft.Json
             _jsonObj = JObject.Parse(jsonString);
+
+            _gameDbConnectionString = _jsonObj["Db"]["MySql"]["ConnectString"]["GameDb"].ToString();
+            _dbPoolCount = _jsonObj["Db"]["MySql"]["PoolCount"].Value<int>();
+
+            _redisConnectString = _jsonObj["Db"]["Redis"]["ConnectString"].ToString();
+            _redisPoolCount = _jsonObj["Db"]["Redis"]["PoolCount"].Value<int>();
+
             return true;
-        }
-
-        /// <summary>
-        /// MySQL 관련 정보
-        /// </summary>
-        /// <returns></returns>
-        public string GetGameDbConnectionString()
-        {
-            return _jsonObj["Db"]["MySql"]["ConnectString"]["GameDb"].ToString();
-        }
-
-
-        public int GetDbPoolCount()
-        {
-            return _jsonObj["Db"]["MySql"]["PoolCount"].Value<int>();
-        }
-
-        /// <summary>
-        /// Redis 관련 정보
-        /// </summary>
-        /// <returns></returns>
-        public string GetRedisConnectionString()
-        {
-            return _jsonObj["Db"]["Redis"]["ConnectString"].ToString();
-        }
-        public int GetRedisPoolCount()
-        {
-            return _jsonObj["Db"]["Redis"]["PoolCount"].Value<int>();
         }
     }
 }

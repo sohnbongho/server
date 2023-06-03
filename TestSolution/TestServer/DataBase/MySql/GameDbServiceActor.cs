@@ -45,7 +45,7 @@ namespace TestServer.DataBase.MySql
         {
             _dbCordiator = dbCordiator;
             _name = name;
-            _connectionString = ConfigInstanceHelper.Instance.GetGameDbConnectionString();
+            _connectionString = ConfigInstanceHelper.Instance.GameDbConnectionString;
 
             Receive<GameDbServiceActor.SelectRequest>(message =>
             {
@@ -101,7 +101,6 @@ namespace TestServer.DataBase.MySql
                 if (db == null)
                     _logger.Error("fail database connect");
 
-                // Reflection사용 안하고 받는 쪽에서 형변환
                 var query = "SELECT NOW()";
                 var  now = db.Query(query).ToList();
 

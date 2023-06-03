@@ -46,7 +46,7 @@ namespace TestServer.DataBase.MySql
 
         public DbServiceCordiatorActor()
         {
-            _actorCount = ConfigInstanceHelper.Instance.GetDbPoolCount();
+            _actorCount = ConfigInstanceHelper.Instance.DbPoolCount;
             _logger.Info($"DbServiceCordiatorActor poolCount:({_actorCount })");
 
             Receive<DbServiceCordiatorActor.UserToDbLinkRequest>(message =>
