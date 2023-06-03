@@ -20,11 +20,18 @@ namespace TestServer.Helper
 
         private JObject _jsonObj = null;
 
+        private int _port = 0;
+        private bool _packetEncrypt = true;
+
         private string _gameDbConnectionString;
         private int _dbPoolCount;
         
         private string _redisConnectString;
         private int _redisPoolCount;
+
+        public int Port => _port;
+        public bool PacketEncrypt => _packetEncrypt;
+        
 
 
         public string GameDbConnectionString => _gameDbConnectionString;
@@ -47,6 +54,9 @@ namespace TestServer.Helper
 
             // Parse JSON string to JObject using Newtonsoft.Json
             _jsonObj = JObject.Parse(jsonString);
+
+            _port = _jsonObj["Remote"]["Port"].Value<int>();
+            _packetEncrypt = _jsonObj["Remote"]["Encrypt"].Value<bool>();
 
             _gameDbConnectionString = _jsonObj["Db"]["MySql"]["ConnectString"]["GameDb"].ToString();
             _dbPoolCount = _jsonObj["Db"]["MySql"]["PoolCount"].Value<int>();

@@ -17,8 +17,7 @@ namespace TestServer.Socket
         private IActorRef _sessionCordiatorRef = null;
 
         public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef worldActor, int port)
-        {            
-
+        {   
             var clientProps = Props.Create(() => new ListenerActor(worldActor, port));
             return actorSystem.ActorOf(clientProps, ActorPaths.Listener.Name);
         }

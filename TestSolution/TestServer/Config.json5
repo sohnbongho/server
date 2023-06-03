@@ -1,5 +1,9 @@
 ﻿// C#에서는 일반적으로 파스칼 표기법
 {
+  "Remote": {
+    "Port": 8081,
+    "Encrypt": true
+  },
   "Db": {
     "MySql": {
       "ConnectString": {
@@ -13,6 +17,5 @@
       "ConnectString": "127.0.0.1:6379,allowAdmin=true,password=...",
       "PoolCount": 1
     }
-
   }
 }

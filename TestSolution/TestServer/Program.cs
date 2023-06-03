@@ -56,31 +56,6 @@ namespace TestServer
 
             ConfigInstanceHelper.Instance.Load(); // config파일 읽어오기
 
-            {
-                var existingConfig = ConfigurationFactory.ParseString(@"
-akka {
-  actor {
-    serializers {
-      protobuf = ""YourNamespace.ProtobufSerializer, YourAssembly""
-    }
-    serialization-bindings {
-      ""YourNamespace.Example+MyMessage, YourAssembly"" = protobuf
-    }
-  }
-}");
-
-                var additionalConfig = ConfigurationFactory.ParseString(@"
-akka {
-  actor {
-    serialization-bindings {
-      ""YourNamespace.AnotherMessage, YourAssembly"" = protobuf
-    }
-  }
-}");
-
-                var finalConfig = existingConfig.WithFallback(additionalConfig);
-            }
-
             using (ActorSystem actorSystem = ActorSystem.Create("TestServer", config))
             {
                 // text console창에 적는 actor                
@@ -103,9 +78,9 @@ akka {
                 ActorSupervisorHelper.Instance.SetWorldCordiatorRef(worldActor);
 
                 // Akka.IO로 초기화                
-                var client = ListenerActor.ActorOf(actorSystem, worldActor, 8081);                
+                var client = ListenerActor.ActorOf(actorSystem, worldActor, ConfigInstanceHelper.Instance.Port);                
 
-                _logger.Info(@"Server Doing. ""exit"" is exit");
+                _logger.Info($@"Port:{ConfigInstanceHelper.Instance.Port} Server Doing. ""exit"" is exit");
 
                 // blocks the main thread from exiting until the actor system is shut down
                 actorSystem.WhenTerminated.Wait();
