@@ -20,14 +20,14 @@ namespace TestServer.Helper
 
         // Remote에서 온 메시지 처리하는 actor
         public static readonly ActorMetaData World = new ActorMetaData("world");
-        public static readonly ActorMetaData User = new ActorMetaData("user");
+        public static readonly ActorMetaData User = new ActorMetaData("user", World);
 
         // MySql DB Actor
-        public static readonly ActorMetaData DbCordiator = new ActorMetaData("dbCordiator");
-        public static readonly ActorMetaData GameDb = new ActorMetaData("gameDb", DbCordiator);
+        public static readonly ActorMetaData DbCordiator = new ActorMetaData("dbcordiator");
+        public static readonly ActorMetaData GameDb = new ActorMetaData("gamedb", DbCordiator);
 
         // Redis Actor
-        public static readonly ActorMetaData RedisCordiator = new ActorMetaData("redisCordiator");
+        public static readonly ActorMetaData RedisCordiator = new ActorMetaData("rediscordiator");
         public static readonly ActorMetaData Redis = new ActorMetaData("redis", DbCordiator);
     }
 
