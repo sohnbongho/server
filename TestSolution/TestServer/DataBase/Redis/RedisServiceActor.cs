@@ -23,14 +23,20 @@ namespace TestServer.DataBase.Redis
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IActorRef _redisCordiator;
-        private readonly string _name;        
+        private readonly string _name;
+
+        public enum RedisCallId
+        {
+            None = 0,
+            ServerSessionId = 1,
+        }
                 
         /// <summary>
         /// Redis에 저장
         /// </summary>
         public class StringSet
         {
-            public RedisConnectorHelper.DataBaseId DataBaseId { get; set; } = RedisConnectorHelper.DataBaseId.Default;
+            public RedisConnectorHelper.DataBaseId DataBaseId { get; set; } = RedisConnectorHelper.DataBaseId.Status;
             public string Key { get; set; } = string.Empty;
             public Dictionary<string, object> Values { get; set; } = new Dictionary<string, object>();
         }
@@ -41,11 +47,13 @@ namespace TestServer.DataBase.Redis
         public class StringGetRequest
         {
             public RedisConnectorHelper.DataBaseId DataBaseId { get; set; } = 0;
+            public RedisCallId RedisCallId { get; set; } = RedisCallId.None;
             public string Key { get; set; } = string.Empty;            
         }
         public class StringGetResponse
         {
             public RedisConnectorHelper.DataBaseId DataBaseId { get; set; } = 0;
+            public RedisCallId RedisCallId { get; set; } = RedisCallId.None;
             public string Key { get; set; } = string.Empty;
             public Dictionary<string, object> Values { get; set; } = new Dictionary<string, object>();
         }
@@ -78,20 +86,40 @@ namespace TestServer.DataBase.Redis
         protected override void PreStart()
         {
             base.PreStart();
+            
+            CheckDatabaseStatus();
+        }
+
+        /// <summary>
+        /// redis 체크
+        /// </summary>
+        private void CheckDatabaseStatus()
+        {
             Self.Tell(new RedisServiceActor.StringSet
             {
-                DataBaseId = DataBaseId.Default,
+                DataBaseId = DataBaseId.Status,
                 Key = $"{_name} actor start",
                 Values = new Dictionary<string, object>
                 {
                     {"status", "ok"},
                     {"update_time", DateTime.Now},
                 }
-
             });
-            
+
+            // 기본 session 키 저장
+            Self.Tell(new RedisServiceActor.StringSet
+            {
+                DataBaseId = DataBaseId.Session,
+                Key = $"1234567",
+                Values = new Dictionary<string, object>
+                {
+                    {"user_uid", (long)1001},
+                    {"user_id", "test"},
+                    {"update_time", DateTime.Now},
+                }
+            });
         }
-        
+
         /// <summary>
         /// 레디스에 저장
         /// </summary>
@@ -131,6 +159,7 @@ namespace TestServer.DataBase.Redis
 
             sender.Tell(new RedisServiceActor.StringGetResponse {
                 DataBaseId = message.DataBaseId,
+                RedisCallId = message.RedisCallId,
                 Values = dicts
             });
         }

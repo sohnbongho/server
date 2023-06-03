@@ -3,6 +3,7 @@ using Akka.IO;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,10 @@ public class TelnetClient : UntypedActor
     private int? _currentMessageLength = null;
     private const int _maxRecvLoop = 100; // 패킷받는 최대 카운트
 
+    private string  _userId = string.Empty; // 패킷받는 최대 카운트
+    private bool _connected = false;
+    private string _testSessionKey = "1234567";
+
     public TelnetClient(string host, int port)
     {
         var endpoint = new DnsEndPoint(host, port);
@@ -36,16 +41,28 @@ public class TelnetClient : UntypedActor
             Sender.Tell(new Tcp.Register(Self));
             ReadConsoleAsync();
             Become(Connected(Sender));
+
+            // 서버에 입장
+            var request = new MessageWrapper{
+                ServerEnterRequest = new ServerEnterRequest{
+                    SessionKey = _testSessionKey                    
+                }
+            };
+            Tell(request);
+
         }
         else if (message is Tcp.CommandFailed)
         {
             Console.WriteLine("Connection failed");
         }
-        else if(message is string msg)
+        else if (message is string msg)
         {
             _connection.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromString(msg + "\n")));
         }
-        else Unhandled(message);
+        else
+        {
+            Unhandled(message);
+        }
     }
 
     private UntypedReceive Connected(IActorRef connection)
@@ -83,7 +100,7 @@ public class TelnetClient : UntypedActor
                     _currentMessageLength = null;
 
                     // Handle the message
-                    HandleMyMessage(messageBytes);                    
+                    HandleMyMessage(messageBytes);
                 }
             }
             else if (message is string s)   // data received from console
@@ -93,46 +110,54 @@ public class TelnetClient : UntypedActor
                 //    UserName = "test",
                 //    Message = s
                 //};                
-
-                var sayRequest = new SayRequest
+                if(!_connected)
                 {
-                    Id = 1,
-                    User = "test",
-                    Message = s
-                };                
-
-                var request = new MessageWrapper {                    
-                    SayRequest = sayRequest
-                };
-                var binary = request.ToByteArray();
-                int buffSize = binary.Length;
-
-                byte[] byteArray = null;
-                using (var stream = new MemoryStream())
-                {
-                    using (var writer = new BinaryWriter(stream))
-                    {
-                        writer.Write(buffSize); // size는 int으로
-                        writer.Write(binary);
-                        byteArray = stream.ToArray();
-                    }
+                    ReadConsoleAsync();
+                    return;
                 }
-                if (byteArray != null)
-                    connection.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromBytes(byteArray)));
-
+                var request = new MessageWrapper
+                {
+                    SayRequest = new SayRequest
+                    {
+                        UserId = _userId,
+                        Message = s
+                    }
+                };
+                Tell(request);
                 ReadConsoleAsync();
             }
             else if (message is Tcp.PeerClosed)
             {
                 Console.WriteLine("Connection closed");
             }
-            else Unhandled(message);
+            else
+            {
+                Unhandled(message);
+            }
         };
     }
 
     private void ReadConsoleAsync()
     {
         Task.Factory.StartNew(self => Console.In.ReadLineAsync().PipeTo((ICanTell)self), Self);
+    }
+    private void Tell(MessageWrapper request)
+    {
+        var binary = request.ToByteArray();
+        int buffSize = binary.Length;
+
+        byte[] byteArray = null;
+        using (var stream = new MemoryStream())
+        {
+            using (var writer = new BinaryWriter(stream))
+            {
+                writer.Write(buffSize); // size는 int으로
+                writer.Write(binary);
+                byteArray = stream.ToArray();
+            }
+        }
+        if (byteArray != null)
+            _connection.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromBytes(byteArray)));        
     }
     private bool HandleMyMessage(byte[] recvBuffer)
     {
@@ -143,10 +168,18 @@ public class TelnetClient : UntypedActor
         Console.WriteLine($"OnRecvPacket {wrapper.PayloadCase.ToString()}");
         switch (wrapper.PayloadCase)
         {
+            case MessageWrapper.PayloadOneofCase.ServerEnterResponse:
+                {
+                    var response = wrapper.ServerEnterResponse;
+
+                    _userId = response.UserId;
+                    _connected = true;
+                    break;
+                }
             case MessageWrapper.PayloadOneofCase.SayResponse:
                 {
                     var response = wrapper.SayResponse;
-                    Console.WriteLine($"{response.User} : {response.Message}");
+                    Console.WriteLine($"{response.UserId} : {response.Message}");
 
                     break;
                 }

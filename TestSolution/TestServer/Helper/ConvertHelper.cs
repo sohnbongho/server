@@ -27,6 +27,7 @@ namespace TestServer.Helper
                     dict.Add(property.Name, property.GetValue(value, null));
                 }
             }
+            dict.Add("update_time", DateTime.Now);            
             return dict;
         }
 

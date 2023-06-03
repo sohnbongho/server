@@ -8,21 +8,32 @@ package Messages;
 *****************************************************************/
 message MessageWrapper {  
   oneof payload {
-    SayRequest say_request = 2;    
-	SayResponse say_response= 3;
+	ServerEnterRequest server_enter_request = 1;
+	ServerEnterResponse server_enter_response = 2;
+    SayRequest say_request = 3;    
+	SayResponse say_response= 4;
   }
 }
 
+// 서버 입장
+message ServerEnterRequest {  
+  string session_key = 1;  
+}
+
+message ServerEnterResponse {  
+  int64  user_uid = 1;
+  string user_id = 2;
+}
+
 // 채팅 메시지
-message SayRequest {
-  int32 id = 1;  
-  string user = 2;
+message SayRequest {  
+  int64 user_uid = 1;
+  string user_id = 2;
   string message = 3;
 }
 
-message SayResponse {
-  int32 id = 1;  
-  string user = 2;
-  string message = 3;
+message SayResponse {  
+  string user_id = 1;
+  string message = 2;
 }
 

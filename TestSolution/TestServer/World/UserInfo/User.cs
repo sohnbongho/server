@@ -7,6 +7,7 @@ using Messages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
@@ -17,6 +18,8 @@ using TestServer.DataBase.MySql.MySql.Entities;
 using TestServer.DataBase.Redis;
 using TestServer.Helper;
 using TestServer.Socket;
+using static RedisConnectorHelper;
+using static TestServer.DataBase.Redis.RedisServiceActor;
 
 namespace TestServer.World.UserInfo
 {
@@ -60,11 +63,15 @@ namespace TestServer.World.UserInfo
         private IActorRef _redisActorRef; // redisActor
 
         private string _remoteAddress;
+        
+        private long _userUid = 0; // 
+        private string _userId = string.Empty; // 
+        
 
         // 필수 함수 핸들러들 (FSM이 변경되도 반드시 있어야 하는 핸들러들)
         private Dictionary<System.Type, Action<object, IActorRef>> _requiredHandlers; 
 
-        private ulong _userUid = 1001; // TODO: 추후에 UserUid를 갱신하는 로직을 넣자.
+        
 
         public UserActor(IActorRef worldActor, IActorRef sessionRef, string remoteAdress)
         {
@@ -73,14 +80,16 @@ namespace TestServer.World.UserInfo
             _remoteAddress = remoteAdress;
 
             _dbActorRef = null;
-            _redisActorRef = null;            
+            _redisActorRef = null;
 
+            // 
             // 생성과 동시에 메서드를 등록하는 dictionary
             _requiredHandlers = new Dictionary<System.Type, Action<object, IActorRef>> {
                 {typeof(UserActor.SessionReceiveData), (data, sender) => OnRecvPacket((UserActor.SessionReceiveData)data, sender)},
                 {typeof(DbServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvDbLink((DbServiceCordiatorActor.UserToDbLinkResponse)data)},
                 {typeof(RedisServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvRedisLink((RedisServiceCordiatorActor.UserToDbLinkResponse)data)},
                 {typeof(GameDbServiceActor.SelectResponse), (data, sender) => OnRecvSelectReponse((GameDbServiceActor.SelectResponse)data)},
+                {typeof(RedisServiceActor.StringGetResponse), (data, sender) => OnRecvRedisReponse((RedisServiceActor.StringGetResponse)data)},
             };
         }
         
@@ -205,14 +214,27 @@ namespace TestServer.World.UserInfo
 
             switch (wrapper.PayloadCase)
             {
+                case MessageWrapper.PayloadOneofCase.ServerEnterRequest:
+                    {
+                        var request = wrapper.ServerEnterRequest;
+
+                        _redisActorRef?.Tell(new RedisServiceActor.StringGetRequest
+                        {
+                            DataBaseId = RedisConnectorHelper.DataBaseId.Session,
+                            RedisCallId = RedisServiceActor.RedisCallId.ServerSessionId,
+                            Key = request.SessionKey
+                        });
+
+                        break;
+                    }
+
                 case MessageWrapper.PayloadOneofCase.SayRequest:
                     {                        
                         var request = wrapper.SayRequest;
                         var response = new MessageWrapper {
                                SayResponse = new SayResponse
-                               {
-                                   Id = request.Id,
-                                   User = request.User,
+                               {                                   
+                                   UserId = request.UserId,
                                    Message = request.Message
                                }
                            };
@@ -230,15 +252,8 @@ namespace TestServer.World.UserInfo
         private void OnRecvDbLink(DbServiceCordiatorActor.UserToDbLinkResponse received)
         {
             _logger.Debug($"OnRecvDbLink - {received.DbActorRef}");
-
             _dbActorRef = received.DbActorRef;
-
-            // User정보 요청            
-            var query = $"select * from tbl_user where user_uid={_userUid};";
-            _dbActorRef.Tell(new GameDbServiceActor.SelectRequest {
-                Query = query,
-                TblType = typeof(TblUser)
-            });
+            
         }
 
         /// <summary>
@@ -258,10 +273,56 @@ namespace TestServer.World.UserInfo
 
             _redisActorRef?.Tell(new RedisServiceActor.StringSet
             {
-                DataBaseId = RedisConnectorHelper.DataBaseId.User,
+                DataBaseId = RedisConnectorHelper.DataBaseId.User,                
                 Key = key,
                 Values = dict
             });
+        }
+
+        /// <summary>
+        /// Redis 에서 온값들 
+        /// </summary>
+        /// <param name="data"></param>
+        private void OnRecvRedisReponse(RedisServiceActor.StringGetResponse data)
+        {
+            switch(data.RedisCallId)
+            {
+                case RedisServiceActor.RedisCallId.ServerSessionId:
+                    {
+                        long userUid = 0;
+                        string userId = string.Empty;
+                        if(data.Values.TryGetValue("user_uid", out var obj1))
+                        {
+                            userUid = long.Parse(obj1.ToString());
+                        }
+                        if (data.Values.TryGetValue("user_id", out var obj2))
+                        {
+                            userId = obj2.ToString();
+                        }
+
+                        _userUid = userUid;
+                        _userId = userId;
+
+                        // 클라이언트에게 알림
+                        var response = new MessageWrapper{
+                            ServerEnterResponse = new ServerEnterResponse{
+                                UserUid = userUid,
+                                UserId = userId
+                            }
+                        };
+                        Tell(response); 
+
+                        // User정보 요청            
+                        var query = $"select * from tbl_user where user_uid={_userUid};";
+                        _dbActorRef?.Tell(new GameDbServiceActor.SelectRequest
+                        {
+                            Query = query,
+                            TblType = typeof(TblUser)
+                        });
+
+                        break;
+                    }
+            }
         }
 
         /// <summary>

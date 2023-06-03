@@ -13,7 +13,8 @@ public static class RedisConnectorHelper
     /// </summary>
     public enum DataBaseId
     {
-        Default = 0,
+        Status = 0,
+        Session = 0,
         User = 1,
     }
 
