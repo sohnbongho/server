@@ -51,6 +51,7 @@ namespace TestServer.Socket
         private int _sendedBytes = 0;  // 보낸 패킷
         private const int _maxPacketBytes = 1024;  // 최대 패킷 수
         private Queue<byte[]> _sendQueue = new Queue<byte[]>();
+        private bool _packetEncrypt = true;
 
 
         public SessionActor(IActorRef sessionCordiator, string remoteAdress, IActorRef connection)
@@ -59,11 +60,13 @@ namespace TestServer.Socket
             _remoteAddress = remoteAdress;
             _connectedSessionRef = connection;
             _userRef = null;
-            
+
+            _packetEncrypt = ConfigInstanceHelper.Instance.PacketEncrypt;
+
         }
         protected override void PreStart()
         {            
-            base.PreStart();
+            base.PreStart();            
         }
 
         /// <summary>
@@ -131,7 +134,7 @@ namespace TestServer.Socket
 
                             // 패킷 암호화 사용중이면 decryp해주자
                             byte[] receivedMessage = null;
-                            if (ConfigInstanceHelper.Instance.PacketEncrypt)
+                            if (_packetEncrypt)
                             {   
                                 receivedMessage = CryptographyHelper.DecryptData(messageBytes, messageSize);
                             }
@@ -160,7 +163,7 @@ namespace TestServer.Socket
 
                         byte[] binary = null;
 
-                        if (ConfigInstanceHelper.Instance.PacketEncrypt)
+                        if (_packetEncrypt)
                         {
                             binary = CryptographyHelper.EncryptData(requestBinary);
                             totalSize += binary.Length;
