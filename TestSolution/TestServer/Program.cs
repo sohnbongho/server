@@ -10,6 +10,9 @@ using TestServer.Socket;
 using TestServer.Helper;
 using TestServer.DataBase.MySql;
 using TestServer.DataBase.Redis;
+using Messages;
+using Google.Protobuf;
+using TestLibrary.Helper.Encrypt;
 
 namespace TestServer
 {
@@ -55,6 +58,31 @@ namespace TestServer
             Config config = LoadAkkaHconConfig();
 
             ConfigInstanceHelper.Instance.Load(); // config파일 읽어오기
+
+            {
+                var response = new MessageWrapper
+                {
+                    SayResponse = new SayResponse
+                    {
+                        UserId = "test1",
+                        Message = "test message"
+                    }
+                };
+                // Your original data
+                //byte[] original = { 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1 };                
+                var original = response.ToByteArray();
+                int buffSize = original.Length;
+
+                // Encrypt and decrypt the data
+                byte[] encrypted = CryptographyHelper.EncryptData(original);
+                byte[] decrypted = CryptographyHelper.DecryptData(encrypted, buffSize);
+
+                var wrapper = MessageWrapper.Parser.ParseFrom(decrypted);
+
+                // Output decrypted data
+                foreach (byte b in decrypted)
+                    Console.Write(b + " ");  // Should output 1 2 3 4 5
+            }
 
             using (ActorSystem actorSystem = ActorSystem.Create("TestServer", config))
             {

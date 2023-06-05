@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TestLibrary.Helper.Encrypt;
 using TestServer.DataBase.MySql;
 using TestServer.DataBase.MySql.MySql.Entities;
 using TestServer.DataBase.Redis;
@@ -46,6 +47,7 @@ namespace TestServer.World.UserInfo
     {
         public class SessionReceiveData
         {
+            public int MessageSize { get; set; }
             public byte[] RecvBuffer { get; set; }
         }
 
@@ -311,7 +313,7 @@ namespace TestServer.World.UserInfo
         /// <param name="sessionRef"></param>
         private void OnRecvPacket(UserActor.SessionReceiveData received, IActorRef sessionRef)
         {
-            var receivedMessage = received.RecvBuffer;
+            byte[] receivedMessage = received.RecvBuffer;
 
             // 전체를 관리하는 wapper로 변환 역직렬화
             var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);

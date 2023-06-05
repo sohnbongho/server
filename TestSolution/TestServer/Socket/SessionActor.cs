@@ -10,6 +10,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TestLibrary.Helper.Encrypt;
+using TestServer.Helper;
 using TestServer.World.UserInfo;
 
 namespace TestServer.Socket
@@ -39,7 +41,8 @@ namespace TestServer.Socket
 
         // TCP 특성상 다 오지 못 해, 버퍼가 쌓으면서 다 받으면 가져간다.
         private List<byte> _receivedBuffer = new List<byte>();
-        private int? _currentReceivedMessageLength = null;
+        private int? _totalReceivedMessageLength = null;
+        private int? _messageLength = null;
         private const int _maxRecvLoop = 100; // 패킷받는 최대 카운트
 
         // TCP 패킷 보내는 것에 대한 처리
@@ -84,32 +87,64 @@ namespace TestServer.Socket
                     {
                         _receivedBuffer.AddRange(received.Data.ToArray());
 
+                        var intSize = sizeof(int);
+
                         // Loop while we might still have complete messages to process
                         for(var i = 0; i < _maxRecvLoop; ++i)
                         {
                             // If we don't know the length of the message yet (4 byte, int)
-                            if (!_currentReceivedMessageLength.HasValue)
+                            if (!_totalReceivedMessageLength.HasValue)
                             {
-                                if (_receivedBuffer.Count < sizeof(int))
+                                if (_receivedBuffer.Count < intSize)
                                     return;
 
-                                _currentReceivedMessageLength = BitConverter.ToInt32(_receivedBuffer.ToArray(), 0);
-                                _receivedBuffer.RemoveRange(0, sizeof(int));
+                                _totalReceivedMessageLength = BitConverter.ToInt32(_receivedBuffer.ToArray(), 0);
+                                _receivedBuffer.RemoveRange(0, intSize);
                             }
 
+                            // decryption message size (4 byte, int)
+                            if (!_messageLength.HasValue)
+                            {
+                                if (_receivedBuffer.Count < intSize)
+                                    return;
+
+                                _messageLength = BitConverter.ToInt32(_receivedBuffer.ToArray(), 0);
+                                _receivedBuffer.RemoveRange(0, intSize);
+                            }                            
+                            // 메시지 크기
+                            // 전체 패킷 사이즈 - decrpytionSize 사이즈
+                            int encrypMessageSize = _totalReceivedMessageLength.Value - intSize;
+
                             // If entire message hasn't been received yet
-                            if (_receivedBuffer.Count < _currentReceivedMessageLength.Value)
+                            if (_receivedBuffer.Count < encrypMessageSize)
                                 return;
 
-                            var messageBytes = _receivedBuffer.GetRange(0, _currentReceivedMessageLength.Value).ToArray();
-                                                        
-                            _receivedBuffer.RemoveRange(0, _currentReceivedMessageLength.Value);
-                            _currentReceivedMessageLength = null;
+                            var messageSize = _messageLength.Value; // decrypt된 메시지 사이즈
+
+                            // (암호화된)실제 메시지 읽기
+                            var messageBytes = _receivedBuffer.GetRange(0, encrypMessageSize).ToArray();                                                        
+                            _receivedBuffer.RemoveRange(0, encrypMessageSize);                            
+
+                            // 초기화
+                            _totalReceivedMessageLength = null;
+                            _messageLength = null;
+
+                            // 패킷 암호화 사용중이면 decryp해주자
+                            byte[] receivedMessage = null;
+                            if (ConfigInstanceHelper.Instance.PacketEncrypt)
+                            {   
+                                receivedMessage = CryptographyHelper.DecryptData(messageBytes, messageSize);
+                            }
+                            else
+                            {
+                                receivedMessage = messageBytes;
+                            }
 
                             // Handle the message
                             _userRef?.Tell(new UserActor.SessionReceiveData
                             {
-                                RecvBuffer = messageBytes,
+                                MessageSize = messageSize,
+                                RecvBuffer = receivedMessage,
                             }, Self);
                         }
 
@@ -117,15 +152,32 @@ namespace TestServer.Socket
                     }
                 case SessionActor.SendMessage sendMessage:
                     {   
-                        var binary = sendMessage.Message.ToByteArray();
-                        int buffSize = binary.Length;
+                        var requestBinary = sendMessage.Message.ToByteArray();
+                        sendMessage.Message.MessageSize = requestBinary.Length;
+
+                        int totalSize = sizeof(int); // messageSize만 넣고
+                        int messageSize = requestBinary.Length;
+
+                        byte[] binary = null;
+
+                        if (ConfigInstanceHelper.Instance.PacketEncrypt)
+                        {
+                            binary = CryptographyHelper.EncryptData(requestBinary);
+                            totalSize += binary.Length;
+                        }
+                        else
+                        {
+                            binary = requestBinary;
+                            totalSize += requestBinary.Length;
+                        }
 
                         byte[] byteArray = null;
                         using (var stream = new MemoryStream())
                         {
                             using (var writer = new BinaryWriter(stream))
                             {
-                                writer.Write(buffSize); // size는 int으로
+                                writer.Write(totalSize); // size는 int으로
+                                writer.Write(messageSize);
                                 writer.Write(binary);
                                 byteArray = stream.ToArray();
                             }

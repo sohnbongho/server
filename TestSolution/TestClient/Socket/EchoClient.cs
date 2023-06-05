@@ -11,19 +11,25 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using TestLibrary.Helper.Encrypt;
+using TestLibrary.Messages;
 
 public class TelnetClient : UntypedActor
 {
     private IActorRef _connection;
 
     // TCP 특성상 다 오지 못 해, 버퍼가 쌓으면서 다 받으면 가져간다.
-    private List<byte> _buffer = new List<byte>();
-    private int? _currentMessageLength = null;
+    private List<byte> _receivedBuffer = new List<byte>();
+    private int? _totalReceivedMessageLength = null;
+    private int? _messageLength = null;
     private const int _maxRecvLoop = 100; // 패킷받는 최대 카운트
 
     private string  _userId = string.Empty; // 패킷받는 최대 카운트
     private bool _connected = false;
     private string _testSessionKey = "1234567";
+
+    private bool _encrypt = true; // 암호화 사용
+
 
     public TelnetClient(string host, int port)
     {
@@ -74,33 +80,64 @@ public class TelnetClient : UntypedActor
             {
                 //Console.WriteLine(Encoding.ASCII.GetString(received.Data.ToArray()));                
 
-                _buffer.AddRange(received.Data.ToArray());
+                _receivedBuffer.AddRange(received.Data.ToArray());
+
+                var intSize = sizeof(int);
 
                 // Loop while we might still have complete messages to process
                 for (var i = 0; i < _maxRecvLoop; ++i)
                 {
                     // If we don't know the length of the message yet (4 byte, int)
-                    if (!_currentMessageLength.HasValue)
+                    if (!_totalReceivedMessageLength.HasValue)
                     {
-                        if (_buffer.Count < sizeof(int))
+                        if (_receivedBuffer.Count < sizeof(int))
                             return;
 
-                        _currentMessageLength = BitConverter.ToInt32(_buffer.ToArray(), 0);
-                        _buffer.RemoveRange(0, sizeof(int));
+                        _totalReceivedMessageLength = BitConverter.ToInt32(_receivedBuffer.ToArray(), 0);
+                        _receivedBuffer.RemoveRange(0, sizeof(int));
                     }
+                    // decryption message size (4 byte, int)
+                    if (!_messageLength.HasValue)
+                    {
+                        if (_receivedBuffer.Count < intSize)
+                            return;
+
+                        _messageLength = BitConverter.ToInt32(_receivedBuffer.ToArray(), 0);
+                        _receivedBuffer.RemoveRange(0, intSize);
+                    }
+                    // 메시지 크기
+                    // 전체 패킷 사이즈 - decrpytionSize 사이즈
+                    int encrypMessageSize = _totalReceivedMessageLength.Value - intSize;
 
                     // If entire message hasn't been received yet
-                    if (_buffer.Count < _currentMessageLength.Value)
+                    if (_receivedBuffer.Count < encrypMessageSize)
                         return;
 
-                    var messageBytes = _buffer.GetRange(0, _currentMessageLength.Value).ToArray();
+                    var messageSize = _messageLength.Value; // decrypt된 메시지 사이즈
+                    
+                    // (암호화된)실제 메시지 읽기
+                    var messageBytes = _receivedBuffer.GetRange(0, encrypMessageSize).ToArray();                    
+                    _receivedBuffer.RemoveRange(0, encrypMessageSize);
 
-                    //var message = Encoding.UTF8.GetString(messageBytes);
-                    _buffer.RemoveRange(0, _currentMessageLength.Value);
-                    _currentMessageLength = null;
+                    // 초기화
+                    _totalReceivedMessageLength = null;
+                    _messageLength = null;
+
+                    // 패킷 암호화 사용중이면 decryp해주자
+                    byte[] receivedMessage = null;
+                    if (_encrypt)
+                    {
+                        receivedMessage = CryptographyHelper.DecryptData(messageBytes, messageSize);
+                    }
+                    else
+                    {
+                        receivedMessage = messageBytes;
+                    }
 
                     // Handle the message
-                    HandleMyMessage(messageBytes);
+                    HandleMyMessage(receivedMessage);
+
+
                 }
             }
             else if (message is string s)   // data received from console
@@ -143,21 +180,40 @@ public class TelnetClient : UntypedActor
     }
     private void Tell(MessageWrapper request)
     {
-        var binary = request.ToByteArray();
-        int buffSize = binary.Length;
+        var requestBinary = request.ToByteArray();
+        request.MessageSize = requestBinary.Length;
+
+        int totalSize = sizeof(int);
+        int messageSize = requestBinary.Length;
+
+        byte[] binary = null;
+        
+        if (_encrypt)
+        {
+            binary = CryptographyHelper.EncryptData(requestBinary);
+            totalSize += binary.Length;
+        }
+        else
+        {
+            binary = requestBinary;
+            totalSize += requestBinary.Length;
+        }
 
         byte[] byteArray = null;
         using (var stream = new MemoryStream())
         {
             using (var writer = new BinaryWriter(stream))
             {
-                writer.Write(buffSize); // size는 int으로
+                writer.Write(totalSize); // size는 int으로                
+                writer.Write(messageSize);
                 writer.Write(binary);
+
                 byteArray = stream.ToArray();
             }
         }
         if (byteArray != null)
-            _connection.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromBytes(byteArray)));        
+            _connection.Tell(Tcp.Write.Create(Akka.IO.ByteString.FromBytes(byteArray)));
+
     }
     private bool HandleMyMessage(byte[] recvBuffer)
     {

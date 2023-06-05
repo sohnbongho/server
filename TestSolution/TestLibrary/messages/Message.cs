@@ -24,22 +24,22 @@ namespace Messages {
     static MessageReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1tZXNzYWdlLnByb3RvEghNZXNzYWdlcyL1AQoOTWVzc2FnZVdyYXBwZXIS",
-            "PAoUc2VydmVyX2VudGVyX3JlcXVlc3QYASABKAsyHC5NZXNzYWdlcy5TZXJ2",
-            "ZXJFbnRlclJlcXVlc3RIABI+ChVzZXJ2ZXJfZW50ZXJfcmVzcG9uc2UYAiAB",
-            "KAsyHS5NZXNzYWdlcy5TZXJ2ZXJFbnRlclJlc3BvbnNlSAASKwoLc2F5X3Jl",
-            "cXVlc3QYAyABKAsyFC5NZXNzYWdlcy5TYXlSZXF1ZXN0SAASLQoMc2F5X3Jl",
-            "c3BvbnNlGAQgASgLMhUuTWVzc2FnZXMuU2F5UmVzcG9uc2VIAEIJCgdwYXls",
-            "b2FkIikKElNlcnZlckVudGVyUmVxdWVzdBITCgtzZXNzaW9uX2tleRgBIAEo",
-            "CSI4ChNTZXJ2ZXJFbnRlclJlc3BvbnNlEhAKCHVzZXJfdWlkGAEgASgDEg8K",
-            "B3VzZXJfaWQYAiABKAkiQAoKU2F5UmVxdWVzdBIQCgh1c2VyX3VpZBgBIAEo",
-            "AxIPCgd1c2VyX2lkGAIgASgJEg8KB21lc3NhZ2UYAyABKAkiLwoLU2F5UmVz",
-            "cG9uc2USDwoHdXNlcl9pZBgBIAEoCRIPCgdtZXNzYWdlGAIgASgJYgZwcm90",
-            "bzM="));
+            "Cg1tZXNzYWdlLnByb3RvEghNZXNzYWdlcyKLAgoOTWVzc2FnZVdyYXBwZXIS",
+            "FAoMbWVzc2FnZV9zaXplGAEgASgFEjwKFHNlcnZlcl9lbnRlcl9yZXF1ZXN0",
+            "GAogASgLMhwuTWVzc2FnZXMuU2VydmVyRW50ZXJSZXF1ZXN0SAASPgoVc2Vy",
+            "dmVyX2VudGVyX3Jlc3BvbnNlGAsgASgLMh0uTWVzc2FnZXMuU2VydmVyRW50",
+            "ZXJSZXNwb25zZUgAEisKC3NheV9yZXF1ZXN0GAwgASgLMhQuTWVzc2FnZXMu",
+            "U2F5UmVxdWVzdEgAEi0KDHNheV9yZXNwb25zZRgNIAEoCzIVLk1lc3NhZ2Vz",
+            "LlNheVJlc3BvbnNlSABCCQoHcGF5bG9hZCIpChJTZXJ2ZXJFbnRlclJlcXVl",
+            "c3QSEwoLc2Vzc2lvbl9rZXkYASABKAkiOAoTU2VydmVyRW50ZXJSZXNwb25z",
+            "ZRIQCgh1c2VyX3VpZBgBIAEoAxIPCgd1c2VyX2lkGAIgASgJIkAKClNheVJl",
+            "cXVlc3QSEAoIdXNlcl91aWQYASABKAMSDwoHdXNlcl9pZBgCIAEoCRIPCgdt",
+            "ZXNzYWdlGAMgASgJIi8KC1NheVJlc3BvbnNlEg8KB3VzZXJfaWQYASABKAkS",
+            "DwoHbWVzc2FnZRgCIAEoCWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Messages.MessageWrapper), global::Messages.MessageWrapper.Parser, new[]{ "ServerEnterRequest", "ServerEnterResponse", "SayRequest", "SayResponse" }, new[]{ "Payload" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Messages.MessageWrapper), global::Messages.MessageWrapper.Parser, new[]{ "MessageSize", "ServerEnterRequest", "ServerEnterResponse", "SayRequest", "SayResponse" }, new[]{ "Payload" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Messages.ServerEnterRequest), global::Messages.ServerEnterRequest.Parser, new[]{ "SessionKey" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Messages.ServerEnterResponse), global::Messages.ServerEnterResponse.Parser, new[]{ "UserUid", "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Messages.SayRequest), global::Messages.SayRequest.Parser, new[]{ "UserUid", "UserId", "Message" }, null, null, null, null),
@@ -90,6 +90,7 @@ namespace Messages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public MessageWrapper(MessageWrapper other) : this() {
+      messageSize_ = other.messageSize_;
       switch (other.PayloadCase) {
         case PayloadOneofCase.ServerEnterRequest:
           ServerEnterRequest = other.ServerEnterRequest.Clone();
@@ -114,8 +115,20 @@ namespace Messages {
       return new MessageWrapper(this);
     }
 
+    /// <summary>Field number for the "message_size" field.</summary>
+    public const int MessageSizeFieldNumber = 1;
+    private int messageSize_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MessageSize {
+      get { return messageSize_; }
+      set {
+        messageSize_ = value;
+      }
+    }
+
     /// <summary>Field number for the "server_enter_request" field.</summary>
-    public const int ServerEnterRequestFieldNumber = 1;
+    public const int ServerEnterRequestFieldNumber = 10;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Messages.ServerEnterRequest ServerEnterRequest {
@@ -127,7 +140,7 @@ namespace Messages {
     }
 
     /// <summary>Field number for the "server_enter_response" field.</summary>
-    public const int ServerEnterResponseFieldNumber = 2;
+    public const int ServerEnterResponseFieldNumber = 11;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Messages.ServerEnterResponse ServerEnterResponse {
@@ -139,7 +152,7 @@ namespace Messages {
     }
 
     /// <summary>Field number for the "say_request" field.</summary>
-    public const int SayRequestFieldNumber = 3;
+    public const int SayRequestFieldNumber = 12;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Messages.SayRequest SayRequest {
@@ -151,7 +164,7 @@ namespace Messages {
     }
 
     /// <summary>Field number for the "say_response" field.</summary>
-    public const int SayResponseFieldNumber = 4;
+    public const int SayResponseFieldNumber = 13;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Messages.SayResponse SayResponse {
@@ -166,10 +179,10 @@ namespace Messages {
     /// <summary>Enum of possible cases for the "payload" oneof.</summary>
     public enum PayloadOneofCase {
       None = 0,
-      ServerEnterRequest = 1,
-      ServerEnterResponse = 2,
-      SayRequest = 3,
-      SayResponse = 4,
+      ServerEnterRequest = 10,
+      ServerEnterResponse = 11,
+      SayRequest = 12,
+      SayResponse = 13,
     }
     private PayloadOneofCase payloadCase_ = PayloadOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -200,6 +213,7 @@ namespace Messages {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (MessageSize != other.MessageSize) return false;
       if (!object.Equals(ServerEnterRequest, other.ServerEnterRequest)) return false;
       if (!object.Equals(ServerEnterResponse, other.ServerEnterResponse)) return false;
       if (!object.Equals(SayRequest, other.SayRequest)) return false;
@@ -212,6 +226,7 @@ namespace Messages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (MessageSize != 0) hash ^= MessageSize.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.ServerEnterRequest) hash ^= ServerEnterRequest.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.ServerEnterResponse) hash ^= ServerEnterResponse.GetHashCode();
       if (payloadCase_ == PayloadOneofCase.SayRequest) hash ^= SayRequest.GetHashCode();
@@ -235,20 +250,24 @@ namespace Messages {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      if (MessageSize != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MessageSize);
+      }
       if (payloadCase_ == PayloadOneofCase.ServerEnterRequest) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(82);
         output.WriteMessage(ServerEnterRequest);
       }
       if (payloadCase_ == PayloadOneofCase.ServerEnterResponse) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(90);
         output.WriteMessage(ServerEnterResponse);
       }
       if (payloadCase_ == PayloadOneofCase.SayRequest) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(98);
         output.WriteMessage(SayRequest);
       }
       if (payloadCase_ == PayloadOneofCase.SayResponse) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(106);
         output.WriteMessage(SayResponse);
       }
       if (_unknownFields != null) {
@@ -261,20 +280,24 @@ namespace Messages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (MessageSize != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MessageSize);
+      }
       if (payloadCase_ == PayloadOneofCase.ServerEnterRequest) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(82);
         output.WriteMessage(ServerEnterRequest);
       }
       if (payloadCase_ == PayloadOneofCase.ServerEnterResponse) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(90);
         output.WriteMessage(ServerEnterResponse);
       }
       if (payloadCase_ == PayloadOneofCase.SayRequest) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(98);
         output.WriteMessage(SayRequest);
       }
       if (payloadCase_ == PayloadOneofCase.SayResponse) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(106);
         output.WriteMessage(SayResponse);
       }
       if (_unknownFields != null) {
@@ -287,6 +310,9 @@ namespace Messages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (MessageSize != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MessageSize);
+      }
       if (payloadCase_ == PayloadOneofCase.ServerEnterRequest) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ServerEnterRequest);
       }
@@ -310,6 +336,9 @@ namespace Messages {
     public void MergeFrom(MessageWrapper other) {
       if (other == null) {
         return;
+      }
+      if (other.MessageSize != 0) {
+        MessageSize = other.MessageSize;
       }
       switch (other.PayloadCase) {
         case PayloadOneofCase.ServerEnterRequest:
@@ -353,7 +382,11 @@ namespace Messages {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
+          case 8: {
+            MessageSize = input.ReadInt32();
+            break;
+          }
+          case 82: {
             global::Messages.ServerEnterRequest subBuilder = new global::Messages.ServerEnterRequest();
             if (payloadCase_ == PayloadOneofCase.ServerEnterRequest) {
               subBuilder.MergeFrom(ServerEnterRequest);
@@ -362,7 +395,7 @@ namespace Messages {
             ServerEnterRequest = subBuilder;
             break;
           }
-          case 18: {
+          case 90: {
             global::Messages.ServerEnterResponse subBuilder = new global::Messages.ServerEnterResponse();
             if (payloadCase_ == PayloadOneofCase.ServerEnterResponse) {
               subBuilder.MergeFrom(ServerEnterResponse);
@@ -371,7 +404,7 @@ namespace Messages {
             ServerEnterResponse = subBuilder;
             break;
           }
-          case 26: {
+          case 98: {
             global::Messages.SayRequest subBuilder = new global::Messages.SayRequest();
             if (payloadCase_ == PayloadOneofCase.SayRequest) {
               subBuilder.MergeFrom(SayRequest);
@@ -380,7 +413,7 @@ namespace Messages {
             SayRequest = subBuilder;
             break;
           }
-          case 34: {
+          case 106: {
             global::Messages.SayResponse subBuilder = new global::Messages.SayResponse();
             if (payloadCase_ == PayloadOneofCase.SayResponse) {
               subBuilder.MergeFrom(SayResponse);
@@ -404,7 +437,11 @@ namespace Messages {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
+          case 8: {
+            MessageSize = input.ReadInt32();
+            break;
+          }
+          case 82: {
             global::Messages.ServerEnterRequest subBuilder = new global::Messages.ServerEnterRequest();
             if (payloadCase_ == PayloadOneofCase.ServerEnterRequest) {
               subBuilder.MergeFrom(ServerEnterRequest);
@@ -413,7 +450,7 @@ namespace Messages {
             ServerEnterRequest = subBuilder;
             break;
           }
-          case 18: {
+          case 90: {
             global::Messages.ServerEnterResponse subBuilder = new global::Messages.ServerEnterResponse();
             if (payloadCase_ == PayloadOneofCase.ServerEnterResponse) {
               subBuilder.MergeFrom(ServerEnterResponse);
@@ -422,7 +459,7 @@ namespace Messages {
             ServerEnterResponse = subBuilder;
             break;
           }
-          case 26: {
+          case 98: {
             global::Messages.SayRequest subBuilder = new global::Messages.SayRequest();
             if (payloadCase_ == PayloadOneofCase.SayRequest) {
               subBuilder.MergeFrom(SayRequest);
@@ -431,7 +468,7 @@ namespace Messages {
             SayRequest = subBuilder;
             break;
           }
-          case 34: {
+          case 106: {
             global::Messages.SayResponse subBuilder = new global::Messages.SayResponse();
             if (payloadCase_ == PayloadOneofCase.SayResponse) {
               subBuilder.MergeFrom(SayResponse);
