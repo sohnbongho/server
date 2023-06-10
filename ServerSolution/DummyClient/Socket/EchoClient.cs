@@ -15,6 +15,15 @@ using System.Threading.Tasks;
 
 public class TelnetClient : UntypedActor
 {
+    public sealed class EnterServer
+    {
+        public static EnterServer Instance { get; } = new();
+
+        private EnterServer()
+        {
+        }
+    }
+
     private IActorRef _connection;
 
     // TCP 특성상 다 오지 못 해, 버퍼가 쌓으면서 다 받으면 가져간다.
@@ -47,13 +56,8 @@ public class TelnetClient : UntypedActor
             ReadConsoleAsync();
             Become(Connected(Sender));
 
-            // 서버에 입장
-            var request = new MessageWrapper{
-                ServerEnterRequest = new ServerEnterRequest{
-                    SessionKey = _testSessionKey                    
-                }
-            };
-            Tell(request);
+            var delay = TimeSpan.FromSeconds(3);
+            Context.System.Scheduler.ScheduleTellOnce(delay, Self, EnterServer.Instance, Self);
 
         }
         else if (message is Tcp.CommandFailed)
@@ -165,6 +169,19 @@ public class TelnetClient : UntypedActor
             else if (message is Tcp.PeerClosed)
             {
                 Console.WriteLine("Connection closed");
+            }
+            else if(message is EnterServer)
+            {
+                // 서버에 입장
+                var request = new MessageWrapper
+                {
+                    ServerEnterRequest = new ServerEnterRequest
+                    {
+                        SessionKey = _testSessionKey
+                    }
+                };
+                Tell(request);
+
             }
             else
             {
