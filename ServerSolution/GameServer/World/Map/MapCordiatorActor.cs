@@ -16,7 +16,7 @@ namespace GameServer.World.Map
         public static IActorRef ActorOf(IUntypedActorContext context, IActorRef worldRef)
         {
             var prop = Props.Create(() => new MapCordiatorActor(worldRef));
-            return context.ActorOf(prop, ActorPaths.MapCordiator.Name);
+            return context.ActorOf(prop);
         }
 
         public MapCordiatorActor(IActorRef worldRef)

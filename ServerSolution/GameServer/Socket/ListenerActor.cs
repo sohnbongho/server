@@ -12,9 +12,9 @@ namespace GameServer.Socket
     {
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly int _port;
-
-        private IActorRef _worldActorRef;
+                
         private IActorRef _sessionCordiatorRef = null;
+        private IActorRef _worldActorRef;                
 
         public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef worldActor, int port)
         {   
@@ -25,16 +25,21 @@ namespace GameServer.Socket
         public ListenerActor(IActorRef worldActor, int port)
         {
             _worldActorRef = worldActor;
-            _port = port;
+            _port = port;            
+
             Context.System.Tcp().Tell(new Tcp.Bind(Self, new IPEndPoint(IPAddress.Any, port)));
         }
         protected override void PreStart()
-        {   
+        {
+            base.PreStart();
+
             // 세션을 관리해 주는 Actor 생성            
             _sessionCordiatorRef = SessionCordiatorActor.ActorOf(Context, Self, _worldActorRef);
             ActorSupervisorHelper.Instance.SetSessionCordiatorRef(_sessionCordiatorRef);
 
-            base.PreStart();
+            
+
+
         }
 
         protected override void PostStop()

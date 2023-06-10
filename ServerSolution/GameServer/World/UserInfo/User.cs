@@ -85,8 +85,9 @@ namespace GameServer.World.UserInfo
                 {typeof(RedisServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvRedisLink((RedisServiceCordiatorActor.UserToDbLinkResponse)data)},
                 {typeof(GameDbServiceActor.SelectResponse), (data, sender) => OnRecvSelectReponse((GameDbServiceActor.SelectResponse)data)},
                 {typeof(RedisServiceActor.StringGetResponse), (data, sender) => OnRecvRedisReponse((RedisServiceActor.StringGetResponse)data)},
+                {typeof(SessionActor.UserToSessionLinkResponse), (data, sender) => OnRecvUserToSessionLinkResponse((SessionActor.UserToSessionLinkResponse)data)},
             };
-
+            
             // 유저들과 패킷
             _userHandlers = new Dictionary<System.Type, Action<object, IActorRef>>{
                 {typeof(UserActor.SessionReceiveData), (data, sender) => OnRecvPacket((UserActor.SessionReceiveData)data, sender)},
@@ -95,29 +96,55 @@ namespace GameServer.World.UserInfo
         
         protected override void PreStart()
         {
+            base.PreStart();
+
             // SessionActor와 UserActor의 연결
             _sessionRef.Tell(new SessionActor.UserToSessionLinkRequest
             {
                 UserRef = Self
             });
+        }
+        /// <summary>
+        /// DB Actor와 연결
+        /// </summary>
+        /// <param name="received"></param>
+        private void OnRecvDbLink(DbServiceCordiatorActor.UserToDbLinkResponse received)
+        {
+            _logger.Debug($"OnRecvDbLink - {received.DbActorRef}");
+            _dbActorRef = received.DbActorRef;
 
-            // dbCordiatorActor에 나에게 맞는 dbActor요청
-            var dbCordiatorRef = ActorSupervisorHelper.Instance.DbCordiatorRef;
-            dbCordiatorRef?.Tell(new DbServiceCordiatorActor.UserToDbLinkRequest
-            {
-                UserActorRef = Self
-            });
-
+            // 레디스 액터 연결 요청
             // redisCordiatorActor에 나에게 맞는 dbActor요청
             var redisCordiatorRef = ActorSupervisorHelper.Instance.RedisCordiatorRef;
             redisCordiatorRef?.Tell(new RedisServiceCordiatorActor.UserToDbLinkRequest
             {
                 UserActorRef = Self
             });
-
-            base.PreStart();
         }
 
+        /// <summary>
+        /// Redis 연결 액터
+        /// </summary>
+        /// <param name="received"></param>
+        private void OnRecvRedisLink(RedisServiceCordiatorActor.UserToDbLinkResponse received)
+        {
+            _logger.Debug($"OnRecvRedisLink - {received.RedisActorRef}");
+
+            _redisActorRef = received.RedisActorRef;
+
+            // 연결 준비가 완료되었다.
+            // 메시지를 받을 준비가 되었다.
+            var conntedMessage = new MessageWrapper
+            {
+                ConnectedResponse = new ConnectedResponse
+                {
+                }
+            };
+            Tell(conntedMessage);
+        }
+
+
+        
         protected override void PostStop()
         {
             Close();
@@ -162,6 +189,41 @@ namespace GameServer.World.UserInfo
             });
         }
 
+        /// <summary>
+        /// User와 Session액터 연결 성공
+        /// </summary>
+        /// <param name="data"></param>
+        private void OnRecvUserToSessionLinkResponse(SessionActor.UserToSessionLinkResponse data)
+        {
+            // dbCordiatorActor에 나에게 맞는 dbActor요청
+            var dbCordiatorRef = ActorSupervisorHelper.Instance.DbCordiatorRef;
+            dbCordiatorRef?.Tell(new DbServiceCordiatorActor.UserToDbLinkRequest
+            {
+                UserActorRef = Self
+            });
+        }
+        /// <summary>
+        /// DB요청에 대한 응답
+        /// </summary>
+        /// <param name="received"></param>
+        private void OnRecvSelectReponse(GameDbServiceActor.SelectResponse received)
+        {
+            TblUser user = received.Results.Select(x => TblUser.Of(x)).FirstOrDefault();
+            if (user is null)
+                return;
+            _logger.Debug($"OnRecvSelectReponse {user.seq}, {user.user_uid}");
+
+            // DB에서 온 값을 그대로 redis에 갱신한다.
+            var dict = ConvertHelper.ConvertToDictionary(user);
+            var key = $"{ActorPaths.User.Name}{user.user_uid}";
+
+            _redisActorRef?.Tell(new RedisServiceActor.StringSet
+            {
+                DataBaseId = RedisConnectorHelper.DataBaseId.User,
+                Key = key,
+                Values = dict
+            });
+        }
         protected override void OnReceive(object message)
         {
             var dataType = message.GetType();
@@ -214,39 +276,7 @@ namespace GameServer.World.UserInfo
         }
 
 
-        /// <summary>
-        /// DB Actor와 연결
-        /// </summary>
-        /// <param name="received"></param>
-        private void OnRecvDbLink(DbServiceCordiatorActor.UserToDbLinkResponse received)
-        {
-            _logger.Debug($"OnRecvDbLink - {received.DbActorRef}");
-            _dbActorRef = received.DbActorRef;
-            
-        }
-
-        /// <summary>
-        /// DB요청에 대한 응답
-        /// </summary>
-        /// <param name="received"></param>
-        private void OnRecvSelectReponse(GameDbServiceActor.SelectResponse received)
-        {
-            TblUser user = received.Results.Select(x => TblUser.Of(x)).FirstOrDefault();
-            if (user is null)
-                return;
-            _logger.Debug($"OnRecvSelectReponse {user.seq}, {user.user_uid}");
-
-            // DB에서 온 값을 그대로 redis에 갱신한다.
-            var dict = ConvertHelper.ConvertToDictionary(user);
-            var key = $"{ActorPaths.User.Name}{user.user_uid}";
-
-            _redisActorRef?.Tell(new RedisServiceActor.StringSet
-            {
-                DataBaseId = RedisConnectorHelper.DataBaseId.User,                
-                Key = key,
-                Values = dict
-            });
-        }
+        
 
         /// <summary>
         /// Redis 에서 온값들 
@@ -294,17 +324,7 @@ namespace GameServer.World.UserInfo
             }
         }
 
-        /// <summary>
-        /// Redis 연결 액터
-        /// </summary>
-        /// <param name="received"></param>
-        private void OnRecvRedisLink(RedisServiceCordiatorActor.UserToDbLinkResponse received)
-        {
-            _logger.Debug($"OnRecvRedisLink - {received.RedisActorRef}");
-
-            _redisActorRef = received.RedisActorRef;
-
-        }
+        
 
         /// <summary>
         /// 유저들에게 패킷

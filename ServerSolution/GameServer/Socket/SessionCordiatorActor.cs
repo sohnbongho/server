@@ -32,6 +32,12 @@ namespace GameServer.Socket
             public string RemoteAdress { get; set; }
 
         }
+
+        public class SetUserCordiatorActor
+        {
+            public IActorRef UserCordiatorActor { get; set; }
+
+        }
         public class BroadcastMessage
         {
             public MessageWrapper Message { get; set; }
@@ -40,6 +46,7 @@ namespace GameServer.Socket
         private readonly ConcurrentDictionary<string, IActorRef> _sessions = new ConcurrentDictionary<string, IActorRef>();
         private readonly IActorRef _listenerRef;
         private readonly IActorRef _worldRef;
+        private readonly IActorRef _userCordiatorRef;
 
         public static IActorRef ActorOf(IUntypedActorContext context, IActorRef listenerRef, IActorRef worldRef)
         {
@@ -51,7 +58,8 @@ namespace GameServer.Socket
         {
             _listenerRef = listenerActor;
             _worldRef = worldRef;
-            
+            _userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
+
         }
         
         // here we are overriding the default SupervisorStrategy
@@ -135,7 +143,7 @@ namespace GameServer.Socket
             _sessions.TryAdd(message.RemoteAdress, sessionRef);
 
             // 월드에 추가해 주자
-            _worldRef.Tell(new UserCordiatorActor.AddUser
+            _userCordiatorRef.Tell(new UserCordiatorActor.AddUser
             {
                 SessionRef = sessionRef,
                 RemoteAddress = message.RemoteAdress
@@ -153,7 +161,7 @@ namespace GameServer.Socket
                 _sessions.TryRemove(remoteAdress, out _);
             }
 
-            _worldRef.Tell(new UserCordiatorActor.ClosedUserSession
+            _userCordiatorRef.Tell(new UserCordiatorActor.ClosedUserSession
             {
                 RemoteAddress = remoteAdress
             });

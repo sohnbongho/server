@@ -9,14 +9,21 @@ package Messages;
 message MessageWrapper {  
 	int32 message_size = 1;
 	oneof payload {
-		ServerEnterRequest server_enter_request = 10;
-		ServerEnterResponse server_enter_response = 11;
-		MapEnterRequest map_enter_request = 12;
-		MapEnterResponse map_enter_response = 13;
-		SayRequest say_request = 14;    
-		SayResponse say_response= 15;
+		ConnectedResponse connected_response = 11;
+		ServerEnterRequest server_enter_request = 12;
+		ServerEnterResponse server_enter_response = 13;
+		MapEnterRequest map_enter_request = 14;
+		MapEnterResponse map_enter_response = 15;
+		SayRequest say_request = 16;
+		SayResponse say_response= 17;
 	}
 }
+
+// 연결 성공
+message ConnectedResponse {  
+  int32 index = 1;  
+}
+
 
 // 서버 입장
 message ServerEnterRequest {  

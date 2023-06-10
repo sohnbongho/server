@@ -57,8 +57,8 @@ public class TelnetClient : UntypedActor
             ReadConsoleAsync();
             Become(Connected(Sender));
 
-            var delay = TimeSpan.FromSeconds(3);
-            Context.System.Scheduler.ScheduleTellOnce(delay, Self, EnterServer.Instance, Self);
+            //var delay = TimeSpan.FromSeconds(3);
+            //Context.System.Scheduler.ScheduleTellOnce(delay, Self, EnterServer.Instance, Self);
 
         }
         else if (message is Tcp.CommandFailed)
@@ -171,19 +171,7 @@ public class TelnetClient : UntypedActor
             {
                 Console.WriteLine("Connection closed");
             }
-            else if(message is EnterServer)
-            {
-                // 서버에 입장
-                var request = new MessageWrapper
-                {
-                    ServerEnterRequest = new ServerEnterRequest
-                    {
-                        SessionKey = _testSessionKey
-                    }
-                };
-                Tell(request);
-
-            }
+            
             else
             {
                 Unhandled(message);
@@ -241,6 +229,19 @@ public class TelnetClient : UntypedActor
         Console.WriteLine($"OnRecvPacket {wrapper.PayloadCase.ToString()}");
         switch (wrapper.PayloadCase)
         {
+            case MessageWrapper.PayloadOneofCase.ConnectedResponse:
+                {
+                    // 서버에 입장
+                    var request = new MessageWrapper
+                    {
+                        ServerEnterRequest = new ServerEnterRequest
+                        {
+                            SessionKey = _testSessionKey
+                        }
+                    };
+                    Tell(request);
+                    break;
+                }
             case MessageWrapper.PayloadOneofCase.ServerEnterResponse:
                 {
                     var response = wrapper.ServerEnterResponse;

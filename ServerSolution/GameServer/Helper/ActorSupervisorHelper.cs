@@ -13,7 +13,6 @@ namespace GameServer.Helper
     class ActorSupervisorHelper
     {
         private static readonly Lazy<ActorSupervisorHelper> lazy = new Lazy<ActorSupervisorHelper>(() => new ActorSupervisorHelper());
-
         public static ActorSupervisorHelper Instance { get { return lazy.Value; } }
 
         public IActorRef WorldCordiatorRef => _worldCordiatorRef;
@@ -21,22 +20,24 @@ namespace GameServer.Helper
         public IActorRef DbCordiatorRef => _dbCordiatorRef;
         public IActorRef RedisCordiatorRef => _redisCordiatorRef;
 
-        private IActorRef _worldCordiatorRef;
-        private IActorRef _sessionCordiatorRef;
-        private IActorRef _dbCordiatorRef;
-        private IActorRef _redisCordiatorRef;
+        public IActorRef UserCordiatorRef => _userCordiatorRef;
+        public IActorRef MapCordiatorRef => _mapCordiatorRef;
+
+
+        private IActorRef _sessionCordiatorRef = null;
+        private IActorRef _dbCordiatorRef = null;
+        private IActorRef _redisCordiatorRef = null;
+
+        private IActorRef _worldCordiatorRef = null;
+        private IActorRef _userCordiatorRef = null;
+        private IActorRef _mapCordiatorRef = null;
 
         private ActorSupervisorHelper()
-        {
-            _worldCordiatorRef = null;
-            _sessionCordiatorRef = null;
-            _dbCordiatorRef = null;
+        {            
         }
-
-        public void SetWorldCordiatorRef(IActorRef worldCordiatorRef)
-        {
-            _worldCordiatorRef = worldCordiatorRef;
-        }
+        /*------------------------------------
+         * System Cordiator
+         ------------------------------------*/        
         public void SetSessionCordiatorRef(IActorRef sessionCordiatorRef)
         {
             _sessionCordiatorRef = sessionCordiatorRef;
@@ -49,6 +50,24 @@ namespace GameServer.Helper
         public void SetRedisCordiatorRef(IActorRef redisCordiatorRef)
         {
             _redisCordiatorRef = redisCordiatorRef;
+        }
+
+        /*------------------------------------
+         * 콘텐츠 (World) Cordiator
+         ------------------------------------*/
+        public void SetWorldCordiatorRef(IActorRef worldCordiatorRef)
+        {
+            _worldCordiatorRef = worldCordiatorRef;
+        }
+
+        public void SetUserCordiatorRef(IActorRef userCordiatorRef)
+        {
+            _userCordiatorRef = userCordiatorRef;
+        }
+
+        public void SetMapCordiatorRef(IActorRef mapCordiatorRef)
+        {
+            _mapCordiatorRef = mapCordiatorRef;
         }
     }
 }

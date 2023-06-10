@@ -83,6 +83,9 @@ namespace GameServer.World
 
             _userCordiatorRef = UserCordiatorActor.ActorOf(Context, Self);
             _mapCordiatorRef = MapCordiatorActor.ActorOf(Context, Self);
+
+            ActorSupervisorHelper.Instance.SetUserCordiatorRef(_userCordiatorRef);
+            ActorSupervisorHelper.Instance.SetMapCordiatorRef(_mapCordiatorRef);
         }
 
         protected override void PostStop()
@@ -121,8 +124,7 @@ namespace GameServer.World
         }
 
         protected override void OnReceive(object message)
-        {
-            _userCordiatorRef?.Tell(message);            
+        {            
         }
     }
 }

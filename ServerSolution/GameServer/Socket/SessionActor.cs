@@ -22,6 +22,9 @@ namespace GameServer.Socket
         {
             public IActorRef UserRef { get; set; } // 객체 연결
         }
+        public class UserToSessionLinkResponse
+        {            
+        }
 
         public class SendMessage
         {
@@ -78,9 +81,14 @@ namespace GameServer.Socket
         {
             switch(message)
             {                
-                case UserToSessionLinkRequest request:
+                case SessionActor.UserToSessionLinkRequest request:
                     {
                         _userRef = request.UserRef; // 네트워크 세션과 User Actor 연결
+
+                        // 등록이 완료되었음
+                        _userRef.Tell(new SessionActor.UserToSessionLinkResponse { });
+
+                        
                         break;
                     }
                 case Tcp.Received received: // 메시지 받기
