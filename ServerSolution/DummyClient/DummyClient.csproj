@@ -23,4 +23,10 @@
 		<RootNamespace>DummyClient</RootNamespace>
 	</PropertyGroup>
 
+
+	<ItemGroup>
+	  <PackageReference Include="Akka" Version="1.5.7" />
+	  <PackageReference Include="Google.Protobuf" Version="3.23.2" />
+	</ItemGroup>
+
 </Project>
