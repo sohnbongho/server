@@ -1,10 +1,27 @@
-﻿using System;
+﻿using Google.Protobuf;
+using Messages;
+using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Threading;
 
 
 namespace TestLibrary.Helper.Encrypt
 {
+    //Aes 객체를 싱글턴으로 사용하는 것은 일반적으로 권장되지 않습니다.
+    //그 이유는 아래와 같습니다:
+    //1. Thread-safety: Aes 클래스는 thread-safe 하지 않습니다.
+    //즉, 한 번에 하나의 스레드만이 Aes 객체를 안전하게 사용할 수 있습니다. 
+    //따라서 여러 스레드에서 동시에 Aes 객체를 사용하려면 동기화 메커니즘을 적절하게 적용해야 합니다.
+    //2. Key and IV management: 암호화 키(Key) 와 초기화 벡터(IV) 는 보통 각각의 암호화 작업에 대해
+    // 새롭게 생성됩니다.
+    //이는 Aes 객체가 재사용될 때마다 Key와 IV 값을 적절하게 업데이트해야 함을 의미합니다. 
+    //이러한 관리가 제대로 이루어지지 않으면 보안상의 위험이 발생할 수 있습니다.
+    //3. Resource management: 암호화 작업은 CPU 리소스를 상당히 사용합니다. 
+    //따라서 Aes 객체를 지속적으로 재사용하면 시스템 리소스가 과도하게 소모될 수 있습니다.
+    //따라서 Aes 객체는 일반적으로 using 문을 사용하여 필요한 동안만 생성하고 사용한 후
+    //바로 소멸시키는 것이 권장됩니다.
+    //이 방식은 리소스 관리를 효율적으로 하면서도 Aes 객체의 생명 주기를 적절하게 관리할 수 있습니다.
     public static class CryptographyHelper
     {
         // key, iv값
@@ -83,6 +100,33 @@ namespace TestLibrary.Helper.Encrypt
                 }
             }
             return destination;
+        }
+
+        public static void test()
+        {
+            var response = new MessageWrapper
+            {
+                SayResponse = new SayResponse
+                {
+                    UserId = "test1",
+                    Message = "test message"
+                }
+            };
+
+            // Your original data
+            //byte[] original = { 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1 };                
+            var original = response.ToByteArray();
+            int buffSize = original.Length;
+
+            // Encrypt and decrypt the data
+            byte[] encrypted = CryptographyHelper.EncryptData(original);
+            byte[] decrypted = CryptographyHelper.DecryptData(encrypted, buffSize);
+
+            var wrapper = MessageWrapper.Parser.ParseFrom(decrypted);
+
+            // Output decrypted data
+            foreach (byte b in decrypted)
+                Console.Write(b + " ");  // Should output 1 2 3 4 5
         }
     }
 }
