@@ -34,7 +34,7 @@ namespace GameServer.World.UserInfo
         public static IActorRef ActorOf(IUntypedActorContext context, IActorRef worldRef)
         {
             var prop = Props.Create(() => new UserCordiatorActor(worldRef));
-            return context.ActorOf(prop, ActorPaths.UserCordiator.Name);
+            return context.ActorOf(prop, ActorPaths.MapCordiator.Name);
         }
 
         public UserCordiatorActor(IActorRef worldRef)

@@ -15,15 +15,9 @@ namespace GameServer.Helper
         public static readonly ActorMetaData ReaderConsole = new ActorMetaData("readerConsole");
         public static readonly ActorMetaData WriterConsole = new ActorMetaData("writerConsole");
 
-        public static readonly ActorMetaData Listener = new ActorMetaData("listener");
-        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessioncordiator");        
-
-        // Remote에서 온 메시지 처리하는 actor
-        public static readonly ActorMetaData World = new ActorMetaData("world");
-
-        public static readonly ActorMetaData UserCordiator = new ActorMetaData("usercordiator", World);
-        public static readonly ActorMetaData User = new ActorMetaData("user", UserCordiator);
-
+        /*--------------------------------------
+         * System관련
+         --------------------------------------*/
         // MySql DB Actor
         public static readonly ActorMetaData DbCordiator = new ActorMetaData("dbcordiator");
         public static readonly ActorMetaData GameDb = new ActorMetaData("gamedb", DbCordiator);
@@ -31,6 +25,26 @@ namespace GameServer.Helper
         // Redis Actor
         public static readonly ActorMetaData RedisCordiator = new ActorMetaData("rediscordiator");
         public static readonly ActorMetaData Redis = new ActorMetaData("redis", DbCordiator);
+
+        // 유저 Session Actor
+        public static readonly ActorMetaData Listener = new ActorMetaData("listener");
+        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessioncordiator");
+        public static readonly ActorMetaData Session = new ActorMetaData("session", SessionCordiator);
+
+        /*--------------------------------------
+         * World관련
+         --------------------------------------*/
+        public static readonly ActorMetaData World = new ActorMetaData("world");
+
+        // User관리
+        public static readonly ActorMetaData UserCordiator = new ActorMetaData("usercordiator", World);
+        public static readonly ActorMetaData User = new ActorMetaData("user", UserCordiator);        
+
+        // Map
+        public static readonly ActorMetaData MapCordiator = new ActorMetaData("mapcordiator", World);
+        public static readonly ActorMetaData Map = new ActorMetaData("map", MapCordiator);
+
+
     }
 
     public class ActorMetaData

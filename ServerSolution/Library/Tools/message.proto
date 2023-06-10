@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package Messages;
+
+/*****************************************************************
+전체 메시지 : 클라이언트와 서버간 모든 메시지는 이곳에 추가하여야 한다.
+구글 프로토 버퍼는 상속 개념이 없기에 패킷을 받는 부분에서 분리를 해야 하기 때문이다.
+*****************************************************************/
+message MessageWrapper {  
+	int32 message_size = 1;
+	oneof payload {
+		ServerEnterRequest server_enter_request = 10;
+		ServerEnterResponse server_enter_response = 11;
+		MapEnterRequest map_enter_request = 12;
+		MapEnterResponse map_enter_response = 13;
+		SayRequest say_request = 14;    
+		SayResponse say_response= 15;
+	}
+}
+
+// 서버 입장
+message ServerEnterRequest {  
+  string session_key = 1;  
+}
+
+message ServerEnterResponse {  
+  int64  user_uid = 1;
+  string user_id = 2;
+}
+
+// 맵 입장
+message MapEnterRequest {    
+  int32 map_index = 1;
+}
+
+message MapEnterResponse {  
+  int32 map_index = 1;
+}
+
+// 채팅 메시지
+message SayRequest {  
+  int64 user_uid = 1;
+  string user_id = 2;
+  string message = 3;
+}
+
+message SayResponse {  
+  string user_id = 1;
+  string message = 2;
+}
+

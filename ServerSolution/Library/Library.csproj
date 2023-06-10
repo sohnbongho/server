@@ -25,6 +25,16 @@
 
 
 	<ItemGroup>
+	  <Compile Remove="Tools\Message.cs" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <None Include="Tools\Message.cs" />
+	</ItemGroup>
+
+
+	<ItemGroup>
 	  <PackageReference Include="Google.Protobuf" Version="3.23.2" />
 	</ItemGroup>
 </Project>

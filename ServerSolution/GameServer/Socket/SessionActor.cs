@@ -13,7 +13,10 @@ namespace GameServer.Socket
     public class SessionActor : UntypedActor
     {
         // 성공 적으로 메시지 보내기 성공
-        public class Ack : Tcp.Event { }
+        public class Ack : Tcp.Event 
+        {
+            public static Ack Instance { get; } = new();
+        }
 
         public class UserToSessionLinkRequest
         {
@@ -279,7 +282,7 @@ namespace GameServer.Socket
 
             // 패킷 조각 전송            
             if (chunk != null)
-                _connectedSessionRef.Tell(Tcp.Write.Create(chunk, new Ack()));
+                _connectedSessionRef.Tell(Tcp.Write.Create(chunk, Ack.Instance));
 
             // 전송한 바이트 수 업데이트
             _sendedBytes += chunkSize;

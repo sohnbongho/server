@@ -10,6 +10,7 @@ using Akka.IO;
 using Akka.Event;
 using GameServer.Helper;
 using GameServer.World.UserInfo;
+using GameServer.World.Map;
 
 namespace GameServer.World
 {
@@ -20,14 +21,14 @@ namespace GameServer.World
     {
         //////////////////////////////////////////////////////////////////////////////////////////////////// Field
         ////////////////////////////////////////////////////////////////////////////////////////// Private
-        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
         
-        private IActorRef _dbCordiatorRef;
-        private IActorRef _userCordiatorRef;
+        private IActorRef _userCordiatorRef = null;
+        private IActorRef _mapCordiatorRef = null;
 
-        public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef dbCordiatorRef)
+        public static IActorRef ActorOf(ActorSystem actorSystem)
         {   
-            var listenerProps = Props.Create(() => new WorldActor(dbCordiatorRef));
+            var listenerProps = Props.Create(() => new WorldActor());
             return actorSystem.ActorOf(listenerProps, ActorPaths.World.Name);
         }
 
@@ -35,11 +36,8 @@ namespace GameServer.World
         /// <summary>
         /// 생성자
         /// </summary>
-        public WorldActor(IActorRef dbCordiatorRef)
+        public WorldActor()
         {
-            _dbCordiatorRef = dbCordiatorRef;
-            _userCordiatorRef = null;
-
             // 생존성 모니터링 시작
             //_heartbeatTask = Context.System.Scheduler.ScheduleTellRepeatedlyCancelable(
             //    TimeSpan.Zero, TimeSpan.FromSeconds(5), Self, new Messages.Heartbeat(), Self);
@@ -84,6 +82,7 @@ namespace GameServer.World
             base.PreStart();
 
             _userCordiatorRef = UserCordiatorActor.ActorOf(Context, Self);
+            _mapCordiatorRef = MapCordiatorActor.ActorOf(Context, Self);
         }
 
         protected override void PostStop()

@@ -11,6 +11,7 @@ using GameServer.Helper;
 using GameServer.DataBase.MySql;
 using GameServer.DataBase.Redis;
 
+
 namespace GameServer
 {
     internal class Program
@@ -71,7 +72,7 @@ namespace GameServer
                 ActorSupervisorHelper.Instance.SetRedisCordiatorRef(redisActor);
 
                 // World Actor 생성                
-                var worldActor = WorldActor.ActorOf(actorSystem, dbActor);
+                var worldActor = WorldActor.ActorOf(actorSystem);
                 ActorSupervisorHelper.Instance.SetWorldCordiatorRef(worldActor);
 
                 // Akka.IO로 초기화                
