@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameServer.Helper;
 using GameServer.World;
+using GameServer.World.UserInfo;
 
 namespace GameServer.Socket
 {
@@ -134,7 +135,7 @@ namespace GameServer.Socket
             _sessions.TryAdd(message.RemoteAdress, sessionRef);
 
             // 월드에 추가해 주자
-            _worldRef.Tell(new WorldActor.AddUser
+            _worldRef.Tell(new UserCordiatorActor.AddUser
             {
                 SessionRef = sessionRef,
                 RemoteAddress = message.RemoteAdress
@@ -152,7 +153,7 @@ namespace GameServer.Socket
                 _sessions.TryRemove(remoteAdress, out _);
             }
 
-            _worldRef.Tell(new WorldActor.ClosedUserSession
+            _worldRef.Tell(new UserCordiatorActor.ClosedUserSession
             {
                 RemoteAddress = remoteAdress
             });

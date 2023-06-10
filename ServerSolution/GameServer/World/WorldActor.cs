@@ -16,31 +16,14 @@ namespace GameServer.World
     /// <summary>
     /// 채팅 서버 액터
     /// </summary>
-    public class WorldActor : ReceiveActor, ILogReceive
+    public class WorldActor : UntypedActor
     {
-        public class AddUser
-        {            
-            public IActorRef SessionRef { get; set; }
-            public string RemoteAddress { get; set; }
-        }
-        public class ClosedUserSession
-        {            
-            public string RemoteAddress { get; set; }
-        }
-
         //////////////////////////////////////////////////////////////////////////////////////////////////// Field
         ////////////////////////////////////////////////////////////////////////////////////////// Private
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         
-        /// <summary>
-        /// 액터 참조 해시 세트
-        /// </summary>
-
-        // 원격에 연결된 User Acotr들
-        private readonly ConcurrentDictionary<string, User> _userList = new ConcurrentDictionary<string, User>();
-
-        //private ICancelable _heartbeatTask;
         private IActorRef _dbCordiatorRef;
+        private IActorRef _userCordiatorRef;
 
         public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef dbCordiatorRef)
         {   
@@ -55,30 +38,7 @@ namespace GameServer.World
         public WorldActor(IActorRef dbCordiatorRef)
         {
             _dbCordiatorRef = dbCordiatorRef;
-
-            Receive<WorldActor.AddUser> (
-                addUser => {
-                    OnRecvAddUser(addUser);
-                }
-            );
-            Receive<WorldActor.ClosedUserSession>(
-                deletedUser => {
-                    OnRecvClosedUserSession(deletedUser);
-                }
-            );
-
-            //Receive<AssociationErrorEvent>(e => HandleAssociationError(e));
-            //Receive<DisassociatedEvent>(e => HandleDisassociation(e));
-
-            ReceiveAny(value =>
-            {
-                var senderPath = Sender.Path.ToString();
-                if (_userList.TryGetValue(senderPath, out var findedUser))
-                {
-                    findedUser.UserRef.Tell(value);
-
-                }
-            });
+            _userCordiatorRef = null;
 
             // 생존성 모니터링 시작
             //_heartbeatTask = Context.System.Scheduler.ScheduleTellRepeatedlyCancelable(
@@ -122,14 +82,14 @@ namespace GameServer.World
             //Context.System.EventStream.Subscribe(Self, typeof(AssociationErrorEvent));
             //Context.System.EventStream.Subscribe(Self, typeof(DisassociatedEvent));
             base.PreStart();
+
+            _userCordiatorRef = UserCordiatorActor.ActorOf(Context, Self);
         }
 
         protected override void PostStop()
         {
             //Context.System.EventStream.Unsubscribe(Self, typeof(AssociationErrorEvent));
             //Context.System.EventStream.Unsubscribe(Self, typeof(DisassociatedEvent));
-                        
-            _userList.Clear();
 
             // 생존성 모니터링 종료
             //_heartbeatTask?.Cancel();
@@ -161,36 +121,9 @@ namespace GameServer.World
                 });
         }
 
-        /// <summary>
-        /// world에 유저 추가
-        /// </summary>
-        /// <param name="addUser"></param>
-        private void OnRecvAddUser(WorldActor.AddUser addUser)
+        protected override void OnReceive(object message)
         {
-            _logger.Debug($"OnRecvAddUser RemoteAddress:{addUser.RemoteAddress}, SessionRef:{addUser.SessionRef}");
-            var user = User.Of(Context, Self, addUser.SessionRef, addUser.RemoteAddress);
-
-            // 유저 추가
-            _userList.TryAdd(addUser.RemoteAddress, user);
-        }
-                
-
-        /// <summary>
-        ///  world에서 유저 삭제
-        ///  반드시 SessionCordiator Actor에서 넘어와야 한다.
-        ///  Session을 먼저 닫고 종료시키자.
-        /// </summary>
-        /// <param name="user"></param>
-        private void OnRecvClosedUserSession(WorldActor.ClosedUserSession user)
-        {
-            var remoteAdress = user.RemoteAddress;
-            if (_userList.TryGetValue(remoteAdress, out var finedUser))
-            {
-                Context.Stop(finedUser.UserRef);
-
-                // remove the actor reference from the dictionary
-                _userList.TryRemove(user.RemoteAddress, out var deleteUser);
-            }
+            _userCordiatorRef?.Tell(message);            
         }
     }
 }

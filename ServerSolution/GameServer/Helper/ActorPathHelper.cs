@@ -8,7 +8,7 @@ namespace GameServer.Helper
 {
     public static class ActorPaths
     {
-        public static readonly string System = "TestServer";
+        public static readonly string System = "GameServer";
         public static readonly string Root = $"akka://{System}/user";        
 
         // console Writer        
@@ -16,11 +16,13 @@ namespace GameServer.Helper
         public static readonly ActorMetaData WriterConsole = new ActorMetaData("writerConsole");
 
         public static readonly ActorMetaData Listener = new ActorMetaData("listener");
-        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessionCordiator");        
+        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessioncordiator");        
 
         // Remote에서 온 메시지 처리하는 actor
         public static readonly ActorMetaData World = new ActorMetaData("world");
-        public static readonly ActorMetaData User = new ActorMetaData("user", World);
+
+        public static readonly ActorMetaData UserCordiator = new ActorMetaData("usercordiator", World);
+        public static readonly ActorMetaData User = new ActorMetaData("user", UserCordiator);
 
         // MySql DB Actor
         public static readonly ActorMetaData DbCordiator = new ActorMetaData("dbcordiator");

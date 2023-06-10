@@ -53,7 +53,7 @@ namespace GameServer
 
             ConfigInstanceHelper.Instance.Load(); // config파일 읽어오기            
 
-            using (ActorSystem actorSystem = ActorSystem.Create("TestServer", config))
+            using (ActorSystem actorSystem = ActorSystem.Create(ActorPaths.System, config))
             {
                 // text console창에 적는 actor                
                 var consoleWriterActor = ConsoleWriterActor.ActorOf(actorSystem);

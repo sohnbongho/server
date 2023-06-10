@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>	
     <BaseOutputPath></BaseOutputPath>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+	<NoWarn>$(NoWarn);CS8602;CS8600;CS8625;CS8618;CS8601;CS8603;CS8604</NoWarn>
   </PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
