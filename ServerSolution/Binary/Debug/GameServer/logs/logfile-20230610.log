@@ -1,0 +1,16 @@
+2023-06-10 13:04:22,991 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-10 13:04:22,991 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-10 13:04:22,991 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(1)
+2023-06-10 13:04:22,991 [4] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-10 13:06:32,735 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-10 13:06:32,735 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-10 13:06:32,735 [6] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-10 13:06:32,735 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(1)
+2023-06-10 13:08:10,238 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-10 13:08:10,238 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-10 13:08:10,238 [4] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-10 13:08:10,238 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(1)
+2023-06-10 13:09:02,958 [4] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-10 13:09:02,958 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-10 13:09:02,958 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(1)
+2023-06-10 13:09:02,958 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
