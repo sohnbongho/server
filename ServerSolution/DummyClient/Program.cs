@@ -6,6 +6,7 @@ namespace DummyClient
     {
         static void Main(string[] args)
         {
+            Thread.Sleep(2000);
             using (var system = ActorSystem.Create("MySystem"))
             {
                 var clientProps = Props.Create(() => new TelnetClient("127.0.0.1", 8081));

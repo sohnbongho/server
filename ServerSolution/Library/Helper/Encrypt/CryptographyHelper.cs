@@ -70,8 +70,8 @@ namespace Library.Helper.Encrypt
         /// <returns></returns>
 
         public static byte[] DecryptData(byte[] data, int originSize)
-        {            
-            byte[] destination = null;
+        {
+            byte[] decrypted;
 
             using (Aes aesAlg = Aes.Create())
             {
@@ -84,45 +84,40 @@ namespace Library.Helper.Encrypt
                 {
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-                        var decrypted = new byte[data.Length];
-                        csDecrypt.Read(decrypted, 0, decrypted.Length);
-
-                        if(decrypted.Length > 0)
+                        using (MemoryStream ms = new MemoryStream())
                         {
-                            destination = new byte[originSize]; // 새 배열
-                            Buffer.BlockCopy(decrypted, 0, destination, 0, originSize);
-                        }
-                        else
-                        {
-                            destination = Array.Empty<byte>();
+                            csDecrypt.CopyTo(ms);
+                            decrypted = ms.ToArray();
                         }
                     }
                 }
             }
-            return destination;
+
+            return decrypted;
         }
 
-        public static void test()
+        public static void Test()
         {
             var response = new MessageWrapper
             {
                 SayResponse = new SayResponse
                 {
                     UserId = "test1",
-                    Message = "test message"
+                    Message = "한글한글"
                 }
             };
 
             // Your original data
             //byte[] original = { 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1 };                
             var original = response.ToByteArray();
-            int buffSize = original.Length;
+            int buffSize = original.Length;            
 
             // Encrypt and decrypt the data
             byte[] encrypted = CryptographyHelper.EncryptData(original);
             byte[] decrypted = CryptographyHelper.DecryptData(encrypted, buffSize);
 
-            var wrapper = MessageWrapper.Parser.ParseFrom(decrypted);
+            var originalDecrupt = MessageWrapper.Parser.ParseFrom(original);
+            var decrptedWrapper = MessageWrapper.Parser.ParseFrom(decrypted);
 
             // Output decrypted data
             foreach (byte b in decrypted)

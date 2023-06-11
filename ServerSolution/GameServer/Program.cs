@@ -10,7 +10,7 @@ using GameServer.Socket;
 using GameServer.Helper;
 using GameServer.DataBase.MySql;
 using GameServer.DataBase.Redis;
-
+using Library.Helper.Encrypt;
 
 namespace GameServer
 {
@@ -53,6 +53,8 @@ namespace GameServer
             Config config = LoadAkkaHconConfig();
 
             ConfigInstanceHelper.Instance.Load(); // config파일 읽어오기            
+
+            //CryptographyHelper.Test();
 
             using (ActorSystem actorSystem = ActorSystem.Create(ActorPaths.System, config))
             {
