@@ -24,6 +24,9 @@ namespace Library.Helper.Encrypt
     //이 방식은 리소스 관리를 효율적으로 하면서도 Aes 객체의 생명 주기를 적절하게 관리할 수 있습니다.
     public static class CryptographyHelper
     {
+        public static byte[] Key => _key;
+        public static byte[] Iv => _iv;
+
         // key, iv값
         private static readonly byte[] _key = {
             0x73,0x50,0x44,0x4e,0x01,0xc1,0x28,0x64,0xfa,0xa2,

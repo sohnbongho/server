@@ -7,6 +7,7 @@ using GameServer.Helper;
 using GameServer.World.UserInfo;
 using Messages;
 using Library.Helper.Encrypt;
+using System.Security.Cryptography;
 
 namespace GameServer.Socket
 {
@@ -53,6 +54,12 @@ namespace GameServer.Socket
         private Queue<byte[]> _sendQueue = new Queue<byte[]>();
         private bool _packetEncrypt = true;
 
+        // 암호화 복호화 memory
+        private MemoryStream _encryptMemory = new MemoryStream();
+        private MemoryStream _decryptMemory = new MemoryStream();
+        // 구글 버퍼 Memory
+        private MemoryStream _gbufferMemory = new MemoryStream();
+
 
         public SessionActor(IActorRef sessionCordiator, string remoteAdress, IActorRef connection)
         {
@@ -65,15 +72,34 @@ namespace GameServer.Socket
 
         }
         protected override void PreStart()
-        {            
-            base.PreStart();            
+        {
+            base.PreStart();
+            
+            if(_encryptMemory is null)
+                _encryptMemory = new MemoryStream();
+
+            if(_decryptMemory is null)
+                _decryptMemory = new MemoryStream();
+
+            if (_gbufferMemory is null)
+                _gbufferMemory = new MemoryStream();
+            
         }
 
         /// <summary>
         /// actor 종료
         /// </summary>
         protected override void PostStop()
-        {            
+        {
+            _encryptMemory?.Dispose();
+            _encryptMemory = null;
+
+            _decryptMemory?.Dispose();
+            _decryptMemory = null;
+
+            _gbufferMemory?.Dispose();
+            _gbufferMemory = null;
+
             base.PostStop();
         }
 
@@ -312,7 +338,6 @@ namespace GameServer.Socket
 
             return (_sendedBytes < _sendingBytes);                
         }
-
     }
 
 }
