@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using GameServer.Helper;
 using GameServer.World;
+using System.Net.Sockets;
 
 namespace GameServer.Socket
 {    
@@ -14,7 +15,8 @@ namespace GameServer.Socket
         private readonly int _port;
                 
         private IActorRef _sessionCordiatorRef = null;
-        private IActorRef _worldActorRef;                
+        private IActorRef _worldActorRef;
+        private IActorRef _tcpListener ;
 
         public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef worldActor, int port)
         {   
@@ -27,7 +29,7 @@ namespace GameServer.Socket
             _worldActorRef = worldActor;
             _port = port;            
 
-            Context.System.Tcp().Tell(new Tcp.Bind(Self, new IPEndPoint(IPAddress.Any, port)));
+            Context.System.Tcp().Tell(new Tcp.Bind(Self, new IPEndPoint(IPAddress.Any, port)));            
         }
         protected override void PreStart()
         {
@@ -42,6 +44,9 @@ namespace GameServer.Socket
         {
             _logger.Info($"PostStop ListenerActor");
 
+            _tcpListener.Tell(Tcp.Unbind.Instance, Self);
+            _tcpListener.Tell(Tcp.Closed.Instance, Self);
+
             base.PostStop();
         }
         protected override void OnReceive(object message)
@@ -50,6 +55,7 @@ namespace GameServer.Socket
             {
                 case Tcp.Bound bound:
                     {
+                        _tcpListener = Sender;
                         _logger.Info($"Listening on {bound.LocalAddress}");
                         break;
                     }

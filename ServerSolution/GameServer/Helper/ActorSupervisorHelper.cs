@@ -33,6 +33,7 @@ namespace GameServer.Helper
         private IActorRef _worldCordiatorRef = null;
         private IActorRef _userCordiatorRef = null;
         private IActorRef _mapCordiatorRef = null;
+        
 
         private ActorSupervisorHelper()
         {            
@@ -58,6 +59,8 @@ namespace GameServer.Helper
         {
             _listenerRef = listenerRef;
         }
+
+        
 
         /*------------------------------------
          * 콘텐츠 (World) Cordiator

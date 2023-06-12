@@ -2,6 +2,7 @@
 using System;
 using GameServer.Helper;
 using Akka.Actor;
+using Akka.IO;
 
 namespace GameServer.ConsoleActor
 {

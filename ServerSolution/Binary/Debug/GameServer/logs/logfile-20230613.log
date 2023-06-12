@@ -725,3 +725,781 @@
 2023-06-13 02:00:38,514 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
 2023-06-13 02:00:45,366 [11] DEBUG GameServer.Socket.SessionActor - [akka://GameServer/system/IO-TCP/$a/$a#458376491] closed
 2023-06-13 02:00:45,370 [36] INFO  GameServer.Socket.SessionCordiatorActor - client disconnected:192.168.0.119:2356
+2023-06-13 02:10:43,963 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:10:43,963 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:10:43,963 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:10:43,963 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:10:45,769 [6] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:3485, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#531883956]
+2023-06-13 02:10:45,772 [6] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1741341854]
+2023-06-13 02:10:45,773 [6] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#619442035]
+2023-06-13 02:10:45,810 [6] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:10:45,865 [10] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:10:45,877 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:10:45,889 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:10:49,042 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:10:49,042 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:10:49,042 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:10:49,042 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:10:49,048 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:10:49,049 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:10:49,049 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:10:49,049 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:10:49,049 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:10:49,049 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:10:49,052 [51] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:11:07,788 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:11:07,788 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:11:07,788 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:07,788 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:10,138 [36] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:3564, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1235847937]
+2023-06-13 02:11:10,142 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#601363383]
+2023-06-13 02:11:10,142 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1723263202]
+2023-06-13 02:11:10,182 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:11:10,238 [6] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:11:10,250 [6] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:11:10,260 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:11:12,443 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:11:12,443 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:11:12,443 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:11:12,443 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:11:12,461 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:11:12,461 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:11:12,461 [4] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:11:12,463 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:11:12,461 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:11:12,461 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:11:12,461 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:11:19,263 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:11:19,263 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:11:19,263 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:19,263 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:21,413 [11] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:3604, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#838665926]
+2023-06-13 02:11:22,055 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#2028074171]
+2023-06-13 02:11:22,062 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1002490343]
+2023-06-13 02:11:22,104 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:11:22,162 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:11:22,175 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:11:22,184 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:11:25,003 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:11:25,003 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:11:25,003 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:11:25,003 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:11:25,006 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:11:25,006 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:11:25,006 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:11:25,006 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:11:25,007 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:11:25,007 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:11:25,007 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:11:31,106 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:31,106 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:11:31,106 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:11:31,106 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:33,369 [36] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:3631, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#125833149]
+2023-06-13 02:11:33,373 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1667662954]
+2023-06-13 02:11:33,373 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#642079126]
+2023-06-13 02:11:33,412 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:11:33,470 [4] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:11:33,483 [4] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:11:33,494 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:11:37,445 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:11:37,445 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:11:37,445 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:11:37,445 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:11:37,452 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:11:37,452 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:11:37,453 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:11:37,452 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:11:37,455 [4] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:11:37,453 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:11:37,455 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:11:46,067 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:46,067 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:11:46,067 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:11:46,067 [9] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:11:47,933 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:3659, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1926611594]
+2023-06-13 02:11:47,937 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#2063934025]
+2023-06-13 02:11:47,937 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#942034206]
+2023-06-13 02:11:47,977 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:11:48,035 [4] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:11:48,048 [4] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:11:48,057 [35] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:11:51,597 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:11:51,597 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:11:51,597 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:11:51,597 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:11:51,603 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:11:51,603 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:11:51,604 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:11:51,603 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:11:51,603 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:11:51,603 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:11:51,604 [51] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:12:24,021 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:12:24,021 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:12:24,021 [7] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:12:24,021 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:12:30,546 [11] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:3765, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1924755598]
+2023-06-13 02:12:30,796 [11] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1828439607]
+2023-06-13 02:12:30,796 [11] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#802855779]
+2023-06-13 02:12:30,834 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:12:30,891 [5] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:12:30,903 [5] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:12:30,914 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:12:35,067 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:12:35,067 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:12:35,068 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:12:35,068 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:12:35,079 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:12:35,079 [5] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:12:35,079 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:12:35,079 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:12:35,079 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:12:35,081 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:12:35,079 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:13:07,172 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:13:07,172 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:13:07,172 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:13:07,172 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:13:09,399 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:3996, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#294541946]
+2023-06-13 02:13:09,403 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1722095000]
+2023-06-13 02:13:09,403 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#696511172]
+2023-06-13 02:13:09,445 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:13:09,501 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:13:09,512 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:13:09,522 [7] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:13:12,508 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:13:12,508 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:13:12,508 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:13:12,508 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:13:12,516 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:13:12,516 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:13:12,516 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:13:12,516 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:13:12,520 [7] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:13:12,518 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:13:12,516 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:14:50,330 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:14:50,330 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:14:50,330 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:14:50,330 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:14:52,060 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:4256, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#299849827]
+2023-06-13 02:14:52,063 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#231119640]
+2023-06-13 02:14:52,064 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1353019459]
+2023-06-13 02:14:52,100 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:14:52,156 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:14:52,168 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:14:52,177 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:14:54,283 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:14:54,283 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:14:54,283 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:14:54,283 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:14:54,292 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:14:54,292 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:14:54,292 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:14:54,293 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:14:54,292 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:14:54,293 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:14:54,292 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:14:59,263 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:14:59,263 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:14:59,263 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:14:59,263 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:15:01,515 [11] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:4278, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1086428090]
+2023-06-13 02:15:01,519 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1334654156]
+2023-06-13 02:15:01,520 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#212754337]
+2023-06-13 02:15:01,556 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:15:01,610 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:15:01,633 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:15:01,642 [12] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:15:03,423 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:15:03,423 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:15:03,423 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:15:03,423 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:15:03,460 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:15:03,460 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:15:03,460 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:15:03,462 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:15:03,462 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:15:03,462 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:15:03,464 [52] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:15:07,528 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:15:07,528 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:15:07,528 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:15:07,528 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:15:09,323 [36] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:4300, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1705014227]
+2023-06-13 02:15:09,327 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1608698236]
+2023-06-13 02:15:09,328 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#583114408]
+2023-06-13 02:15:09,367 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:15:09,423 [51] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:15:09,435 [51] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:15:09,448 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:15:12,614 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:15:12,614 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:15:12,614 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:15:12,614 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:15:12,618 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:15:12,618 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:15:12,620 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:15:12,620 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:15:12,621 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:15:12,621 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:15:12,623 [36] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:30:41,432 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:30:41,432 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:30:41,432 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:30:41,432 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:30:43,691 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:6366, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1980589383]
+2023-06-13 02:30:43,695 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1899624538]
+2023-06-13 02:30:43,696 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#874040710]
+2023-06-13 02:30:43,736 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:30:43,793 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:30:43,806 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:30:43,817 [10] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:30:45,359 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"1234"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:30:45,361 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"1234"},"PayloadCase":17})
+2023-06-13 02:30:47,587 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:30:47,587 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:30:47,587 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:30:47,588 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:30:47,592 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:30:47,592 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:30:47,592 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:30:47,593 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:30:47,592 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:30:47,593 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:30:47,592 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:31:04,466 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:31:04,466 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:31:04,466 [4] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:31:04,466 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:31:06,259 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:6456, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1388274130]
+2023-06-13 02:31:06,263 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1851115223]
+2023-06-13 02:31:06,264 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#825531395]
+2023-06-13 02:31:06,300 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:31:06,355 [10] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:31:06,367 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:31:06,380 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:31:08,696 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"123123123"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:31:08,697 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"123123123"},"PayloadCase":17})
+2023-06-13 02:31:14,782 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:31:14,782 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:31:14,782 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:31:14,792 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:31:14,791 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:31:14,782 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:31:14,791 [51] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:31:14,806 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:31:14,807 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:31:14,807 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:31:14,807 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:31:31,083 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:31:31,083 [9] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:31:31,083 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:31:31,083 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:31:33,297 [37] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:6523, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1969583641]
+2023-06-13 02:31:33,303 [4] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#2058166147]
+2023-06-13 02:31:33,304 [4] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#936266328]
+2023-06-13 02:31:33,341 [4] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:31:33,403 [4] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:31:33,417 [4] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:31:33,426 [4] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:31:54,336 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:31:54,336 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:31:54,336 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:31:54,336 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:31:54,343 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:31:54,343 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:31:54,344 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:31:54,343 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:31:54,343 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:31:54,343 [6] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:31:54,343 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:32:37,068 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:32:37,068 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:32:37,068 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:32:37,068 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:32:38,948 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:6734, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1205891696]
+2023-06-13 02:32:38,951 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1790915550]
+2023-06-13 02:32:38,952 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#669015731]
+2023-06-13 02:32:38,991 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:32:39,046 [6] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:32:39,058 [6] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:32:39,067 [6] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:32:47,306 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:32:47,306 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:32:47,306 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:32:47,306 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:32:47,309 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:32:47,309 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:32:47,309 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:32:47,309 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:32:47,309 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:32:47,309 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:32:47,309 [37] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:33:52,402 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:33:52,402 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:33:52,402 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:33:52,402 [9] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:33:54,249 [37] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:6940, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1131478648]
+2023-06-13 02:33:54,254 [9] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#608193181]
+2023-06-13 02:33:54,254 [9] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1730093000]
+2023-06-13 02:33:54,293 [9] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:33:54,348 [9] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:33:54,361 [9] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:33:54,370 [10] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:33:55,920 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"123'"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:33:55,921 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"123'"},"PayloadCase":17})
+2023-06-13 02:33:59,205 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:33:59,205 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:33:59,205 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:33:59,205 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:33:59,208 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:33:59,209 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:33:59,209 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:33:59,209 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:33:59,209 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:33:59,210 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:33:59,214 [9] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:34:45,739 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:34:45,739 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:34:45,739 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:34:45,739 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:34:47,515 [37] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:7082, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#426107356]
+2023-06-13 02:34:47,519 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1509235212]
+2023-06-13 02:34:47,520 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#483651384]
+2023-06-13 02:34:47,559 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:34:47,617 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:34:47,630 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:34:47,639 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:34:50,265 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:34:50,265 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:34:50,265 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:34:50,265 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:34:50,272 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:34:50,273 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:34:50,273 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:34:50,274 [52] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:34:50,274 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:34:50,273 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:34:50,273 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:35:11,211 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:35:11,211 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:35:11,211 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:35:11,211 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:35:13,541 [38] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:7173, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1109690232]
+2023-06-13 02:35:13,545 [38] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1013374241]
+2023-06-13 02:35:13,545 [38] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#2135274060]
+2023-06-13 02:35:13,583 [38] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:35:13,641 [4] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:35:13,653 [4] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:35:13,662 [38] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:35:16,511 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:35:16,511 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:35:16,511 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:35:16,511 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:35:16,514 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:35:16,515 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:35:16,515 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:35:16,515 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:35:16,516 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:35:16,516 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:35:16,519 [36] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:36:04,344 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:36:04,344 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:36:04,344 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:36:04,344 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:36:06,136 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:7385, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#2026818905]
+2023-06-13 02:36:06,139 [5] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1869803743]
+2023-06-13 02:36:06,140 [5] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#844219915]
+2023-06-13 02:36:06,179 [5] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:36:06,232 [5] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:36:06,244 [5] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:36:06,256 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:36:21,267 [36] DEBUG GameServer.Socket.SessionActor - [akka://GameServer/system/IO-TCP/$a/$a#1966119734] closed
+2023-06-13 02:36:21,270 [37] INFO  GameServer.Socket.SessionCordiatorActor - client disconnected:192.168.0.119:7385
+2023-06-13 02:36:24,435 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:36:24,436 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:36:24,435 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:36:24,435 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:36:24,436 [37] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:36:24,435 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:36:24,436 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:36:24,436 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:36:24,437 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:36:24,437 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:36:24,437 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:36:34,374 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:36:34,374 [9] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:36:34,374 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:36:34,374 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:36:36,204 [35] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:7483, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#2140822234]
+2023-06-13 02:36:36,209 [9] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1353174312]
+2023-06-13 02:36:36,209 [9] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#327590484]
+2023-06-13 02:36:36,248 [9] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:36:36,307 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:36:36,319 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:36:36,335 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:36:40,040 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:36:40,040 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:36:40,040 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:36:40,041 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:36:40,043 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:36:40,044 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:36:40,044 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:36:40,043 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:36:40,045 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:36:40,049 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:36:40,046 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:38:04,905 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:38:04,905 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:38:04,905 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:38:04,905 [9] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:38:09,434 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:38:09,434 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:38:09,434 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:38:09,434 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:38:09,440 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:38:09,440 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:38:09,440 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:38:09,440 [50] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:38:09,440 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:38:09,440 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:38:09,440 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:38:36,226 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:38:36,226 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:38:36,226 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:38:36,226 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:38:41,558 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:38:41,558 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:38:41,558 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:38:41,558 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:38:41,562 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:38:41,562 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:38:41,562 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:38:41,562 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:38:41,562 [51] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:38:41,562 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:38:41,562 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:39:06,267 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:39:06,267 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:39:06,267 [9] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:39:06,267 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:39:09,991 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:39:09,991 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:39:09,991 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:39:09,991 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:39:09,996 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:39:09,996 [4] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:39:09,996 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:39:09,996 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:39:09,996 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:39:09,996 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:39:09,996 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:40:39,452 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:40:39,452 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:40:39,452 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:42:04,834 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:42:04,834 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:42:04,834 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:04,834 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:07,858 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:42:07,858 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:42:07,858 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:42:07,858 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:42:07,865 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:42:07,866 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:42:07,866 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:42:07,866 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:42:07,866 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:42:07,866 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:42:07,866 [6] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:42:24,844 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:24,844 [9] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:42:24,844 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:42:24,844 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:28,284 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:42:28,284 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:42:28,284 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:42:28,284 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:42:28,287 [4] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:42:28,287 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:42:28,287 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:42:28,287 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:42:28,287 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:42:28,288 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:42:28,287 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:42:32,491 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:32,491 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:42:32,491 [6] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:42:32,491 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:36,322 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:42:36,322 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:42:36,322 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:42:36,322 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:42:36,328 [35] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:42:36,328 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:42:36,329 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:42:36,329 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:42:36,329 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:42:36,329 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:42:36,329 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:42:58,690 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:58,690 [4] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:42:58,690 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:42:58,690 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:43:00,208 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:43:00,208 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:43:00,208 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:43:00,208 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:43:00,212 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:43:00,212 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:43:00,212 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:43:00,212 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:43:00,212 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:43:00,212 [4] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:43:00,212 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:43:06,150 [4] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:43:06,150 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:43:06,150 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:43:06,150 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:43:09,703 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:43:09,703 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:43:09,703 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:43:09,703 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:43:09,713 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:43:09,713 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:43:09,713 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:43:09,713 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:43:09,713 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:43:09,713 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:43:09,713 [50] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:43:21,368 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:43:21,368 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:43:21,368 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:43:21,368 [7] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:43:23,172 [36] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:8620, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1670412634]
+2023-06-13 02:43:23,177 [7] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1574096643]
+2023-06-13 02:43:23,178 [7] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#548512815]
+2023-06-13 02:43:23,217 [7] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:43:23,272 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:43:23,284 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:43:23,293 [7] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:43:24,900 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"1234"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:43:24,902 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"1234"},"PayloadCase":17})
+2023-06-13 02:43:27,674 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:43:27,674 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:43:27,674 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:43:27,674 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:43:27,678 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:43:27,679 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:43:27,679 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:43:27,679 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:43:27,680 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:43:27,680 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:43:27,679 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:43:40,827 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:43:40,827 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:43:40,827 [11] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:43:40,827 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:43:42,627 [11] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:8666, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1986827026]
+2023-06-13 02:43:42,633 [11] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#759915289]
+2023-06-13 02:43:42,634 [11] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1785499117]
+2023-06-13 02:43:42,674 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:43:42,728 [5] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:43:42,740 [5] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:43:42,748 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:43:44,028 [49] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"adjkflajsdf"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:43:44,029 [49] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"adjkflajsdf"},"PayloadCase":17})
+2023-06-13 02:43:45,426 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"exit"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:43:45,427 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"exit"},"PayloadCase":17})
+2023-06-13 02:43:47,878 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:43:47,878 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:43:47,878 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:43:47,878 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:43:47,882 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:43:47,884 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:43:47,884 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:43:47,885 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:43:47,885 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:43:47,885 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:43:47,889 [53] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:45:21,778 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:45:21,778 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:45:21,778 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:45:21,778 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:45:23,523 [5] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:8831, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1174823072]
+2023-06-13 02:45:23,527 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#83744160]
+2023-06-13 02:45:23,528 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1109327988]
+2023-06-13 02:45:23,569 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:45:23,623 [5] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:45:23,635 [5] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:45:23,644 [5] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:45:26,426 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:45:26,426 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:45:26,426 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:45:26,426 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:45:26,437 [37] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:45:26,442 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:45:26,442 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:45:26,442 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:45:26,442 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:45:26,442 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:45:26,443 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:46:06,656 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:06,656 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:46:06,656 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:06,656 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:46:08,464 [11] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:8980, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1038877239]
+2023-06-13 02:46:08,467 [11] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#757085345]
+2023-06-13 02:46:08,468 [11] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1878985164]
+2023-06-13 02:46:08,505 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:46:08,561 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:46:08,573 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:46:08,583 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:46:11,183 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:46:11,183 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:46:11,183 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:46:11,183 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:46:11,192 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:46:11,193 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:46:11,193 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:46:11,193 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:46:11,193 [7] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:46:11,193 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:46:11,194 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:46:16,119 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:16,119 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:16,119 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:46:16,119 [36] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:46:17,941 [37] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:9006, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1654283104]
+2023-06-13 02:46:17,944 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1195397675]
+2023-06-13 02:46:17,945 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#169813847]
+2023-06-13 02:46:17,983 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:46:22,418 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:46:22,419 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:46:22,419 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:46:22,419 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:46:22,423 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:46:22,424 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:46:22,424 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:46:22,424 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:46:22,423 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:46:22,425 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:46:22,424 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:46:34,464 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:46:34,464 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:34,464 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:34,464 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:46:36,331 [36] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:9082, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#964304382]
+2023-06-13 02:46:36,335 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1989888210]
+2023-06-13 02:46:36,335 [36] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#867988391]
+2023-06-13 02:46:36,374 [36] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:46:36,429 [6] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:46:36,441 [6] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:46:36,450 [6] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:46:39,758 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:46:39,758 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:46:39,758 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:46:39,758 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:46:39,761 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:46:39,762 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:46:39,762 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:46:39,762 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:46:39,762 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:46:39,762 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:46:39,762 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:46:48,939 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:46:48,939 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:48,939 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:46:48,939 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:46:51,134 [37] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:9159, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#557860352]
+2023-06-13 02:46:51,138 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1929481648]
+2023-06-13 02:46:51,138 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#903897820]
+2023-06-13 02:46:51,177 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:46:53,055 [4] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:46:53,067 [4] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:46:53,075 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:47:00,015 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"5초 자동 착즙기"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:47:00,018 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"5초 자동 착즙기"},"PayloadCase":17})
+2023-06-13 02:47:02,950 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:47:02,950 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:47:02,950 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:47:02,950 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:47:02,954 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:47:02,954 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:47:02,955 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:47:02,954 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:47:02,954 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:47:02,954 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:47:02,961 [4] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:47:44,174 [7] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:47:44,174 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:47:44,174 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:47:44,174 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:47:45,986 [10] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:9283, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#419042234]
+2023-06-13 02:47:45,990 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#804594571]
+2023-06-13 02:47:45,990 [10] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#1926494390]
+2023-06-13 02:47:46,027 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:47:46,082 [10] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:47:46,094 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:47:46,105 [36] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:47:47,576 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:47:47,576 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:47:47,576 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:47:47,576 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:47:47,583 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:47:47,583 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:47:47,583 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:47:47,584 [10] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:47:47,583 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:47:47,584 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:47:47,585 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:49:40,760 [10] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:49:40,760 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:49:40,761 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:49:40,761 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:49:42,555 [37] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:9541, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1863569536]
+2023-06-13 02:49:42,559 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1445140712]
+2023-06-13 02:49:42,559 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#419556884]
+2023-06-13 02:49:42,597 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:49:42,655 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:49:42,667 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:49:42,678 [7] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:49:46,099 [10] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"123123"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:49:46,100 [10] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"123123"},"PayloadCase":17})
+2023-06-13 02:49:48,938 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:49:48,938 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:49:48,938 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:49:48,938 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-06-13 02:49:48,947 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:49:48,948 [52] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:49:48,948 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:49:48,948 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:49:48,948 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:49:48,948 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:49:48,948 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:50:03,692 [7] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:8081
+2023-06-13 02:50:03,692 [1] INFO  GameServer.Program - Port:8081 Server Doing. "exit" is exit
+2023-06-13 02:50:03,692 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-06-13 02:50:03,692 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-06-13 02:50:05,519 [7] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:192.168.0.119:9643, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#1051364052]
+2023-06-13 02:50:05,522 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvDbLink - [akka://GameServer/user/dbcordiator/gamedb0#1612434996]
+2023-06-13 02:50:05,523 [37] DEBUG GameServer.World.UserInfo.UserActor - OnRecvRedisLink - [akka://GameServer/user/rediscordiator/redis0#490535177]
+2023-06-13 02:50:05,561 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ConnectedResponse) data({"MessageSize":0,"ConnectedResponse":{"Index":0},"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":11})
+2023-06-13 02:50:05,618 [37] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(ServerEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":{"SessionKey":"1234567"},"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":12})
+2023-06-13 02:50:05,631 [37] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - message(ServerEnterResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":{"UserUid":1001,"UserId":"test1001"},"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":13})
+2023-06-13 02:50:05,643 [7] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(MapEnterRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":{"MapIndex":1001},"MapEnterResponse":null,"SayRequest":null,"SayResponse":null,"PayloadCase":14})
+2023-06-13 02:50:12,421 [11] INFO  GameServer.World.UserInfo.UserActor - Client->Server - message(SayRequest) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":{"UserUid":0,"UserId":"test1001","Message":"123"},"SayResponse":null,"PayloadCase":16})
+2023-06-13 02:50:12,426 [11] INFO  GameServer.World.UserInfo.UserActor - Client<-Server - broadcast message(SayResponse) data({"MessageSize":0,"ConnectedResponse":null,"ServerEnterRequest":null,"ServerEnterResponse":null,"MapEnterRequest":null,"MapEnterResponse":null,"SayRequest":null,"SayResponse":{"UserId":"test1001","Message":"123"},"PayloadCase":17})
+2023-06-13 02:50:15,859 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-06-13 02:50:15,859 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-06-13 02:50:15,860 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-06-13 02:50:15,860 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-06-13 02:50:15,868 [7] INFO  GameServer.Socket.ListenerActor - PostStop ListenerActor
+2023-06-13 02:50:15,870 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-06-13 02:50:15,870 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-06-13 02:50:15,871 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-06-13 02:50:15,870 [akka.actor.database-dispatcher_2] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-06-13 02:50:15,870 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-06-13 02:50:15,872 [akka.actor.database-dispatcher_4] INFO  GameServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
