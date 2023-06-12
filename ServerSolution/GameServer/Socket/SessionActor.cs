@@ -24,7 +24,8 @@ namespace GameServer.Socket
             public IActorRef UserRef { get; set; } // 객체 연결
         }
         public class UserToSessionLinkResponse
-        {            
+        {
+            public static UserToSessionLinkResponse Instance { get; } = new();
         }
 
         public class SendMessage
@@ -52,14 +53,9 @@ namespace GameServer.Socket
         private int _sendedBytes = 0;  // 보낸 패킷
         private const int _maxPacketBytes = 1024;  // 최대 패킷 수
         private Queue<byte[]> _sendQueue = new Queue<byte[]>();
-        private bool _packetEncrypt = true;
 
-        // 암호화 복호화 memory
-        private MemoryStream _encryptMemory = new MemoryStream();
-        private MemoryStream _decryptMemory = new MemoryStream();
-        // 구글 버퍼 Memory
-        private MemoryStream _gbufferMemory = new MemoryStream();
-
+        // 패킷 암호화 여부
+        private readonly bool _packetEncrypt = true;
 
         public SessionActor(IActorRef sessionCordiator, string remoteAdress, IActorRef connection)
         {
@@ -74,16 +70,7 @@ namespace GameServer.Socket
         protected override void PreStart()
         {
             base.PreStart();
-            
-            if(_encryptMemory is null)
-                _encryptMemory = new MemoryStream();
 
-            if(_decryptMemory is null)
-                _decryptMemory = new MemoryStream();
-
-            if (_gbufferMemory is null)
-                _gbufferMemory = new MemoryStream();
-            
         }
 
         /// <summary>
@@ -91,15 +78,6 @@ namespace GameServer.Socket
         /// </summary>
         protected override void PostStop()
         {
-            _encryptMemory?.Dispose();
-            _encryptMemory = null;
-
-            _decryptMemory?.Dispose();
-            _decryptMemory = null;
-
-            _gbufferMemory?.Dispose();
-            _gbufferMemory = null;
-
             base.PostStop();
         }
 
@@ -112,7 +90,7 @@ namespace GameServer.Socket
                         _userRef = request.UserRef; // 네트워크 세션과 User Actor 연결
 
                         // 등록이 완료되었음
-                        _userRef.Tell(new SessionActor.UserToSessionLinkResponse { });
+                        _userRef.Tell(SessionActor.UserToSessionLinkResponse.Instance);
 
                         
                         break;

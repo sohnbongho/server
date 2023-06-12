@@ -202,6 +202,7 @@ namespace GameServer.World.UserInfo
                 UserActorRef = Self
             });
         }
+
         /// <summary>
         /// DB요청에 대한 응답
         /// </summary>
