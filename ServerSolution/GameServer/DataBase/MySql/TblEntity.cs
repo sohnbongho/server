@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// 반드시 DB와 변수명이 동일해야 한다.
 /// </summary>
-namespace GameServer.DataBase.MySql.MySql.Entities
+namespace GameServer.DataBase.MySql
 {
     public class TblUser
     {

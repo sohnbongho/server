@@ -11,10 +11,14 @@ using System.Linq;
 using System.Reflection;
 using Library.Helper.Encrypt;
 using GameServer.DataBase.MySql;
-using GameServer.DataBase.MySql.MySql.Entities;
 using GameServer.DataBase.Redis;
 using GameServer.Helper;
 using GameServer.Socket;
+using GameServer.Manager;
+using System.ComponentModel;
+using MySqlConnector;
+using GameServer.Component.User;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GameServer.World.UserInfo
 {
@@ -43,7 +47,7 @@ namespace GameServer.World.UserInfo
     /// <summary>
     /// User Actor
     /// </summary>
-    public class UserActor : UntypedActor, ILogReceive
+    public class UserActor : UntypedActor, IComponentManager
     {
         public class SessionReceiveData
         {
@@ -65,10 +69,42 @@ namespace GameServer.World.UserInfo
         
 
         // 필수 함수 핸들러들 (FSM이 변경되도 반드시 있어야 하는 핸들러들)
-        private Dictionary<System.Type, Action<object, IActorRef>> _requiredHandlers;
+        private Dictionary<System.Type, Action<object, IActorRef>> _systemHandlers;
 
-        private Dictionary<System.Type, Action<object, IActorRef>> _userHandlers;
+        private Dictionary<System.Type, Action<object, IActorRef>> _sessionHandlers;
 
+        private Dictionary<MessageWrapper.PayloadOneofCase, Action<object, IActorRef>> _userHandlers;
+
+
+        // Component 패턴
+        private ComponentManager _componentManager = new ComponentManager();
+
+        /// <summary>
+        /// Component 관리
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        public void AddComponent<T>(T component) where T : class
+        {
+            _componentManager.AddComponent<T>(component);
+        }
+
+        public T GetComponent<T>() where T : class
+        {
+            return _componentManager.GetComponent<T>();
+        }
+
+        public void RemoveComponent<T>() where T : class
+        {
+            _componentManager.RemoveComponent<T>();
+        }
+
+        /// <summary>
+        /// Akka관련
+        /// </summary>
+        /// <param name="worldActor"></param>
+        /// <param name="sessionRef"></param>
+        /// <param name="remoteAdress"></param>
         public UserActor(IActorRef worldActor, IActorRef sessionRef, string remoteAdress)
         {
             _worldActor = worldActor;
@@ -80,7 +116,7 @@ namespace GameServer.World.UserInfo
 
             // 
             // 생성과 동시에 메서드를 등록하는 dictionary
-            _requiredHandlers = new Dictionary<System.Type, Action<object, IActorRef>> {                
+            _systemHandlers = new Dictionary<System.Type, Action<object, IActorRef>> {                
                 {typeof(DbServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvDbLink((DbServiceCordiatorActor.UserToDbLinkResponse)data)},
                 {typeof(RedisServiceCordiatorActor.UserToDbLinkResponse), (data, sender) => OnRecvRedisLink((RedisServiceCordiatorActor.UserToDbLinkResponse)data)},
                 {typeof(GameDbServiceActor.SelectResponse), (data, sender) => OnRecvSelectReponse((GameDbServiceActor.SelectResponse)data)},
@@ -88,12 +124,26 @@ namespace GameServer.World.UserInfo
                 {typeof(SessionActor.UserToSessionLinkResponse), (data, sender) => OnRecvUserToSessionLinkResponse((SessionActor.UserToSessionLinkResponse)data)},
             };
             
-            // 유저들과 패킷
-            _userHandlers = new Dictionary<System.Type, Action<object, IActorRef>>{
+            // 세션관련 
+            _sessionHandlers = new Dictionary<System.Type, Action<object, IActorRef>>{
                 {typeof(UserActor.SessionReceiveData), (data, sender) => OnRecvPacket((UserActor.SessionReceiveData)data, sender)},
             };
-        }
-        
+
+            // 유저 관련 핸들러
+            _userHandlers = new Dictionary<MessageWrapper.PayloadOneofCase, Action<object, IActorRef>>
+            {
+                {MessageWrapper.PayloadOneofCase.ServerEnterRequest, (data, sender) => OnRecvServerEnterRequest((MessageWrapper)data, sender)},
+                {MessageWrapper.PayloadOneofCase.SayRequest, (data, sender) => OnRecvSayRequest((MessageWrapper)data, sender)},
+            };
+
+
+            // Select 는 Compoent에서 처리하자 
+            // update, delete는 actor에서 처리하자.
+            // TODO: 추후에 update, delete도 Component에서 할지도?
+            AddComponent<MySqlDbComponent>(new MySqlDbComponent()); // MySql연결
+            AddComponent<RedisCacheComponent>(new RedisCacheComponent()); // Redis연결            
+        }        
+
         protected override void PreStart()
         {
             base.PreStart();
@@ -104,6 +154,18 @@ namespace GameServer.World.UserInfo
                 UserRef = Self
             });
         }
+
+        protected override void PostStop()
+        {
+            // Compone 제거
+            RemoveComponent<MySqlDbComponent>();
+            RemoveComponent<RedisCacheComponent>();
+
+            Close();
+            base.PostStop();
+        }
+
+
         /// <summary>
         /// DB Actor와 연결
         /// </summary>
@@ -141,15 +203,7 @@ namespace GameServer.World.UserInfo
                 }
             };
             Tell(conntedMessage);
-        }
-
-
-        
-        protected override void PostStop()
-        {
-            Close();
-            base.PostStop();
-        }
+        }        
 
         // here we are overriding the default SupervisorStrategy
         // which is a One-For-One strategy w/ a Restart directive
@@ -162,17 +216,7 @@ namespace GameServer.World.UserInfo
                 {
                     Close();
 
-                    return Directive.Stop;
-
-                    ////Maybe we consider ArithmeticException to not be application critical
-                    ////so we just ignore the error and keep going.
-                    //if (x is ArithmeticException) return Directive.Resume;
-
-                    ////Error that we cannot recover from, stop the failing actor
-                    //else if (x is NotSupportedException) return Directive.Stop;
-
-                    ////In all other cases, just restart the failing actor
-                    //else return Directive.Restart;
+                    return Directive.Stop;                    
                 });
         }
 
@@ -228,19 +272,13 @@ namespace GameServer.World.UserInfo
         protected override void OnReceive(object message)
         {
             var dataType = message.GetType();
-            if (_requiredHandlers.TryGetValue(dataType, out var handler))
+            if (_systemHandlers.TryGetValue(dataType, out var handler))
             {
                 handler(message, Sender);
                 return;
             }
-            else
-            {
-                // 핸들러를 찾지 못했을 때의 처리
-                // ...
-                Unhandled(message);
-            }
-
-            if (_userHandlers.TryGetValue(dataType, out var userHandler))
+            
+            if (_sessionHandlers.TryGetValue(dataType, out var userHandler))
             {
                 userHandler(message, Sender);
                 return;
@@ -274,10 +312,7 @@ namespace GameServer.World.UserInfo
                 Message = message
             };
             _sessionRef.Tell(res);
-        }
-
-
-        
+        }        
 
         /// <summary>
         /// Redis 에서 온값들 
@@ -289,37 +324,6 @@ namespace GameServer.World.UserInfo
             {
                 case RedisServiceActor.RedisCallId.ServerSessionId:
                     {
-                        long userUid = 0;
-                        string userId = string.Empty;
-                        if(data.Values.TryGetValue("user_uid", out var obj1))
-                        {
-                            userUid = long.Parse(obj1.ToString());
-                        }
-                        if (data.Values.TryGetValue("user_id", out var obj2))
-                        {
-                            userId = obj2.ToString();
-                        }
-
-                        _userUid = userUid;
-                        _userId = userId;
-
-                        // 클라이언트에게 알림
-                        var response = new MessageWrapper{
-                            ServerEnterResponse = new ServerEnterResponse{
-                                UserUid = userUid,
-                                UserId = userId
-                            }
-                        };
-                        Tell(response); 
-
-                        // User정보 요청            
-                        var query = $"select * from tbl_user where user_uid={_userUid};";
-                        _dbActorRef?.Tell(new GameDbServiceActor.SelectRequest
-                        {
-                            Query = query,
-                            TblType = typeof(TblUser)
-                        });
-
                         break;
                     }
             }
@@ -332,49 +336,71 @@ namespace GameServer.World.UserInfo
         /// </summary>
         /// <param name="received"></param>
         /// <param name="sessionRef"></param>
-        private void OnRecvPacket(UserActor.SessionReceiveData received, IActorRef sessionRef)
+        private bool OnRecvPacket(UserActor.SessionReceiveData received, IActorRef sessionRef)
         {
             byte[] receivedMessage = received.RecvBuffer;
 
             // 전체를 관리하는 wapper로 변환 역직렬화
-            var wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
+            MessageWrapper wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
             var json = JsonConvert.SerializeObject(wrapper);
 
-            _logger.Info($"OnRecvPacket - message({wrapper.PayloadCase.ToString()}) data({json})");
-
-            switch (wrapper.PayloadCase)
+            _logger.Info($"OnRecvPacket - message({wrapper.PayloadCase}) data({json})");
+                        
+            if(_userHandlers.TryGetValue(wrapper.PayloadCase, out var handler))
             {
-                // 서버에 입장
-                case MessageWrapper.PayloadOneofCase.ServerEnterRequest:
-                    {
-                        var request = wrapper.ServerEnterRequest;
-
-                        _redisActorRef?.Tell(new RedisServiceActor.StringGetRequest
-                        {
-                            DataBaseId = RedisConnectorHelper.DataBaseId.Session,
-                            RedisCallId = RedisServiceActor.RedisCallId.ServerSessionId,
-                            Key = request.SessionKey
-                        });
-
-                        break;
-                    }
-
-                case MessageWrapper.PayloadOneofCase.SayRequest:
-                    {
-                        var request = wrapper.SayRequest;
-                        var response = new MessageWrapper
-                        {
-                            SayResponse = new SayResponse
-                            {
-                                UserId = request.UserId,
-                                Message = request.Message
-                            }
-                        };
-                        BroardcastTell(response);
-
-                        break;
-                    }
+                handler(wrapper, Sender);
+                return true;
             }
+            
+            return false;
         }
+
+        private void OnRecvServerEnterRequest(MessageWrapper wrapper, IActorRef sessionRef)
+        {
+            var request = wrapper.ServerEnterRequest;
+            var redis = GetComponent<RedisCacheComponent>();
+            var db = GetComponent<MySqlDbComponent>();
+
+            var dicts = redis.GetSessionToUserUid(request.SessionKey);
+            long userUid = 0;            
+
+            if (dicts.TryGetValue("user_uid", out var obj1))
+            {
+                userUid = long.Parse(obj1.ToString());
+            }            
+
+            var userId =  db.GetUserInfo(userUid).user_id;
+
+            _userUid = userUid;
+            _userId = userId;
+
+            // 클라이언트에게 알림
+            var response = new MessageWrapper
+            {
+                ServerEnterResponse = new ServerEnterResponse
+                {
+                    UserUid = userUid,
+                    UserId = userId
+                }
+            };
+            Tell(response);
+        }
+
+        private void OnRecvSayRequest(MessageWrapper wrapper, IActorRef sessionRef)
+        {
+            var request = wrapper.SayRequest;
+
+            var response = new MessageWrapper
+            {
+                SayResponse = new SayResponse
+                {
+                    UserId = request.UserId,
+                    Message = request.Message
+                }
+            };
+            BroardcastTell(response);
+        }
+
+
     }
 }
