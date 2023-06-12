@@ -68,7 +68,7 @@ namespace GameServer.Socket
         {
             return new OneForOneStrategy(
                 10, // maxNumberOfRetries
-                TimeSpan.FromSeconds(5), // duration
+                TimeSpan.FromSeconds(30), // duration
                 x =>
                 {
                     return Directive.Restart;
@@ -118,6 +118,12 @@ namespace GameServer.Socket
                     {
                         break;
                     }
+                case Terminated terminated:
+                    {
+                        // Here, handle the termination of the watched actor.
+                        // For example, you might want to create a new actor or simply log the termination.
+                        break;
+                    }
                 default:
                     {
                         Unhandled(message);
@@ -138,6 +144,9 @@ namespace GameServer.Socket
             var sessionProp = Props.Create(() => new SessionActor(Self, message.RemoteAdress, remoteSender));
             var sessionRef = Context.ActorOf(sessionProp);
             remoteSender.Tell(new Tcp.Register(sessionRef));
+
+            // Session 을 감시 하면 자식 PostStop일때 Terminated 이벤트를 받을 수 있다.
+            //Context.Watch(sessionRef);
 
             // session관리에 넣어주자
             _sessions.TryAdd(message.RemoteAdress, sessionRef);

@@ -90,6 +90,14 @@ namespace GameServer.DataBase.Redis
             CheckDatabaseStatus();
         }
 
+        protected override void PostStop()
+        {
+            _logger.Info($"RedisServiceActor.poststop() - name({_name})");
+
+            base.PostStop();
+
+        }
+
         /// <summary>
         /// redis 체크
         /// </summary>
