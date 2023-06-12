@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Component.User
+namespace GameServer.Component.DataBase
 {
     public class MySqlDbComponent
     {

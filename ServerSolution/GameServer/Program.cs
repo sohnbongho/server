@@ -78,7 +78,8 @@ namespace GameServer
                 ActorSupervisorHelper.Instance.SetWorldCordiatorRef(worldActor);
 
                 // Akka.IO로 초기화                
-                var client = ListenerActor.ActorOf(actorSystem, worldActor, ConfigInstanceHelper.Instance.Port);
+                var listener = ListenerActor.ActorOf(actorSystem, worldActor, ConfigInstanceHelper.Instance.Port);
+                ActorSupervisorHelper.Instance.SetListenerRef(listener);
 
                 _logger.Info($@"Port:{ConfigInstanceHelper.Instance.Port} Server Doing. ""exit"" is exit");
 

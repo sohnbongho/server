@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static RedisConnectorHelper;
 
-namespace GameServer.Component.User
+namespace GameServer.Component.DataBase
 {
     public class RedisCacheComponent
     {

@@ -19,6 +19,7 @@ namespace GameServer.Helper
         public IActorRef SessionCordiatorRef => _sessionCordiatorRef;
         public IActorRef DbCordiatorRef => _dbCordiatorRef;
         public IActorRef RedisCordiatorRef => _redisCordiatorRef;
+        public IActorRef ListenerRef => _listenerRef;
 
         public IActorRef UserCordiatorRef => _userCordiatorRef;
         public IActorRef MapCordiatorRef => _mapCordiatorRef;
@@ -27,6 +28,7 @@ namespace GameServer.Helper
         private IActorRef _sessionCordiatorRef = null;
         private IActorRef _dbCordiatorRef = null;
         private IActorRef _redisCordiatorRef = null;
+        private IActorRef _listenerRef = null;
 
         private IActorRef _worldCordiatorRef = null;
         private IActorRef _userCordiatorRef = null;
@@ -50,6 +52,11 @@ namespace GameServer.Helper
         public void SetRedisCordiatorRef(IActorRef redisCordiatorRef)
         {
             _redisCordiatorRef = redisCordiatorRef;
+        }
+
+        public void SetListenerRef(IActorRef listenerRef)
+        {
+            _listenerRef = listenerRef;
         }
 
         /*------------------------------------

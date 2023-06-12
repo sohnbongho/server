@@ -36,14 +36,12 @@ namespace GameServer.Socket
             // 세션을 관리해 주는 Actor 생성            
             _sessionCordiatorRef = SessionCordiatorActor.ActorOf(Context, Self, _worldActorRef);
             ActorSupervisorHelper.Instance.SetSessionCordiatorRef(_sessionCordiatorRef);
-
-            
-
-
         }
 
         protected override void PostStop()
         {
+            _logger.Info($"PostStop ListenerActor");
+
             base.PostStop();
         }
         protected override void OnReceive(object message)
@@ -62,6 +60,16 @@ namespace GameServer.Socket
                             RemoteAdress = connected.RemoteAddress.ToString(),
                         });
 
+                        break;
+                    }
+                case DeathPactException:
+                    {
+                        break;
+                    }
+                case Terminated terminated:
+                    {
+                        // Here, handle the termination of the watched actor.
+                        // For example, you might want to create a new actor or simply log the termination.
                         break;
                     }
                 default:
