@@ -34,7 +34,7 @@ namespace GameServer.DataBase.MySql
 
         private readonly int _actorCount = 1;
         private int _actorPos = 0;
-        private object _actorPosLock = new object();
+        private object _posLock = new object();
 
         private readonly ConcurrentDictionary<string, IActorRef> _dbs = new ConcurrentDictionary<string, IActorRef>();
 
@@ -70,24 +70,23 @@ namespace GameServer.DataBase.MySql
         }
 
         private void OnReceiveUserToDbLinkRequest(DbServiceCordiatorActor.UserToDbLinkRequest message)
-        {
-            var userActorRef = message.UserActorRef;
-            var dbName = string.Empty;
+        {            
             // 하나씩 증가 시키자
-            lock (_actorPosLock)
-            {   
-                dbName = $"{ActorPaths.GameDb.Name}{_actorPos}";
+            lock (_posLock)
+            {
+                var userActorRef = message.UserActorRef;
+                var dbName = $"{ActorPaths.GameDb.Name}{_actorPos}";
                 ++_actorPos;
                 _actorPos = _actorPos >= _actorCount ? 0 : _actorPos;
-            }
 
-            if (_dbs.TryGetValue(dbName, out var dbActorRef))
-            {
-                userActorRef.Tell(new DbServiceCordiatorActor.UserToDbLinkResponse
+                if (_dbs.TryGetValue(dbName, out var dbActorRef))
                 {
-                    DbActorRef = dbActorRef
-                });
-            }
+                    userActorRef.Tell(new DbServiceCordiatorActor.UserToDbLinkResponse
+                    {
+                        DbActorRef = dbActorRef
+                    });
+                }
+            }            
         }        
     }    
 }
