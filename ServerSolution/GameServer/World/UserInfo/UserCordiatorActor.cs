@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static GameServer.World.UserInfo.UserCordiatorActor;
 
 namespace GameServer.World.UserInfo
 {
@@ -30,6 +31,7 @@ namespace GameServer.World.UserInfo
         private IActorRef _worldRef;
         // 원격에 연결된 User Acotr들
         private readonly ConcurrentDictionary<string, User> _userList = new ConcurrentDictionary<string, User>();
+        private readonly ConcurrentDictionary<IActorRef, string> _userRefs = new();
 
         public static IActorRef ActorOf(IUntypedActorContext context, IActorRef worldRef)
         {
@@ -44,6 +46,7 @@ namespace GameServer.World.UserInfo
         protected override void PostStop()
         {
             _userList.Clear();
+            _userRefs.Clear();
 
             base.PostStop();
         }
@@ -74,8 +77,12 @@ namespace GameServer.World.UserInfo
                         {
                             var user = User.Of(Context, Self, addUser.SessionRef, remoteAddress);
 
+                            // 자식 User이 PostStop일때 Terminated 이벤트를 받을 수 있다.
+                            Context.Watch(user.UserRef);
+
                             // 유저 추가
                             _userList.TryAdd(remoteAddress, user);
+                            _userRefs.TryAdd(user.UserRef, remoteAddress);
                         }
                         else
                         {
@@ -89,10 +96,32 @@ namespace GameServer.World.UserInfo
                         var remoteAdress = closedUserSession.RemoteAddress;
                         if (_userList.TryGetValue(remoteAdress, out var finedUser))
                         {
-                            Context.Stop(finedUser.UserRef);
+                            _userRefs.TryRemove(finedUser.UserRef, out _);                           
 
                             // remove the actor reference from the dictionary
                             _userList.TryRemove(closedUserSession.RemoteAddress, out var _);
+
+                            Context.Unwatch(finedUser.UserRef);
+                            Context.Stop(finedUser.UserRef);                            
+                        }
+                        break;
+                    }
+                case Terminated terminated:
+                    {
+                        // Here, handle the termination of the watched actor.
+                        // For example, you might want to create a new actor or simply log the termination.
+                        if (_userRefs.TryGetValue(terminated.ActorRef, out var remoteAddress))
+                        {
+                            Context.Unwatch(terminated.ActorRef);
+
+                            _userRefs.TryRemove(terminated.ActorRef, out _);
+                            _userList.TryRemove(remoteAddress, out var _);
+
+                            var sessionCordiatorRef = ActorSupervisorHelper.Instance.SessionCordiatorRef;
+                            sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
+                            {
+                                RemoteAdress = remoteAddress
+                            });
                         }
                         break;
                     }

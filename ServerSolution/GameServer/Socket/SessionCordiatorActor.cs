@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using GameServer.Helper;
 using GameServer.World;
 using GameServer.World.UserInfo;
+using Akka.Dispatch.SysMsg;
 
 namespace GameServer.Socket
 {
@@ -43,10 +44,11 @@ namespace GameServer.Socket
             public MessageWrapper Message { get; set; }
         }
 
-        private readonly ConcurrentDictionary<string, IActorRef> _sessions = new ConcurrentDictionary<string, IActorRef>();
+        private readonly ConcurrentDictionary<string, IActorRef> _sessions = new ();
+        private readonly ConcurrentDictionary<IActorRef, string> _sessionRefs = new ();
+
         private readonly IActorRef _listenerRef;
-        private readonly IActorRef _worldRef;
-        private readonly IActorRef _userCordiatorRef;
+        private readonly IActorRef _worldRef;        
 
         public static IActorRef ActorOf(IUntypedActorContext context, IActorRef listenerRef, IActorRef worldRef)
         {
@@ -58,8 +60,6 @@ namespace GameServer.Socket
         {
             _listenerRef = listenerActor;
             _worldRef = worldRef;
-            _userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
-
         }
         
         // here we are overriding the default SupervisorStrategy
@@ -95,7 +95,23 @@ namespace GameServer.Socket
                     }
                 case SessionCordiatorActor.ClosedRequest closedRequest:
                     {
-                        OnReceiveClosedSocket(closedRequest);
+                        var remoteAddress = closedRequest.RemoteAdress;
+                        if (_sessions.TryGetValue(remoteAddress, out var session))
+                        {
+                            Context.Unwatch(session);
+                            Context.Stop(session);
+
+                            _sessionRefs.TryRemove(session, out var _);
+                            // remove the actor reference from the dictionary
+                            _sessions.TryRemove(remoteAddress, out _);
+                        }
+
+                        var userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
+                        userCordiatorRef.Tell(new UserCordiatorActor.ClosedUserSession
+                        {
+                            RemoteAddress = remoteAddress
+                        });
+
                         break;
                     }
                 case SessionCordiatorActor.BroadcastMessage broadcastMessage:
@@ -122,6 +138,25 @@ namespace GameServer.Socket
                     {
                         // Here, handle the termination of the watched actor.
                         // For example, you might want to create a new actor or simply log the termination.
+                        if(_sessionRefs.TryGetValue(terminated.ActorRef, out var remoteAdress))
+                        {
+                            _logger.Info($"client disconnected:{remoteAdress}");
+
+                            if (_sessions.TryGetValue(remoteAdress, out var session))
+                            {
+                                Context.Unwatch(session);                                
+
+                                _sessionRefs.TryRemove(session, out var _);
+                                // remove the actor reference from the dictionary
+                                _sessions.TryRemove(remoteAdress, out _);
+                            }
+
+                            var userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
+                            userCordiatorRef.Tell(new UserCordiatorActor.ClosedUserSession
+                            {
+                                RemoteAddress = remoteAdress
+                            });
+                        }
                         break;
                     }
                 default:
@@ -145,36 +180,20 @@ namespace GameServer.Socket
             var sessionRef = Context.ActorOf(sessionProp);
             remoteSender.Tell(new Tcp.Register(sessionRef));
 
-            // Session 을 감시 하면 자식 PostStop일때 Terminated 이벤트를 받을 수 있다.
-            //Context.Watch(sessionRef);
+            // 자식 Session이 PostStop일때 Terminated 이벤트를 받을 수 있다.
+            Context.Watch(sessionRef);
 
             // session관리에 넣어주자
             _sessions.TryAdd(message.RemoteAdress, sessionRef);
+            _sessionRefs.TryAdd(sessionRef, message.RemoteAdress);
 
             // 월드에 추가해 주자
-            _userCordiatorRef.Tell(new UserCordiatorActor.AddUser
+            var userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
+            userCordiatorRef.Tell(new UserCordiatorActor.AddUser
             {
                 SessionRef = sessionRef,
                 RemoteAddress = message.RemoteAdress
             });
         }
-
-        private void OnReceiveClosedSocket(SessionCordiatorActor.ClosedRequest message)
-        {
-            var remoteAdress = message.RemoteAdress;
-            if (_sessions.TryGetValue(remoteAdress, out var session))
-            {
-                Context.Stop(session);
-
-                // remove the actor reference from the dictionary
-                _sessions.TryRemove(remoteAdress, out _);
-            }
-
-            _userCordiatorRef.Tell(new UserCordiatorActor.ClosedUserSession
-            {
-                RemoteAddress = remoteAdress
-            });
-        }
-        
     }
 }

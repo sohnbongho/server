@@ -217,11 +217,7 @@ namespace GameServer.World.UserInfo
         private void Close()
         {
             // Session Actor에 요청하여 종료 처리
-            var sessionCordiatorRef = ActorSupervisorHelper.Instance.SessionCordiatorRef;
-            sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
-            {
-                RemoteAdress = _remoteAddress
-            });
+            Context.Stop(Self);
         }
 
         /// <summary>

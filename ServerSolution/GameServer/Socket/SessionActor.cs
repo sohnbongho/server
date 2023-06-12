@@ -262,10 +262,11 @@ namespace GameServer.Socket
         /// </summary>
         private void ClosedSocket()
         {
-            _sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
-            {
-                RemoteAdress = _remoteAddress
-            });
+            //_sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
+            //{
+            //    RemoteAdress = _remoteAddress
+            //});
+            Context.Stop(Self);
         }
 
         /// <summary>
