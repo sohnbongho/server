@@ -28,6 +28,8 @@ namespace GameServer.Component.User
             //따라서 별도로 설정할 필요 없이, 연결 문자열을 사용하여 
             //MySqlConnection 객체를 만들면 자동으로 연결 풀링이 활용됩니다.
             // 아래와 같이 해야 MySql에서 설정한 DB 풀링 기능을 사용할 수 있습니다.
+            // 싱글턴 객체로 가지고 있으면 연결 풀링 기능을 쓸 수 없다.
+            
             var mySqlConnection = new MySqlConnection(_connectionString);
             try
             {
@@ -40,13 +42,19 @@ namespace GameServer.Component.User
             }
             return mySqlConnection;
         }
+
+        /// <summary>
+        /// userUid로 조회
+        /// </summary>
+        /// <param name="userUid"></param>
+        /// <returns></returns>
         public TblUser GetUserInfo(long userUid)
         {            
             using (var db = ConnectionFactory())
             {
                 var query = $"select * from tbl_user where user_uid={userUid} limit 1;";                                
                 var tblUser = db.Query<TblUser>(query).FirstOrDefault();
-                return tblUser != null ? tblUser : new TblUser();
+                return tblUser != null ? tblUser : null;
             }            
         }
     }

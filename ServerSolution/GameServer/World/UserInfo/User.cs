@@ -73,7 +73,7 @@ namespace GameServer.World.UserInfo
 
         private Dictionary<System.Type, Action<object, IActorRef>> _sessionHandlers;
 
-        private Dictionary<MessageWrapper.PayloadOneofCase, Action<object, IActorRef>> _userHandlers;
+        private Dictionary<MessageWrapper.PayloadOneofCase, Action<MessageWrapper, IActorRef>> _userHandlers;
 
 
         // Component 패턴
@@ -130,10 +130,10 @@ namespace GameServer.World.UserInfo
             };
 
             // 유저 관련 핸들러
-            _userHandlers = new Dictionary<MessageWrapper.PayloadOneofCase, Action<object, IActorRef>>
+            _userHandlers = new Dictionary<MessageWrapper.PayloadOneofCase, Action<MessageWrapper, IActorRef>>
             {
-                {MessageWrapper.PayloadOneofCase.ServerEnterRequest, (data, sender) => OnRecvServerEnterRequest((MessageWrapper)data, sender)},
-                {MessageWrapper.PayloadOneofCase.SayRequest, (data, sender) => OnRecvSayRequest((MessageWrapper)data, sender)},
+                {MessageWrapper.PayloadOneofCase.ServerEnterRequest, (data, sender) => OnRecvServerEnterRequest(data, sender)},
+                {MessageWrapper.PayloadOneofCase.SayRequest, (data, sender) => OnRecvSayRequest(data, sender)},
             };
 
 
@@ -293,7 +293,7 @@ namespace GameServer.World.UserInfo
         private void Tell(MessageWrapper message)
         {
             var json = JsonConvert.SerializeObject(message);
-            _logger.Info($"Tell - message({message.PayloadCase.ToString()}) data({json})");
+            _logger.Info($"Client<-Server - message({message.PayloadCase.ToString()}) data({json})");
 
             var res = new SessionActor.SendMessage
             {
@@ -305,7 +305,7 @@ namespace GameServer.World.UserInfo
         private void BroardcastTell(MessageWrapper message)
         {
             var json = JsonConvert.SerializeObject(message);
-            _logger.Info($"BroardcastTell- message({message.PayloadCase.ToString()}) data({json})");
+            _logger.Info($"Client<-Server - broadcast message({message.PayloadCase.ToString()}) data({json})");
 
             var res = new SessionCordiatorActor.BroadcastMessage
             {
@@ -344,7 +344,7 @@ namespace GameServer.World.UserInfo
             MessageWrapper wrapper = MessageWrapper.Parser.ParseFrom(receivedMessage);
             var json = JsonConvert.SerializeObject(wrapper);
 
-            _logger.Info($"OnRecvPacket - message({wrapper.PayloadCase}) data({json})");
+            _logger.Info($"Client->Server - message({wrapper.PayloadCase}) data({json})");
                         
             if(_userHandlers.TryGetValue(wrapper.PayloadCase, out var handler))
             {
@@ -369,7 +369,7 @@ namespace GameServer.World.UserInfo
                 userUid = long.Parse(obj1.ToString());
             }            
 
-            var userId =  db.GetUserInfo(userUid).user_id;
+            var userId =  db.GetUserInfo(userUid)?.user_id ?? string.Empty;
 
             _userUid = userUid;
             _userId = userId;
