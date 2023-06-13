@@ -7,29 +7,32 @@ using GameServer.DataBase.MySql;
 using GameServer.DataBase.Redis;
 using GameServer.Helper;
 using GameServer.Socket;
-using GameServer.Manager;
 using GameServer.Component.DataBase;
-
+using GameServer.Component;
+using GameServer.World.Map;
+using System.Reflection.Metadata.Ecma335;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GameServer.World.UserInfo
 {
     public class User 
     {
-        public IActorRef WorldRef{ get; private set; } // 나를 포함하고 있는 월드
+        public IActorRef UserCordiatorActor { get; private set; } // 나를 포함하고 있는 월드
         public IActorRef SessionRef { get; private set; } // 원격지 Actor
         public IActorRef UserRef { get; private set; } // 내가 속해 있는 유저
 
-        public static User Of(IUntypedActorContext context, IActorRef worldActor, IActorRef sessionRef, string remoteAddress)
+        public static User Of(IUntypedActorContext context, IActorRef userCordiatorActor, 
+            IActorRef sessionRef, string remoteAddress)
         {
-            var props = Props.Create(() => new UserActor(worldActor, sessionRef, remoteAddress));
+            var props = Props.Create(() => new UserActor(userCordiatorActor, sessionRef, remoteAddress));
             var userActor = context.ActorOf(props);
 
-            return new User(worldActor, sessionRef, userActor);
+            return new User(userCordiatorActor, sessionRef, userActor);
         }
 
-        public User(IActorRef worldActor, IActorRef sessionRef, IActorRef userActor)
+        public User(IActorRef userCordiatorActor, IActorRef sessionRef, IActorRef userActor)
         {
-            WorldRef = worldActor;
+            UserCordiatorActor = userCordiatorActor;
             SessionRef = sessionRef;
             UserRef = userActor;
         }
@@ -48,10 +51,13 @@ namespace GameServer.World.UserInfo
 
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
                
-        private IActorRef _worldActor; // worldActor
+        private IActorRef _userCordiatorActor; // userCordiatorActor
         private IActorRef _sessionRef; // sessionActor
         private IActorRef _dbActorRef; // dbActor
         private IActorRef _redisActorRef; // redisActor
+
+        // 내가 속해있는 맵 actor
+        public IActorRef _mapActorRef { get; private set; } = ActorRefs.Nobody;
 
         private string _remoteAddress;
         
@@ -96,9 +102,9 @@ namespace GameServer.World.UserInfo
         /// <param name="worldActor"></param>
         /// <param name="sessionRef"></param>
         /// <param name="remoteAdress"></param>
-        public UserActor(IActorRef worldActor, IActorRef sessionRef, string remoteAdress)
+        public UserActor(IActorRef userCordiatorActor, IActorRef sessionRef, string remoteAdress)
         {
-            _worldActor = worldActor;
+            _userCordiatorActor = userCordiatorActor;
             _sessionRef = sessionRef;
             _remoteAddress = remoteAdress;
 
@@ -118,6 +124,7 @@ namespace GameServer.World.UserInfo
             // 세션관련 
             _sessionHandlers = new Dictionary<System.Type, Action<object, IActorRef>>{
                 {typeof(UserActor.SessionReceiveData), (data, sender) => OnRecvPacket((UserActor.SessionReceiveData)data, sender)},
+                {typeof(MapActor.EnterMapResponse), (data, sender) => OnRecvMapEnterResonponse((MapActor.EnterMapResponse)data, sender)},
             };
 
             // 유저 관련 핸들러
@@ -125,19 +132,20 @@ namespace GameServer.World.UserInfo
             {
                 {MessageWrapper.PayloadOneofCase.ServerEnterRequest, (data, sender) => OnRecvServerEnterRequest(data, sender)},
                 {MessageWrapper.PayloadOneofCase.SayRequest, (data, sender) => OnRecvSayRequest(data, sender)},
+                {MessageWrapper.PayloadOneofCase.MapEnterRequest, (data, sender) => OnRecvMapEnterRequest(data, sender)},
             };
+            
+        }        
 
+        protected override void PreStart()
+        {
+            base.PreStart();
 
             // Select 는 Compoent에서 처리하자 
             // update, delete는 actor에서 처리하자.
             // TODO: 추후에 update, delete도 Component에서 할지도?
             AddComponent<MySqlDbComponent>(new MySqlDbComponent()); // MySql연결
             AddComponent<RedisCacheComponent>(new RedisCacheComponent()); // Redis연결            
-        }        
-
-        protected override void PreStart()
-        {
-            base.PreStart();
 
             // SessionActor와 UserActor의 연결
             _sessionRef.Tell(new SessionActor.UserToSessionLinkRequest
@@ -151,8 +159,8 @@ namespace GameServer.World.UserInfo
             // Compone 제거
             RemoveComponent<MySqlDbComponent>();
             RemoveComponent<RedisCacheComponent>();
+            _componentManager.Dispose();
 
-            Close();
             base.PostStop();
         }
 
@@ -206,20 +214,14 @@ namespace GameServer.World.UserInfo
                 TimeSpan.FromSeconds(5), // duration
                 x =>
                 {
-                    Close();
+                    // Session Actor에 요청하여 종료 처리
+                    Context.Stop(Self);
 
                     return Directive.Stop;                    
                 });
         }
 
-        /// <summary>
-        /// 유저가 비정상 일때 종료 요청
-        /// </summary>
-        private void Close()
-        {
-            // Session Actor에 요청하여 종료 처리
-            Context.Stop(Self);
-        }
+        
 
         /// <summary>
         /// User와 Session액터 연결 성공
@@ -289,6 +291,22 @@ namespace GameServer.World.UserInfo
             _sessionRef.Tell(res);
         }
 
+        private void TellMap(MessageWrapper message)
+        {
+            // 맵이 없다.
+            if (_mapActorRef == ActorRefs.Nobody)
+                return;
+            
+            var json = JsonConvert.SerializeObject(message);
+            _logger.Info($"Client<-Server - message({message.PayloadCase.ToString()}) data({json})");
+
+            var res = new SessionActor.SendMessage
+            {
+                Message = message
+            };
+            _sessionRef.Tell(res);
+        }
+
         private void BroardcastTell(MessageWrapper message)
         {
             var json = JsonConvert.SerializeObject(message);
@@ -316,13 +334,12 @@ namespace GameServer.World.UserInfo
             }
         }
 
-        
-
         /// <summary>
         /// 유저들에게 패킷
         /// </summary>
         /// <param name="received"></param>
         /// <param name="sessionRef"></param>
+
         private bool OnRecvPacket(UserActor.SessionReceiveData received, IActorRef sessionRef)
         {
             byte[] receivedMessage = received.RecvBuffer;
@@ -373,6 +390,33 @@ namespace GameServer.World.UserInfo
             Tell(response);
         }
 
+        /// <summary>
+        /// 앱이동
+        /// </summary>
+        /// <param name="wrapper"></param>
+        /// <param name="sessionRef"></param>
+        private void OnRecvMapEnterRequest(MessageWrapper wrapper, IActorRef sessionRef)
+        {            
+            var request = wrapper.MapEnterRequest;
+            _userCordiatorActor.Tell(new MapActor.EnterMapRequest
+            {
+                MapIndex = request.MapIndex,
+                UserUid = _userUid,
+                UserActorRef = Self,
+
+                UserSessionActorRef = _sessionRef
+            });
+        }
+        private void OnRecvMapEnterResonponse(MapActor.EnterMapResponse received, IActorRef sender)
+        {
+            _mapActorRef = received.MapActorRef;
+        }
+
+        /// <summary>
+        /// 채팅 메시지
+        /// </summary>
+        /// <param name="wrapper"></param>
+        /// <param name="sessionRef"></param>
         private void OnRecvSayRequest(MessageWrapper wrapper, IActorRef sessionRef)
         {
             var request = wrapper.SayRequest;

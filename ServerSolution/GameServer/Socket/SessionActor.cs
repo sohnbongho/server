@@ -37,7 +37,7 @@ namespace GameServer.Socket
 
         private readonly IActorRef _sessionCordiatorRef;
         private readonly string _remoteAddress;
-        private readonly IActorRef _connectedSessionRef; // 연결 된 원격지 클라이언트 session 
+        private readonly IActorRef _connectedSocket; // 연결 된 원격지 클라이언트 session 
         
         private IActorRef _userRef;                     // 
 
@@ -61,7 +61,7 @@ namespace GameServer.Socket
         {
             _sessionCordiatorRef = sessionCordiator;
             _remoteAddress = remoteAdress;
-            _connectedSessionRef = connection;
+            _connectedSocket = connection;
             _userRef = null;
 
             _packetEncrypt = ConfigInstanceHelper.Instance.PacketEncrypt;
@@ -296,7 +296,7 @@ namespace GameServer.Socket
 
             // 패킷 조각 전송            
             if (chunk != null)
-                _connectedSessionRef.Tell(Tcp.Write.Create(chunk, Ack.Instance));
+                _connectedSocket.Tell(Tcp.Write.Create(chunk, Ack.Instance));
 
             // 전송한 바이트 수 업데이트
             _sendedBytes += chunkSize;

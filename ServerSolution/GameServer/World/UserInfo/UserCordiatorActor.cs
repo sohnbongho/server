@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using GameServer.Helper;
 using GameServer.Socket;
+using GameServer.World.Map;
 using Google.Protobuf.WellKnownTypes;
 using log4net;
 using System;
@@ -25,6 +26,7 @@ namespace GameServer.World.UserInfo
         {
             public string RemoteAddress { get; set; }
         }
+       
 
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -113,7 +115,15 @@ namespace GameServer.World.UserInfo
                         }
                         break;
                     }
-                case Terminated terminated:
+                case MapActor.EnterMapRequest enterMapRequest:
+                    {
+                        // Map Cordiator에 유저맵 이동을 요청
+                        var mapCordiatorRef = Context.ActorSelection(ActorPaths.MapCordiator.Path);
+                        mapCordiatorRef.Tell(enterMapRequest, Sender);
+
+                        break;
+                    }
+                case Terminated terminated: // 자식 UserAcotr가 종료됐을 때 이벤트
                     {
                         // Here, handle the termination of the watched actor.
                         // For example, you might want to create a new actor or simply log the termination.
