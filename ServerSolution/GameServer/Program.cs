@@ -66,20 +66,16 @@ namespace GameServer
                 consoleReaderActor.Tell(ConsoleReaderActor.StartCommand); // begin processing
 
                 // Db actor                
-                var dbActor = DbServiceCordiatorActor.ActorOf(actorSystem);
-                ActorSupervisorHelper.Instance.SetDbCordiatorRef(dbActor);
+                var dbActor = DbServiceCordiatorActor.ActorOf(actorSystem);                
 
                 // Redis actor                
                 var redisActor = RedisServiceCordiatorActor.ActorOf(actorSystem);
-                ActorSupervisorHelper.Instance.SetRedisCordiatorRef(redisActor);
-
+                
                 // World Actor 생성                
                 var worldActor = WorldActor.ActorOf(actorSystem);
-                ActorSupervisorHelper.Instance.SetWorldCordiatorRef(worldActor);
-
+                
                 // Akka.IO로 초기화                
-                var listener = ListenerActor.ActorOf(actorSystem, worldActor, ConfigInstanceHelper.Instance.Port);
-                ActorSupervisorHelper.Instance.SetListenerRef(listener);
+                var listener = ListenerActor.ActorOf(actorSystem, worldActor, ConfigInstanceHelper.Instance.Port);                
 
                 _logger.Info($@"Port:{ConfigInstanceHelper.Instance.Port} Server Doing. ""exit"" is exit");
 

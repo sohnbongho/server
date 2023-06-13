@@ -61,7 +61,14 @@ namespace GameServer.Socket
             _listenerRef = listenerActor;
             _worldRef = worldRef;
         }
-        
+        protected override void PostStop()
+        {
+            _sessions.Clear();
+            _sessionRefs.Clear();
+
+            base.PostStop();
+        }
+
         // here we are overriding the default SupervisorStrategy
         // which is a One-For-One strategy w/ a Restart directive
         protected override SupervisorStrategy SupervisorStrategy()
@@ -106,7 +113,8 @@ namespace GameServer.Socket
                             _sessions.TryRemove(remoteAddress, out _);
                         }
 
-                        var userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
+                        
+                        var userCordiatorRef = Context.ActorSelection(ActorPaths.UserCordiator.Path);
                         userCordiatorRef.Tell(new UserCordiatorActor.ClosedUserSession
                         {
                             RemoteAddress = remoteAddress
@@ -150,8 +158,9 @@ namespace GameServer.Socket
                                 // remove the actor reference from the dictionary
                                 _sessions.TryRemove(remoteAdress, out _);
                             }
+                            
 
-                            var userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
+                            var userCordiatorRef = Context.ActorSelection(ActorPaths.UserCordiator.Path); 
                             userCordiatorRef.Tell(new UserCordiatorActor.ClosedUserSession
                             {
                                 RemoteAddress = remoteAdress
@@ -187,8 +196,8 @@ namespace GameServer.Socket
             _sessions.TryAdd(message.RemoteAdress, sessionRef);
             _sessionRefs.TryAdd(sessionRef, message.RemoteAdress);
 
-            // 월드에 추가해 주자
-            var userCordiatorRef = ActorSupervisorHelper.Instance.UserCordiatorRef;
+            // 월드에 추가해 주자            
+            var userCordiatorRef = Context.ActorSelection(ActorPaths.UserCordiator.Path);
             userCordiatorRef.Tell(new UserCordiatorActor.AddUser
             {
                 SessionRef = sessionRef,

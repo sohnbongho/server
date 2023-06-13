@@ -28,7 +28,7 @@ namespace GameServer.Helper
 
         // 유저 Session Actor
         public static readonly ActorMetaData Listener = new ActorMetaData("listener");
-        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessioncordiator");
+        public static readonly ActorMetaData SessionCordiator = new ActorMetaData("sessioncordiator", Listener);
         public static readonly ActorMetaData Session = new ActorMetaData("session", SessionCordiator);
 
         /*--------------------------------------

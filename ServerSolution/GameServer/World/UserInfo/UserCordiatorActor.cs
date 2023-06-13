@@ -30,13 +30,13 @@ namespace GameServer.World.UserInfo
 
         private IActorRef _worldRef;
         // 원격에 연결된 User Acotr들
-        private readonly ConcurrentDictionary<string, User> _userList = new ConcurrentDictionary<string, User>();
+        private readonly ConcurrentDictionary<string, User> _userList = new ();
         private readonly ConcurrentDictionary<IActorRef, string> _userRefs = new();
 
         public static IActorRef ActorOf(IUntypedActorContext context, IActorRef worldRef)
         {
             var prop = Props.Create(() => new UserCordiatorActor(worldRef));
-            return context.ActorOf(prop, ActorPaths.MapCordiator.Name);
+            return context.ActorOf(prop, ActorPaths.UserCordiator.Name);
         }
 
         public UserCordiatorActor(IActorRef worldRef)
@@ -77,7 +77,7 @@ namespace GameServer.World.UserInfo
                         {
                             var user = User.Of(Context, Self, addUser.SessionRef, remoteAddress);
 
-                            // 자식 User이 PostStop일때 Terminated 이벤트를 받을 수 있다.
+                            // 자식 UserActor가 PostStop일때 Terminated 이벤트를 받을 수 있다.
                             Context.Watch(user.UserRef);
 
                             // 유저 추가
@@ -86,7 +86,14 @@ namespace GameServer.World.UserInfo
                         }
                         else
                         {
+                            // 유저 등록 실패면 session을 닫는다.
                             _logger.Error($"fail to OnRecvAddUser RemoteAddress:{remoteAddress}, SessionRef:{addUser.SessionRef}");
+                            
+                            var sessionCordiatorRef = Context.ActorSelection(ActorPaths.SessionCordiator.Path); ;
+                            sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
+                            {
+                                RemoteAdress = remoteAddress
+                            });
                         }
 
                         break;
@@ -117,7 +124,7 @@ namespace GameServer.World.UserInfo
                             _userRefs.TryRemove(terminated.ActorRef, out _);
                             _userList.TryRemove(remoteAddress, out var _);
 
-                            var sessionCordiatorRef = ActorSupervisorHelper.Instance.SessionCordiatorRef;
+                            var sessionCordiatorRef = Context.ActorSelection(ActorPaths.SessionCordiator.Path); ;
                             sessionCordiatorRef.Tell(new SessionCordiatorActor.ClosedRequest
                             {
                                 RemoteAdress = remoteAddress

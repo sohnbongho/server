@@ -78,6 +78,7 @@ namespace GameServer.Socket
         /// </summary>
         protected override void PostStop()
         {
+            _logger.Debug("SessionActor.PostStop");
             base.PostStop();
         }
 

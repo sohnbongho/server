@@ -15,8 +15,8 @@ namespace GameServer.Socket
         private readonly int _port;
                 
         private IActorRef _sessionCordiatorRef = null;
-        private IActorRef _worldActorRef;
-        private IActorRef _tcpListener ;
+        private IActorRef _worldActorRef = ActorRefs.Nobody;
+        private IActorRef _tcpListener = ActorRefs.Nobody;
 
         public static IActorRef ActorOf(ActorSystem actorSystem, IActorRef worldActor, int port)
         {   
@@ -36,8 +36,7 @@ namespace GameServer.Socket
             base.PreStart();
 
             // 세션을 관리해 주는 Actor 생성            
-            _sessionCordiatorRef = SessionCordiatorActor.ActorOf(Context, Self, _worldActorRef);
-            ActorSupervisorHelper.Instance.SetSessionCordiatorRef(_sessionCordiatorRef);
+            _sessionCordiatorRef = SessionCordiatorActor.ActorOf(Context, Self, _worldActorRef);            
         }
 
         protected override void PostStop()

@@ -167,8 +167,9 @@ namespace GameServer.World.UserInfo
             _dbActorRef = received.DbActorRef;
 
             // 레디스 액터 연결 요청
-            // redisCordiatorActor에 나에게 맞는 dbActor요청
-            var redisCordiatorRef = ActorSupervisorHelper.Instance.RedisCordiatorRef;
+            // redisCordiatorActor에 나에게 맞는 dbActor요청            
+            var redisCordiatorRef = Context.ActorSelection(ActorPaths.RedisCordiator.Path);
+
             redisCordiatorRef?.Tell(new RedisServiceCordiatorActor.UserToDbLinkRequest
             {
                 UserActorRef = Self
@@ -226,8 +227,9 @@ namespace GameServer.World.UserInfo
         /// <param name="data"></param>
         private void OnRecvUserToSessionLinkResponse(SessionActor.UserToSessionLinkResponse data)
         {
-            // dbCordiatorActor에 나에게 맞는 dbActor요청
-            var dbCordiatorRef = ActorSupervisorHelper.Instance.DbCordiatorRef;
+            // dbCordiatorActor에 나에게 맞는 dbActor요청            
+            var dbCordiatorRef = Context.ActorSelection(ActorPaths.DbCordiator.Path);
+
             dbCordiatorRef?.Tell(new DbServiceCordiatorActor.UserToDbLinkRequest
             {
                 UserActorRef = Self

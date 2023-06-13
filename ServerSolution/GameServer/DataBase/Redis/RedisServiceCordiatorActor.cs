@@ -62,24 +62,26 @@ namespace GameServer.DataBase.Redis
             }
         }
         private void OnReceiveUserToDbLinkRequest(RedisServiceCordiatorActor.UserToDbLinkRequest message)
-        {
-            var userActorRef = message.UserActorRef;
-            var dbName = string.Empty;
+        {            
             // 하나씩 증가 시키자
             lock (_actorPosLock)
             {
-                dbName = $"{ActorPaths.Redis.Name}{_actorPos}";
+                var userActorRef = message.UserActorRef;
+                var dbName = $"{ActorPaths.Redis.Name}{_actorPos}";
+
                 ++_actorPos;
                 _actorPos = _actorPos >= _actorCount ? 0 : _actorPos;
+
+                if (_redises.TryGetValue(dbName, out var dbActorRef))
+                {
+                    userActorRef.Tell(new RedisServiceCordiatorActor.UserToDbLinkResponse
+                    {
+                        RedisActorRef = dbActorRef
+                    });
+                }
             }
 
-            if (_redises.TryGetValue(dbName, out var dbActorRef))
-            {
-                userActorRef.Tell(new RedisServiceCordiatorActor.UserToDbLinkResponse
-                {
-                    RedisActorRef = dbActorRef
-                });
-            }
+            
         }
     }
 }

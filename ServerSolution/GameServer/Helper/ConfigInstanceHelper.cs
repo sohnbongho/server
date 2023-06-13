@@ -55,14 +55,14 @@ namespace GameServer.Helper
             // Parse JSON string to JObject using Newtonsoft.Json
             _jsonObj = JObject.Parse(jsonString);
 
-            _port = _jsonObj["Remote"]["Port"].Value<int>();
-            _packetEncrypt = _jsonObj["Remote"]["Encrypt"].Value<bool>();
+            _port = _jsonObj["remote"]["port"].Value<int>();
+            _packetEncrypt = _jsonObj["remote"]["encrypt"].Value<bool>();
 
-            _gameDbConnectionString = _jsonObj["Db"]["MySql"]["ConnectString"]["GameDb"].ToString();
-            _dbPoolCount = _jsonObj["Db"]["MySql"]["PoolCount"].Value<int>();
+            _gameDbConnectionString = _jsonObj["db"]["mySql"]["connectString"]["gameDb"].ToString();
+            _dbPoolCount = _jsonObj["db"]["mySql"]["poolCount"].Value<int>();
 
-            _redisConnectString = _jsonObj["Db"]["Redis"]["ConnectString"].ToString();
-            _redisPoolCount = _jsonObj["Db"]["Redis"]["PoolCount"].Value<int>();
+            _redisConnectString = _jsonObj["db"]["redis"]["connectString"].ToString();
+            _redisPoolCount = _jsonObj["db"]["redis"]["poolCount"].Value<int>();
 
             return true;
         }
