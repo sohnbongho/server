@@ -112,7 +112,6 @@ namespace GameServer.Socket
                             // remove the actor reference from the dictionary
                             _sessions.TryRemove(remoteAddress, out _);
                         }
-
                         
                         var userCordiatorRef = Context.ActorSelection(ActorPaths.UserCordiator.Path);
                         userCordiatorRef.Tell(new UserCordiatorActor.ClosedUserSession

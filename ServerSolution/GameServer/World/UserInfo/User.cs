@@ -272,12 +272,10 @@ namespace GameServer.World.UserInfo
                 userHandler(message, Sender);
                 return;
             }
-            else
-            {
-                // 핸들러를 찾지 못했을 때의 처리
-                // ...
-                Unhandled(message);
-            }
+
+            // 핸들러를 찾지 못했을 때의 처리
+            // ...
+            Unhandled(message);
         }
         private void Tell(MessageWrapper message)
         {
