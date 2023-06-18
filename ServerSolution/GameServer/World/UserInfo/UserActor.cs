@@ -156,6 +156,15 @@ namespace GameServer.World.UserInfo
 
         protected override void PostStop()
         {
+            // 맵을 떠남
+            if(_mapActorRef != ActorRefs.Nobody)
+            {
+                _mapActorRef.Tell(new MapActor.LeaveMapRequest
+                {
+                    UserUid = _userUid
+                });
+            }
+
             // Compone 제거
             RemoveComponent<MySqlDbComponent>();
             RemoveComponent<RedisCacheComponent>();
@@ -300,11 +309,11 @@ namespace GameServer.World.UserInfo
             var json = JsonConvert.SerializeObject(message);
             _logger.Info($"Client<-Server - message({message.PayloadCase.ToString()}) data({json})");
 
-            var res = new SessionActor.SendMessage
+            var res = new MapActor.UserNotification
             {
                 Message = message
             };
-            _sessionRef.Tell(res);
+            _mapActorRef.Tell(res);
         }
 
         private void BroardcastTell(MessageWrapper message)
@@ -409,6 +418,7 @@ namespace GameServer.World.UserInfo
         }
         private void OnRecvMapEnterResonponse(MapActor.EnterMapResponse received, IActorRef sender)
         {
+            _logger.Debug($"MapActor.EnterMapResponse userUid:{received.UserUid}");
             _mapActorRef = received.MapActorRef;
         }
 
@@ -429,7 +439,7 @@ namespace GameServer.World.UserInfo
                     Message = request.Message
                 }
             };
-            BroardcastTell(response);
+            TellMap(response);
         }
 
 
