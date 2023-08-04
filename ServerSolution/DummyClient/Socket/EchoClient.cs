@@ -28,8 +28,8 @@ public class TelnetClient : UntypedActor
 
     // TCP 특성상 다 오지 못 해, 버퍼가 쌓으면서 다 받으면 가져간다.
     private List<byte> _receivedBuffer = new List<byte>();
-    private int? _totalReceivedMessageLength = null;
-    private int? _messageLength = null;
+    private ushort? _totalReceivedMessageLength = null;
+    private ushort? _messageLength = null;
     private const int _maxRecvLoop = 100; // 패킷받는 최대 카운트
 
     private long _userUid = 0; // 
@@ -86,7 +86,7 @@ public class TelnetClient : UntypedActor
 
                 _receivedBuffer.AddRange(received.Data.ToArray());
 
-                var intSize = sizeof(int);
+                var intSize = sizeof(ushort);
 
                 // Loop while we might still have complete messages to process
                 for (var i = 0; i < _maxRecvLoop; ++i)
@@ -94,11 +94,11 @@ public class TelnetClient : UntypedActor
                     // If we don't know the length of the message yet (4 byte, int)
                     if (!_totalReceivedMessageLength.HasValue)
                     {
-                        if (_receivedBuffer.Count < sizeof(int))
+                        if (_receivedBuffer.Count < sizeof(ushort))
                             return;
 
-                        _totalReceivedMessageLength = BitConverter.ToInt32(_receivedBuffer.ToArray(), 0);
-                        _receivedBuffer.RemoveRange(0, sizeof(int));
+                        _totalReceivedMessageLength = BitConverter.ToUInt16(_receivedBuffer.ToArray(), 0);
+                        _receivedBuffer.RemoveRange(0, sizeof(ushort));
                     }
                     // decryption message size (4 byte, int)
                     if (!_messageLength.HasValue)
@@ -106,7 +106,7 @@ public class TelnetClient : UntypedActor
                         if (_receivedBuffer.Count < intSize)
                             return;
 
-                        _messageLength = BitConverter.ToInt32(_receivedBuffer.ToArray(), 0);
+                        _messageLength = BitConverter.ToUInt16(_receivedBuffer.ToArray(), 0);
                         _receivedBuffer.RemoveRange(0, intSize);
                     }
                     // 메시지 크기
@@ -188,20 +188,20 @@ public class TelnetClient : UntypedActor
         var requestBinary = request.ToByteArray();
         request.MessageSize = requestBinary.Length;
 
-        int totalSize = sizeof(int);
-        int messageSize = requestBinary.Length;
+        ushort totalSize = sizeof(ushort);
+        ushort messageSize = (ushort)requestBinary.Length;
 
         byte[] binary = null;
         
         if (_encrypt)
         {
             binary = CryptographyHelper.EncryptData(requestBinary);
-            totalSize += binary.Length;
+            totalSize += (ushort)binary.Length;
         }
         else
         {
             binary = requestBinary;
-            totalSize += requestBinary.Length;
+            totalSize += (ushort)requestBinary.Length;
         }
 
         byte[] byteArray = null;

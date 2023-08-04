@@ -30,9 +30,8 @@ namespace GameServer.Helper
         private int _redisPoolCount;
 
         public int Port => _port;
-        public bool PacketEncrypt => _packetEncrypt;
-        
 
+        public bool PacketEncrypt => _packetEncrypt;
 
         public string GameDbConnectionString => _gameDbConnectionString;
         public int DbPoolCount => _dbPoolCount;

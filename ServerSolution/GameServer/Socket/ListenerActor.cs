@@ -55,11 +55,14 @@ namespace GameServer.Socket
                 case Tcp.Bound bound:
                     {
                         _tcpListener = Sender;
+
                         _logger.Info($"Listening on {bound.LocalAddress}");
                         break;
                     }
                 case Tcp.Connected connected:
                     {
+                        _logger.Info($"Tcp.Connected on {connected.RemoteAddress.ToString()}");
+
                         _sessionCordiatorRef?.Tell(new SessionCordiatorActor.RegisteredRequest{
                             Sender = Sender,
                             RemoteAdress = connected.RemoteAddress.ToString(),

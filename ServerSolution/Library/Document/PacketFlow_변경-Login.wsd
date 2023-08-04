@@ -1,0 +1,155 @@
+@startuml
+autonumber
+actor client
+
+box "LoginServer" #LightPink
+participant CLoginServerProtocolHandler
+
+end box
+
+box "GameServer" #LightGreen
+participant GameServerProtocolHandler
+end box
+
+box "NCRelayServer" #LightBlue
+participant CRelayServerProtocolHandler
+participant NCRelayStsInterface
+end box
+
+box "DbAgentServer" #LightCoral
+participant CDbAgentProtocolHandler
+participant CGameloginThread
+participant NpStsInfoThread
+end box
+
+box "DbTransactionServer" #LightCyan
+participant CDbTranProtocolHandler
+end box
+
+box "LogDRelay" #LightBlue
+participant LogDProtocolHandler
+end box
+
+
+box "NC GameGate 장비" #LightYellow
+participant NpGameGate
+end box
+
+group [로그인 서버] Dirce Login
+client -> CLoginServerProtocolHandler : CS_LOGIN_DIRECT
+CLoginServerProtocolHandler -> CLoginServerProtocolHandler: NC_RequestLoginDirect
+CLoginServerProtocolHandler -> CRelayServerProtocolHandler: CS_LOGIN_DIRECT
+CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestLoginDirect
+CRelayServerProtocolHandler -> CLoginServerProtocolHandler: SC_LOGIN_RESULT
+CLoginServerProtocolHandler -> CLoginServerProtocolHandler: NC_AnswerLogin
+
+CRelayServerProtocolHandler -> CLoginServerProtocolHandler: SC_USER_INFO
+CLoginServerProtocolHandler -> CLoginServerProtocolHandler: NC_AnswerUserInfo
+CLoginServerProtocolHandler -> CDbAgentProtocolHandler: CS_MEMBER_INFO    
+CDbAgentProtocolHandler-> CDbAgentProtocolHandler: RelayDBTransactionReq
+CDbAgentProtocolHandler -> CDbTranProtocolHandler : CS_MEMBER_INFO
+CDbTranProtocolHandler -> CDbTranProtocolHandler : CNCMemberInfoThread 
+CDbTranProtocolHandler -> CLoginServerProtocolHandler : SC_MEMBER_INFO
+CLoginServerProtocolHandler -> CLoginServerProtocolHandler : NC_AnswerMemberInfo
+CLoginServerProtocolHandler -> CRelayServerProtocolHandler: CS_CHECKPCCAFE
+CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestPCBang
+CRelayServerProtocolHandler -> NCRelayStsInterface : CheckPCCafe
+group pc방 정보 조회
+NCRelayStsInterface <-> NpGameGate : /ICafeIp/CheckIp    
+end
+NCRelayStsInterface -> CLoginServerProtocolHandler:SC_CHECKPCCAFE
+CLoginServerProtocolHandler-> CLoginServerProtocolHandler :NC_AnswerPCBang
+CLoginServerProtocolHandler-> client: SC_LOGIN
+end
+
+group [게임 서버] NC 모듈 로그인 
+client -> GameServerProtocolHandler : CS_GAMELOGIN
+note left #LightYellow
+클라이언트에서
+UserGuid값을
+보내줌
+end note
+GameServerProtocolHandler -> GameServerProtocolHandler : RequestLogin
+note left #LightYellow
+게임서버 메모리에 
+ispurple, userGuid값을 
+업데이트
+end note
+GameServerProtocolHandler -> CDbAgentProtocolHandler: CS_GAMELOGIN
+CDbAgentProtocolHandler -> CDbAgentProtocolHandler: RequestGamelogin
+CDbAgentProtocolHandler -> CGameloginThread : ProcessLogin
+CGameloginThread -> GameServerProtocolHandler: SC_GAMELOGIN
+GameServerProtocolHandler-> GameServerProtocolHandler: AnswerLogin
+
+GameServerProtocolHandler -> client : SC_GAMELOGIN
+end
+
+group 로그 아웃
+GameServerProtocolHandler -> CRelayServerProtocolHandler : CS_LOGOUT
+CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestLogout
+CRelayServerProtocolHandler -> NCRelayStsInterface : Logout
+NCRelayStsInterface -> NpGameGate : /Presence/Logout
+end
+
+group 사용자가 PCCafe에서의 요청인지 확인
+CLoginServerProtocolHandler ->  CRelayServerProtocolHandler: CS_CHECKPCCAFE
+CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestPCBang
+CRelayServerProtocolHandler -> NCRelayStsInterface: CheckPCCafe
+group  PCCafe 확인
+NCRelayStsInterface <-> NpGameGate : /Charge/1/GetInfo
+end
+NCRelayStsInterface -> NCRelayStsInterface: OnRecvCheckPCCafe
+NCRelayStsInterface -> CLoginServerProtocolHandler: SC_CHECKPCCAFE
+CLoginServerProtocolHandler -> CLoginServerProtocolHandler : NC_AnswerPCBang
+end
+
+group 게임클라이언트에서 웹과 연동이 필요할 경우, 인게임 쇼핑몰을 웹으로 구현했을 경우
+client -> GameServerProtocolHandler :CS_REQ_WEBSSOTOKEN 
+GameServerProtocolHandler -> GameServerProtocolHandler: CPHGSMSsoToken::CSProcess
+GameServerProtocolHandler ->  CRelayServerProtocolHandler: CS_REQ_WEBSSOTOKEN
+CRelayServerProtocolHandler -> CRelayServerProtocolHandler:NC_RequestWebSsoToken
+CRelayServerProtocolHandler -> NCRelayStsInterface: WebSsoToken
+NCRelayStsInterface -> NpGameGate : /Auth/RequestToken
+NCRelayStsInterface <- NpGameGate : /Auth/RequestToken
+GameServerProtocolHandler <-  CRelayServerProtocolHandler: SC_SEND_WEBSSOTOKEN
+end
+
+group 웹에서 접속한 유저 메일 지급
+NpGameGate -> NCRelayStsInterface : OnRecvNotifyGoodsInventoryChanged
+NCRelayStsInterface -> CDbAgentProtocolHandler: SC_SEND_NCRELAY_ADDMAIL
+CDbAgentProtocolHandler -> CDbAgentProtocolHandler : AnswerPresentADDMailByNcRealy
+end
+
+group 웹에서 포인트 변경 알림
+NpGameGate -> NCRelayStsInterface : OnRecvNotifyBalanceChanged
+NCRelayStsInterface -> GameServerProtocolHandler:CS_REQ_CHANGED_BALANCE_BROADCAST
+GameServerProtocolHandler->GameServerProtocolHandler:AnsNcChangedBalance
+end
+
+group Fizz-Permanent
+client -> GameServerProtocolHandler :CS_REQ_FIZZ_PERMANENT 
+GameServerProtocolHandler -> GameServerProtocolHandler: ReqNcFizzPermanent
+GameServerProtocolHandler -> CDbAgentProtocolHandler : GD_REQ_FIZZ_PERMANENT
+CDbAgentProtocolHandler -> CDbAgentProtocolHandler : ReqNcFizzPermanent
+CDbAgentProtocolHandler -> NpStsInfoThread : 조회
+NpStsInfoThread -> GameServerProtocolHandler : DG_ANS_FIZZ_PERMANENT
+GameServerProtocolHandler -> GameServerProtocolHandler : AnsNcFizzPermanentId
+GameServerProtocolHandler -> CRelayServerProtocolHandler : GR_REQ_FIZZ_PERMANENT
+CRelayServerProtocolHandler -> CRelayServerProtocolHandler : ReqNcFizzPermanent
+CRelayServerProtocolHandler -> NCRelayStsInterface : FizzPermanent
+NCRelayStsInterface -> NpGameGate : /Fizz/Permanent
+note left #LightYellow
+이미지 확정
+end note
+NCRelayStsInterface <- NpGameGate : /Fizz/Permanent
+NCRelayStsInterface -> NpGameGate : /ProfileImageSrv/AddGameProfileImagesForSystem
+note left #LightYellow
+프로필 추가
+end note
+NCRelayStsInterface <- NpGameGate : /ProfileImageSrv/AddGameProfileImagesForSystem
+NCRelayStsInterface -> GameServerProtocolHandler : RG_ANS_FIZZ_PERMANENT
+GameServerProtocolHandler -> GameServerProtocolHandler: AnsNcFizzPermanent
+GameServerProtocolHandler -> client : SC_ANS_FIZZ_PERMANENT
+end
+
+@enduml
