@@ -52,12 +52,14 @@ namespace LoginServer
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
                 c.RoutePrefix = string.Empty;
             });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
     internal class Program
@@ -76,10 +78,10 @@ namespace LoginServer
         static void Main(string[] args)
         {
             // Akka HOCON 정보 읽어오기            
-            if (false == ConfigInstanceHelper.Instance.Load())
-            {
-                throw new Exception("failed to config load");
-            }
+            //if (false == ConfigInstanceHelper.Instance.Load())
+            //{
+            //    throw new Exception("failed to config load");
+            //}
             
             var akkaTask = Task.Run(() => RunAkkaSystem());
             var hostTask = Task.Run(() => CreateHostBuilder(args).Build().Run());

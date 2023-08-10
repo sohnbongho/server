@@ -52,10 +52,10 @@ namespace LoginServer.Component.DataBase
         /// <returns></returns>
         public TblServerList GetServerInfo(int serverId)
         {
+            return new TblServerList(); ;
             using (var db = ConnectionFactory())
             {
                 var query = $"select * from tbl_server_list where server_id={serverId} limit 1";
-
                 return db.Query<TblServerList>(query)?.FirstOrDefault() ?? new TblServerList();
             }
         }

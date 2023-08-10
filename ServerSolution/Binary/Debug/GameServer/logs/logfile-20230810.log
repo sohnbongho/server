@@ -1,0 +1,6 @@
+2023-08-10 19:33:18,329 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 19:33:18,329 [akka.actor.common-dispatcher_1] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 19:33:18,329 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 19:33:18,329 [1] INFO  GameServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 19:33:19,850 [akka.actor.common-dispatcher_2] INFO  GameServer.Socket.ListenerActor - Tcp.Connected on 172.18.48.1:6632
+2023-08-10 19:33:19,878 [akka.actor.player-dispatcher_1] DEBUG GameServer.World.UserInfo.UserCordiatorActor - OnRecvAddUser RemoteAddress:172.18.48.1:6632, SessionRef:[akka://GameServer/user/listener/sessioncordiator/$a#93718347]

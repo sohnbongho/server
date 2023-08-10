@@ -132,3 +132,56 @@
 2023-08-10 16:48:22,691 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
 2023-08-10 16:48:22,693 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
 2023-08-10 16:48:22,888 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 19:33:43,166 [1] ERROR LoginServer.Component.DataBase.MySqlDbComponent - error connectionfactory - connectionString(host=127.0.0.1;port=52222;userid=root;password=crazy;database=danceparty;)
+MySqlConnector.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1150
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at MySqlConnector.MySqlConnection.Open() in /_/src/MySqlConnector/MySqlConnection.cs:line 382
+   at LoginServer.Component.DataBase.MySqlDbComponent.ConnectionFactory() in D:\01-git\server\ServerSolution\LoginServer\Component\DataBase\MySqlDbComponent.cs:line 38
+2023-08-10 19:34:10,153 [1] ERROR LoginServer.Component.DataBase.MySqlDbComponent - error connectionfactory - connectionString(host=127.0.0.1;port=52222;userid=root;password=crazy;database=danceparty;)
+MySqlConnector.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1150
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at MySqlConnector.MySqlConnection.Open() in /_/src/MySqlConnector/MySqlConnection.cs:line 382
+   at LoginServer.Component.DataBase.MySqlDbComponent.ConnectionFactory() in D:\01-git\server\ServerSolution\LoginServer\Component\DataBase\MySqlDbComponent.cs:line 38
+2023-08-10 19:34:49,330 [1] ERROR LoginServer.Helper.ConfigInstanceHelper - incorrected server type:0
+2023-08-10 19:35:04,478 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(0)
+2023-08-10 19:35:04,478 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(0)
+2023-08-10 19:35:04,480 [6] INFO  LoginServer.Program - Port:0 Server Doing. "exit" is exit
+2023-08-10 19:35:04,545 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:7368
+2023-08-10 19:36:06,541 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(0)
+2023-08-10 19:36:06,541 [6] INFO  LoginServer.Program - Port:0 Server Doing. "exit" is exit
+2023-08-10 19:36:06,541 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(0)
+2023-08-10 19:36:06,586 [akka.actor.common-dispatcher_3] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:7561
+2023-08-10 19:36:51,813 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(0)
+2023-08-10 19:36:51,813 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(0)
+2023-08-10 19:36:51,813 [6] INFO  LoginServer.Program - Port:0 Server Doing. "exit" is exit
+2023-08-10 19:36:51,854 [akka.actor.common-dispatcher_3] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:7688
+2023-08-10 19:38:30,855 [6] INFO  LoginServer.Program - Port:0 Server Doing. "exit" is exit
+2023-08-10 19:38:30,855 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(0)
+2023-08-10 19:38:30,855 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(0)
+2023-08-10 19:38:30,896 [akka.actor.common-dispatcher_2] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:7991
+2023-08-10 19:53:13,468 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(0)
+2023-08-10 19:53:13,468 [6] INFO  LoginServer.Program - Port:0 Server Doing. "exit" is exit
+2023-08-10 19:53:13,468 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(0)
+2023-08-10 19:53:13,512 [akka.actor.common-dispatcher_3] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:10670
+2023-08-10 19:59:02,655 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(0)
+2023-08-10 19:59:02,655 [9] INFO  LoginServer.Program - Port:0 Server Doing. "exit" is exit
+2023-08-10 19:59:02,655 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(0)
+2023-08-10 19:59:02,695 [akka.actor.common-dispatcher_3] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:11380
+2023-08-10 20:02:28,831 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(0)
+2023-08-10 20:02:28,834 [6] INFO  LoginServer.Program - Port:0 Server Doing. "exit" is exit
+2023-08-10 20:02:28,831 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(0)
+2023-08-10 20:02:28,862 [akka.actor.common-dispatcher_3] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:11777
