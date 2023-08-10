@@ -32,13 +32,10 @@ public class TelnetClient : UntypedActor
     private ushort? _messageLength = null;
     private const int _maxRecvLoop = 100; // 패킷받는 최대 카운트
 
-    private long _userUid = 0; // 
+    private ulong _userUid = 0; // 
     private string  _userId = string.Empty; // userId
     private bool _connected = false;
-    private string _testSessionKey = "1234567";
-
     private bool _encrypt = true; // 암호화 사용
-
 
     public TelnetClient(string host, int port)
     {
@@ -234,20 +231,23 @@ public class TelnetClient : UntypedActor
                     // 서버에 입장
                     var request = new MessageWrapper
                     {
-                        ServerEnterRequest = new ServerEnterRequest
+                        LoginDirectRequest = new LoginDirectRequest
                         {
-                            SessionKey = _testSessionKey
+                            AccountId = "crazy1",
+                            Pass = "crazy",
                         }
                     };
                     Tell(request);
                     break;
                 }
-            case MessageWrapper.PayloadOneofCase.ServerEnterResponse:
+            case MessageWrapper.PayloadOneofCase.LoginDirectResponse:
                 {
-                    var response = wrapper.ServerEnterResponse;
-
-                    _userUid = response.UserUid;
-                    _userId = response.UserId;
+                    break;
+                }
+            case MessageWrapper.PayloadOneofCase.EnterLobbyResponse:
+                {
+                    var response = wrapper.EnterLobbyResponse;
+                    
                     _connected = true;
 
                     // 맵에 입장

@@ -48,7 +48,7 @@ namespace GameServer.Component.DataBase
         /// </summary>
         /// <param name="userUid"></param>
         /// <returns></returns>
-        public TblUser GetUserInfo(long userUid)
+        public TblUser GetUserInfo(ulong userUid)
         {            
             using (var db = ConnectionFactory())
             {

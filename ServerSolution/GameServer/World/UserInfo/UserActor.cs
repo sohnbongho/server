@@ -61,7 +61,7 @@ namespace GameServer.World.UserInfo
 
         private string _remoteAddress;
         
-        private long _userUid = 0; // 
+        private ulong _userUid = 0; // 
         private string _userId = string.Empty; // 
         
 
@@ -130,7 +130,7 @@ namespace GameServer.World.UserInfo
             // 유저 관련 핸들러
             _userHandlers = new Dictionary<MessageWrapper.PayloadOneofCase, Action<MessageWrapper, IActorRef>>
             {
-                {MessageWrapper.PayloadOneofCase.ServerEnterRequest, (data, sender) => OnRecvServerEnterRequest(data, sender)},
+                {MessageWrapper.PayloadOneofCase.EnterLobbyRequest, (data, sender) => OnRecvEnterLobbyRequest(data, sender)},
                 {MessageWrapper.PayloadOneofCase.SayRequest, (data, sender) => OnRecvSayRequest(data, sender)},
                 {MessageWrapper.PayloadOneofCase.MapEnterRequest, (data, sender) => OnRecvMapEnterRequest(data, sender)},
             };
@@ -368,35 +368,35 @@ namespace GameServer.World.UserInfo
             return false;
         }
 
-        private void OnRecvServerEnterRequest(MessageWrapper wrapper, IActorRef sessionRef)
+        private void OnRecvEnterLobbyRequest(MessageWrapper wrapper, IActorRef sessionRef)
         {
-            var request = wrapper.ServerEnterRequest;
-            var redis = GetComponent<RedisCacheComponent>();
-            var db = GetComponent<MySqlDbComponent>();
+            //var request = wrapper.EnterLobbyRequest;
+            //var redis = GetComponent<RedisCacheComponent>();
+            //var db = GetComponent<MySqlDbComponent>();
 
-            var dicts = redis.GetSessionToUserUid(request.SessionKey);
-            long userUid = 0;            
+            //var dicts = redis.GetSessionToUserUid(request.SessionKey);
+            //ulong userUid = 0;            
 
-            if (dicts.TryGetValue("user_uid", out var obj1))
-            {
-                userUid = long.Parse(obj1.ToString());
-            }            
+            //if (dicts.TryGetValue("user_uid", out var obj1))
+            //{
+            //    userUid = ulong.Parse(obj1.ToString());
+            //}            
 
-            var userId =  db.GetUserInfo(userUid)?.user_id ?? string.Empty;
+            //var userId =  db.GetUserInfo(userUid)?.user_id ?? string.Empty;
 
-            _userUid = userUid;
-            _userId = userId;
+            //_userUid = userUid;
+            //_userId = userId;
 
-            // 클라이언트에게 알림
-            var response = new MessageWrapper
-            {
-                ServerEnterResponse = new ServerEnterResponse
-                {
-                    UserUid = userUid,
-                    UserId = userId
-                }
-            };
-            Tell(response);
+            //// 클라이언트에게 알림
+            //var response = new MessageWrapper
+            //{
+            //    EnterLobbyResponse = new EnterLobbyResponse
+            //    {
+            //        UserSeq = userUid,
+            //        UserId = userId
+            //    }
+            //};
+            //Tell(response);
         }
 
         /// <summary>

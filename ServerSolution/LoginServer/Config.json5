@@ -1,0 +1,27 @@
+﻿// C#에서는 일반적으로 파스칼 표기법
+
+{
+  "world": {
+    //tbl_server_list 정보에서 server_id로 읽어온다.
+    "serverId": 1
+  },
+
+  "remote": {    
+    "encrypt": true
+  },
+  "db": {
+    "mySql": {
+      "connectString": {
+        // 게임 db를 읽어온다.
+        "gameDb": "host=127.0.0.1;port=52222;userid=root;password=crazy;database=danceparty;"
+        //"gameDb": "host=127.0.0.1;port=62222;userid=root;password=crazy;database=gamedb;"
+        //"gameDb": "host=127.0.0.1;port=3306;userid=root;password=1111;database=gamedb;"
+      },
+      "poolCount": 5
+    },
+    "redis": {
+      "connectString": "127.0.0.1:6379,allowAdmin=true,password=...",
+      "poolCount": 5
+    }
+  }
+}

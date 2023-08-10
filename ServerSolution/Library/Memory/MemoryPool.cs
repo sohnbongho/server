@@ -9,8 +9,7 @@ namespace Library.Memory
 {
     public class PacketMemoryPool<T> where T : new()
     {    
-        private readonly ConcurrentBag<T> _pool;
-        private readonly int _bufferSize;
+        private readonly ConcurrentBag<T> _pool;        
 
         public PacketMemoryPool()
         {

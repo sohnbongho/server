@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<BaseOutputPath></BaseOutputPath>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+	<NoWarn>$(NoWarn);CS8602;CS8600;CS8625;CS8618;CS8601;CS8603;CS8604</NoWarn>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<OutputPath>../Binary/Debug/LoginServer</OutputPath>
+		<DefineConstants>;TRACE;USE_TASK</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<OutputPath>../Binary/Release/LoginServer</OutputPath>
+		<DefineConstants>;USE_TASK</DefineConstants>
+	</PropertyGroup>
+	
+
+    <PropertyGroup>
+	    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+	    <RootNamespace>LoginServer</RootNamespace>
+    </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Akka" Version="1.5.12" />
+    <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="Google.Protobuf" Version="3.23.4" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="MySqlConnector" Version="2.2.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.122" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Library\Library.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Update="AkkaHCON.conf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Config.json5">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="log4net.config">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

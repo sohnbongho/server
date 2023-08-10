@@ -32,7 +32,7 @@ namespace GameServer.World.Map
         public class EnterMapRequest
         {
             public int MapIndex { get; set; }
-            public long UserUid { get; set; }
+            public ulong UserUid { get; set; }
             public IActorRef UserActorRef { get; set; }
             public IActorRef UserSessionActorRef { get; set; }
         }
@@ -40,7 +40,7 @@ namespace GameServer.World.Map
         public class EnterMapResponse
         {
             public int MapIndex { get; set; }
-            public long UserUid { get; set; }
+            public ulong UserUid { get; set; }
             public IActorRef MapActorRef { get; set; }
         }
 
@@ -49,7 +49,7 @@ namespace GameServer.World.Map
         /// </summary>
         public class LeaveMapRequest
         {            
-            public long UserUid { get; set; }            
+            public ulong UserUid { get; set; }            
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace GameServer.World.Map
 
         private readonly IActorRef _mapCordiator;
         private readonly int _mapIndex;
-        private readonly Dictionary<long, MapUser> _userList = new ();
+        private readonly Dictionary<ulong, MapUser> _userList = new ();
 
         public static IActorRef ActorOf(IUntypedActorContext context, IActorRef mapCordiator, int mapIndex)
         {
@@ -86,7 +86,7 @@ namespace GameServer.World.Map
                     {
                         _logger.Debug($"MapActor.enterMapRequest userUid:{enterMapRequest.UserUid}");
 
-                        var userUid = enterMapRequest.UserUid;
+                        ulong userUid = enterMapRequest.UserUid;
                         /// 유저 추가
                         _userList[userUid] = new MapActor.MapUser
                         {

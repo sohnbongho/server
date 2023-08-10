@@ -3,153 +3,114 @@ autonumber
 actor client
 
 box "LoginServer" #LightPink
-participant CLoginServerProtocolHandler
-
+participant L_ListenerActor
+participant L_UserActor
+participant L_SessionCordiatorActor
+participant L_SessionActor
+participant L_UserCordiatorActor
 end box
 
-box "GameServer" #LightGreen
-participant GameServerProtocolHandler
-end box
-
-box "NCRelayServer" #LightBlue
-participant CRelayServerProtocolHandler
-participant NCRelayStsInterface
-end box
-
-box "DbAgentServer" #LightCoral
-participant CDbAgentProtocolHandler
-participant CGameloginThread
-participant NpStsInfoThread
-end box
-
-box "DbTransactionServer" #LightCyan
-participant CDbTranProtocolHandler
-end box
-
-box "LogDRelay" #LightBlue
-participant LogDProtocolHandler
+box "LobbyServer" #LightGreen
+participant LB_ListenerActor
+participant LB_UserActor
+participant LB_SessionCordiatorActor
+participant LB_SessionActor
+participant LB_UserCordiatorActor
+participant LB_DBCordiatorActor
+participant LB_RedisCordiator
 end box
 
 
-box "NC GameGate 장비" #LightYellow
-participant NpGameGate
-end box
-
-group [로그인 서버] Dirce Login
-client -> CLoginServerProtocolHandler : CS_LOGIN_DIRECT
-CLoginServerProtocolHandler -> CLoginServerProtocolHandler: NC_RequestLoginDirect
-CLoginServerProtocolHandler -> CRelayServerProtocolHandler: CS_LOGIN_DIRECT
-CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestLoginDirect
-CRelayServerProtocolHandler -> CLoginServerProtocolHandler: SC_LOGIN_RESULT
-CLoginServerProtocolHandler -> CLoginServerProtocolHandler: NC_AnswerLogin
-
-CRelayServerProtocolHandler -> CLoginServerProtocolHandler: SC_USER_INFO
-CLoginServerProtocolHandler -> CLoginServerProtocolHandler: NC_AnswerUserInfo
-CLoginServerProtocolHandler -> CDbAgentProtocolHandler: CS_MEMBER_INFO    
-CDbAgentProtocolHandler-> CDbAgentProtocolHandler: RelayDBTransactionReq
-CDbAgentProtocolHandler -> CDbTranProtocolHandler : CS_MEMBER_INFO
-CDbTranProtocolHandler -> CDbTranProtocolHandler : CNCMemberInfoThread 
-CDbTranProtocolHandler -> CLoginServerProtocolHandler : SC_MEMBER_INFO
-CLoginServerProtocolHandler -> CLoginServerProtocolHandler : NC_AnswerMemberInfo
-CLoginServerProtocolHandler -> CRelayServerProtocolHandler: CS_CHECKPCCAFE
-CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestPCBang
-CRelayServerProtocolHandler -> NCRelayStsInterface : CheckPCCafe
-group pc방 정보 조회
-NCRelayStsInterface <-> NpGameGate : /ICafeIp/CheckIp    
-end
-NCRelayStsInterface -> CLoginServerProtocolHandler:SC_CHECKPCCAFE
-CLoginServerProtocolHandler-> CLoginServerProtocolHandler :NC_AnswerPCBang
-CLoginServerProtocolHandler-> client: SC_LOGIN
-end
-
-group [게임 서버] NC 모듈 로그인 
-client -> GameServerProtocolHandler : CS_GAMELOGIN
+group 서버에 접속 (try to Login Server)
+client -> L_ListenerActor : 접속 시도
+L_ListenerActor -> L_SessionCordiatorActor: RegisteredRequest
+L_SessionCordiatorActor -> L_SessionCordiatorActor: OnReceiveRegister
 note left #LightYellow
-클라이언트에서
-UserGuid값을
-보내줌
+1. L_SessionActor 생성
 end note
-GameServerProtocolHandler -> GameServerProtocolHandler : RequestLogin
+L_SessionCordiatorActor -> L_ListenerActor : Tcp.Register
+L_SessionCordiatorActor -> L_UserCordiatorActor: AddUser
+L_UserCordiatorActor -> L_UserActor: 생성
+L_UserActor -> L_SessionActor : UserToSessionLinkRequest
 note left #LightYellow
-게임서버 메모리에 
-ispurple, userGuid값을 
-업데이트
+L_UserActor와 L_SessionActor의 연결
 end note
-GameServerProtocolHandler -> CDbAgentProtocolHandler: CS_GAMELOGIN
-CDbAgentProtocolHandler -> CDbAgentProtocolHandler: RequestGamelogin
-CDbAgentProtocolHandler -> CGameloginThread : ProcessLogin
-CGameloginThread -> GameServerProtocolHandler: SC_GAMELOGIN
-GameServerProtocolHandler-> GameServerProtocolHandler: AnswerLogin
-
-GameServerProtocolHandler -> client : SC_GAMELOGIN
+L_UserActor <- L_SessionActor : UserToSessionLinkResponse
+L_UserActor-> client: ConnectedResponse
 end
 
-group 로그 아웃
-GameServerProtocolHandler -> CRelayServerProtocolHandler : CS_LOGOUT
-CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestLogout
-CRelayServerProtocolHandler -> NCRelayStsInterface : Logout
-NCRelayStsInterface -> NpGameGate : /Presence/Logout
+group (개발용)로그인 요청
+client -> L_UserActor : LoginDirectRequest
+note right #LightYellow
+Lobby ServerList들을 
+가져온다.
+end note
+client <- L_UserActor :LoginDirectResponse
 end
 
-group 사용자가 PCCafe에서의 요청인지 확인
-CLoginServerProtocolHandler ->  CRelayServerProtocolHandler: CS_CHECKPCCAFE
-CRelayServerProtocolHandler -> CRelayServerProtocolHandler: NC_RequestPCBang
-CRelayServerProtocolHandler -> NCRelayStsInterface: CheckPCCafe
-group  PCCafe 확인
-NCRelayStsInterface <-> NpGameGate : /Charge/1/GetInfo
-end
-NCRelayStsInterface -> NCRelayStsInterface: OnRecvCheckPCCafe
-NCRelayStsInterface -> CLoginServerProtocolHandler: SC_CHECKPCCAFE
-CLoginServerProtocolHandler -> CLoginServerProtocolHandler : NC_AnswerPCBang
-end
-
-group 게임클라이언트에서 웹과 연동이 필요할 경우, 인게임 쇼핑몰을 웹으로 구현했을 경우
-client -> GameServerProtocolHandler :CS_REQ_WEBSSOTOKEN 
-GameServerProtocolHandler -> GameServerProtocolHandler: CPHGSMSsoToken::CSProcess
-GameServerProtocolHandler ->  CRelayServerProtocolHandler: CS_REQ_WEBSSOTOKEN
-CRelayServerProtocolHandler -> CRelayServerProtocolHandler:NC_RequestWebSsoToken
-CRelayServerProtocolHandler -> NCRelayStsInterface: WebSsoToken
-NCRelayStsInterface -> NpGameGate : /Auth/RequestToken
-NCRelayStsInterface <- NpGameGate : /Auth/RequestToken
-GameServerProtocolHandler <-  CRelayServerProtocolHandler: SC_SEND_WEBSSOTOKEN
-end
-
-group 웹에서 접속한 유저 메일 지급
-NpGameGate -> NCRelayStsInterface : OnRecvNotifyGoodsInventoryChanged
-NCRelayStsInterface -> CDbAgentProtocolHandler: SC_SEND_NCRELAY_ADDMAIL
-CDbAgentProtocolHandler -> CDbAgentProtocolHandler : AnswerPresentADDMailByNcRealy
-end
-
-group 웹에서 포인트 변경 알림
-NpGameGate -> NCRelayStsInterface : OnRecvNotifyBalanceChanged
-NCRelayStsInterface -> GameServerProtocolHandler:CS_REQ_CHANGED_BALANCE_BROADCAST
-GameServerProtocolHandler->GameServerProtocolHandler:AnsNcChangedBalance
-end
-
-group Fizz-Permanent
-client -> GameServerProtocolHandler :CS_REQ_FIZZ_PERMANENT 
-GameServerProtocolHandler -> GameServerProtocolHandler: ReqNcFizzPermanent
-GameServerProtocolHandler -> CDbAgentProtocolHandler : GD_REQ_FIZZ_PERMANENT
-CDbAgentProtocolHandler -> CDbAgentProtocolHandler : ReqNcFizzPermanent
-CDbAgentProtocolHandler -> NpStsInfoThread : 조회
-NpStsInfoThread -> GameServerProtocolHandler : DG_ANS_FIZZ_PERMANENT
-GameServerProtocolHandler -> GameServerProtocolHandler : AnsNcFizzPermanentId
-GameServerProtocolHandler -> CRelayServerProtocolHandler : GR_REQ_FIZZ_PERMANENT
-CRelayServerProtocolHandler -> CRelayServerProtocolHandler : ReqNcFizzPermanent
-CRelayServerProtocolHandler -> NCRelayStsInterface : FizzPermanent
-NCRelayStsInterface -> NpGameGate : /Fizz/Permanent
+group Lobby 서버에 접속 (try to Lobby Server)
+client -> LB_ListenerActor : 접속 시도
+LB_ListenerActor -> LB_SessionCordiatorActor: RegisteredRequest
+LB_SessionCordiatorActor -> LB_SessionCordiatorActor: OnReceiveRegister
 note left #LightYellow
-이미지 확정
+1. LB_SessionActor 생성
 end note
-NCRelayStsInterface <- NpGameGate : /Fizz/Permanent
-NCRelayStsInterface -> NpGameGate : /ProfileImageSrv/AddGameProfileImagesForSystem
+LB_SessionCordiatorActor -> LB_ListenerActor : Tcp.Register
+LB_SessionCordiatorActor -> LB_UserCordiatorActor: AddUser
+LB_UserCordiatorActor -> LB_UserActor: 생성
+LB_UserActor -> LB_SessionActor : UserToSessionLinkRequest
+
+LB_SessionActor-> LB_UserActor : UserToSessionLinkResponse
+LB_UserActor -> LB_UserActor: OnRecvUserToSessionLinkResponse
 note left #LightYellow
-프로필 추가
+LB_UserActor와 LB_SessionActor의 연결
 end note
-NCRelayStsInterface <- NpGameGate : /ProfileImageSrv/AddGameProfileImagesForSystem
-NCRelayStsInterface -> GameServerProtocolHandler : RG_ANS_FIZZ_PERMANENT
-GameServerProtocolHandler -> GameServerProtocolHandler: AnsNcFizzPermanent
-GameServerProtocolHandler -> client : SC_ANS_FIZZ_PERMANENT
+LB_UserActor -> LB_DBCordiatorActor: UserToDbLinkRequest
+
+LB_DBCordiatorActor -> LB_DBCordiatorActor:OnReceiveUserToDbLinkRequest
+LB_DBCordiatorActor -> LB_UserActor :UserToDbLinkResponse
+LB_UserActor -> LB_UserActor: OnRecvDbLink
+note left #LightYellow
+LB_UserActor와 DBActor 연결
+end note
+LB_UserActor -> LB_RedisCordiator : UserToDbLinkRequest
+LB_RedisCordiator -> LB_RedisCordiator :OnReceiveUserToDbLinkRequest
+LB_RedisCordiator -> LB_UserActor : UserToDbLinkResponse
+LB_UserActor -> LB_UserActor: OnRecvRedisLink
+note left #LightYellow
+LB_UserActor와 RedisActor 연결
+end note
+LB_UserActor-> client: ConnectedResponse
+end
+
+group 로비 입장
+client -> LB_UserActor : EnterLobbyRequest
+note right #LightYellow
+로비에 입장하고 
+ZoneList들을 가져온다.
+가져온다.
+end note
+client <- LB_UserActor :EnterLobbyResponse
+end
+
+group 착장 정보
+client -> LB_UserActor : EquipItemRequest
+note right #LightYellow
+캐릭터 착장 정보를 요청한다.
+end note
+client <- LB_UserActor :EquipItemResponse
+end
+
+
+
+group 인벤 정보 요청
+client -> LB_UserActor : InvenRequest
+note right #LightYellow
+인벤 정보 요청
+end note
+client <- LB_UserActor :InvenAccessoryResponse
+client <- LB_UserActor :InvenSetResponse
+client <- LB_UserActor :InvenItemResponse
 end
 
 @enduml

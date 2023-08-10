@@ -1,0 +1,134 @@
+2023-08-10 13:50:11,909 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 13:50:11,909 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 13:50:11,910 [1] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 13:50:12,069 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 14:34:35,760 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 14:34:35,760 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 14:34:35,762 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 14:34:35,927 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 14:46:39,449 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 14:46:39,449 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 14:46:39,449 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 14:46:39,616 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 14:48:27,955 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 14:48:27,955 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 14:48:27,956 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 14:48:28,104 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 14:51:04,557 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 14:51:04,558 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 14:51:04,557 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 14:51:04,698 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 14:51:21,100 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 14:51:21,100 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 14:51:21,101 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 14:51:21,254 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 14:56:39,879 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 14:56:39,880 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 14:56:39,879 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 14:56:40,041 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 15:13:31,829 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 15:13:31,829 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 15:13:31,829 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 15:13:31,955 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 15:34:39,193 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 15:34:39,189 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 15:34:39,193 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 15:34:39,364 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:10:04,504 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:10:04,504 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:10:04,505 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:10:04,627 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:10:34,457 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:10:34,457 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:10:34,457 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:10:34,591 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:15:15,571 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:15:15,572 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:15:15,571 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:15:15,696 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:16:08,047 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:16:08,046 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:16:08,046 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:16:08,202 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:17:13,159 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:17:13,160 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:17:13,159 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:17:13,297 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:17:35,197 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:17:35,197 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:17:35,197 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:17:35,349 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:17:57,511 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:17:57,512 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:17:57,511 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:17:57,679 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:18:40,327 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:18:40,327 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:18:40,328 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:18:40,482 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:18:43,745 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-08-10 16:18:43,745 [akka.actor.database-dispatcher_4] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-08-10 16:18:43,745 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-08-10 16:18:43,745 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-08-10 16:18:43,748 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - PostStop ListenerActor
+2023-08-10 16:18:43,748 [akka.actor.database-dispatcher_4] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-08-10 16:18:43,748 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-08-10 16:18:43,748 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-08-10 16:18:43,749 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-08-10 16:18:43,748 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-08-10 16:18:43,748 [akka.actor.database-dispatcher_4] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-08-10 16:19:50,692 [9] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:19:50,692 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:19:50,692 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:19:50,837 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:21:03,295 [akka.actor.database-dispatcher_4] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:21:03,295 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:21:03,296 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:21:03,433 [akka.actor.common-dispatcher_7] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:22:27,817 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:22:27,817 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:22:27,819 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:22:27,970 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:31:37,727 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:31:37,728 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:31:37,727 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:31:37,905 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:32:22,227 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:32:22,229 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:32:22,227 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:32:22,394 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:32:42,767 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:32:42,767 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:32:42,768 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:32:42,926 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:37:04,819 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:37:04,819 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:37:04,819 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:37:04,960 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:38:01,248 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb2)
+2023-08-10 16:38:01,248 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb3)
+2023-08-10 16:38:01,249 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis4)
+2023-08-10 16:38:01,249 [akka.actor.database-dispatcher_4] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis1)
+2023-08-10 16:38:01,251 [akka.actor.common-dispatcher_3] INFO  LoginServer.Socket.ListenerActor - PostStop ListenerActor
+2023-08-10 16:38:01,251 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb4)
+2023-08-10 16:38:01,251 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb0)
+2023-08-10 16:38:01,253 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis3)
+2023-08-10 16:38:01,254 [akka.actor.database-dispatcher_2] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis0)
+2023-08-10 16:38:01,251 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.GameDbServiceActor - GameDbServiceActor.poststop() - name(gamedb1)
+2023-08-10 16:38:01,252 [akka.actor.database-dispatcher_4] INFO  LoginServer.DataBase.Redis.RedisServiceActor - RedisServiceActor.poststop() - name(redis2)
+2023-08-10 16:42:00,314 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:42:00,317 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:42:00,314 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:42:00,471 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:44:31,832 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:44:31,832 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:44:31,834 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:44:31,966 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:45:34,579 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:45:34,579 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:45:34,581 [6] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:45:34,734 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-10 16:48:22,691 [akka.actor.database-dispatcher_1] INFO  LoginServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-10 16:48:22,691 [akka.actor.database-dispatcher_3] INFO  LoginServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-10 16:48:22,693 [4] INFO  LoginServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-10 16:48:22,888 [akka.actor.common-dispatcher_1] INFO  LoginServer.Socket.ListenerActor - Listening on 0.0.0.0:16101

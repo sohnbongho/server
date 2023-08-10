@@ -1,0 +1,4 @@
+2023-08-07 16:06:11,566 [akka.actor.database-dispatcher_3] INFO  GameServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-07 16:06:11,566 [akka.actor.database-dispatcher_1] INFO  GameServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-07 16:06:11,566 [1] INFO  GameServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-07 16:06:11,566 [akka.actor.common-dispatcher_1] INFO  GameServer.Socket.ListenerActor - Listening on 0.0.0.0:16101

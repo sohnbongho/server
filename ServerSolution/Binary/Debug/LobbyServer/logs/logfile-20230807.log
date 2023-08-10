@@ -1,0 +1,8 @@
+2023-08-07 16:06:41,727 [akka.actor.database-dispatcher_1] INFO  LobbyServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-07 16:06:41,727 [akka.actor.common-dispatcher_1] INFO  LobbyServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
+2023-08-07 16:06:41,727 [1] INFO  LobbyServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-07 16:06:41,727 [akka.actor.database-dispatcher_2] INFO  LobbyServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-07 16:07:24,502 [akka.actor.database-dispatcher_1] INFO  LobbyServer.DataBase.MySql.DbServiceCordiatorActor - DbServiceCordiatorActor poolCount:(5)
+2023-08-07 16:07:24,502 [1] INFO  LobbyServer.Program - Port:16101 Server Doing. "exit" is exit
+2023-08-07 16:07:24,502 [akka.actor.database-dispatcher_3] INFO  LobbyServer.DataBase.Redis.RedisServiceCordiatorActor - RedisServiceCordiatorActor poolCount:(5)
+2023-08-07 16:07:24,502 [akka.actor.common-dispatcher_1] INFO  LobbyServer.Socket.ListenerActor - Listening on 0.0.0.0:16101
